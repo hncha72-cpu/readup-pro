@@ -1,62 +1,20 @@
-mport React, { useState, useEffect, useMemo } from 'react';
+/* eslint-disable */
+import React, { useState, useEffect, useMemo } from 'react';
 import { 
-  UserPlus, 
-  Users, 
-  Home, 
-  Share2, 
-  Phone, 
-  Bell,
-  CheckCircle2,
-  X,
-  Wifi,
-  Battery,
-  Signal,
-  Camera,
-  Building2,
-  Briefcase,
-  UserCheck,
-  LayoutGrid,
-  Mail,
-  Loader2,
-  ChevronLeft,
-  MessageCircle,
-  Smartphone,
-  CheckSquare,
-  Square,
-  ToggleLeft,
-  ToggleRight,
-  ShieldCheck,
-  ChevronRight,
-  CalendarDays,
-  FileText,
-  Plus,
-  Search,
-  Check,
-  Hash,
-  Edit2,
-  MessageSquare,
-  Coffee,
-  CreditCard,
-  Clock,
-  MapPin,
-  ChevronDown,
-  ChevronUp
+  UserPlus, Users, Home, Share2, Phone, Bell, CheckCircle2, X, Wifi, Battery, Signal,
+  Camera, Building2, Briefcase, UserCheck, LayoutGrid, Mail, Loader2, ChevronLeft,
+  MessageCircle, Smartphone, CheckSquare, Square, ToggleLeft, ToggleRight, ShieldCheck,
+  ChevronRight, CalendarDays, FileText, Plus, Edit2, MessageSquare,
+  Coffee, CreditCard, Clock, MapPin, ChevronDown, ChevronUp, Hash
 } from 'lucide-react';
 
-// === Firebase 서버 연동 라이브러리 임포트 ===
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore, collection, doc, setDoc, onSnapshot } from 'firebase/firestore';
 
-/**
- * [ReadUp Pro] 보험 영업사원 전용 고객 관리 플랫폼
- * - 부장님 원본 코드 기반 + Firebase 실시간 연동 완료
- */
-
 const safeGet = (key) => { try { return localStorage.getItem(key); } catch(e) { return null; } };
 const safeSet = (key, val) => { try { localStorage.setItem(key, val); } catch(e) { console.warn("Storage restricted"); } };
 
-// 파이어베이스 설정
 let firebaseConfig;
 try {
   firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
@@ -167,7 +125,7 @@ const CONTACT_TYPES = [
 const CERTIFICATIONS = ['생명보험', '손해보험', '제3보험', '변액보험', 'AFPK', 'CFP', '펀드투자권유대행인'];
 
 export default function App() {
-  const [user, setUser] = useState(null); // Firebase 유저 상태 추가
+  const [user, setUser] = useState(null); 
 
   const [appState, setAppState] = useState('intro'); 
   const [activeTab, setActiveTab] = useState('home'); 
@@ -212,9 +170,7 @@ export default function App() {
   const [isAddingMemo, setIsAddingMemo] = useState(false);
   const [newMemoText, setNewMemoText] = useState('');
 
-  const [shareScope, setShareScope] = useState('basic');
   const [selectedShareMembers, setSelectedShareMembers] = useState([]);
-  const [shareSearchQuery, setShareSearchQuery] = useState('');
 
   const [tosAgreed, setTosAgreed] = useState({ all: false, service: false, privacy: false, marketing: false });
   const [isScanning, setIsScanning] = useState(false);
@@ -261,10 +217,9 @@ export default function App() {
   ]);
   const [popupData, setPopupData] = useState(null);
 
-  // === Firebase Auth 및 Firestore 데이터 동기화 ===
   useEffect(() => {
     if (appState === 'intro') {
-      const timer = setTimeout(() => setAppState('login'), 2000);
+      const timer = setTimeout(() => setAppState('login'), 2500);
       return () => clearTimeout(timer);
     }
   }, [appState]);
@@ -331,20 +286,6 @@ export default function App() {
             products: [],
             history: [
               { id: 205, date: '2026-03-25', type: '제안서', note: '자녀 교육자금 마련 목적 상담. 변액유니버셜 상품 안내 자료 메일로 송부 완료.', author: '본인' }
-            ]
-          },
-          { 
-            id: 4, name: "박민수", company: "태양물산", position: "팀장", 
-            phone: "010-4444-5555", email: "ms.park@test.com", 
-            status: "가망", product: "종합건강보험", 
-            isSharedWithMe: true, ownerName: "이현우 차장",
-            lastContact: "2026-03-22", note: "이관 고객", createdAt: "2026-02-10",
-            hashtags: ['이관고객'], sharedWith: [1],
-            products: [
-              { id: 104, origin: '가입상품', category: '손해보험', company: 'DB손해보험', productType: '종합/건강/실손', name: '(무)참좋은 종합건강보험', amount: '1억원', enrollDate: '2026-03', author: '이현우 차장' }
-            ],
-            history: [
-              { id: 206, date: '2026-03-22', type: '메세지', note: '첫 인사 문자 발송', author: '이현우 차장' }
             ]
           }
         ];
@@ -772,17 +713,35 @@ export default function App() {
                 })}
               </div>
             </div>
+
             <div>
               <label className="text-[10px] font-black text-slate-400 ml-1 mb-1 block uppercase tracking-widest">보험 영업 경력 (선택)</label>
-              <div className="relative flex items-center"><input type="number" placeholder="예: 5" value={userProfile.experience} onChange={e=>setUserProfile({...userProfile, experience:e.target.value})} className="w-full bg-white border border-slate-200 rounded-xl pl-4 pr-10 py-3 text-sm font-bold outline-none focus:border-indigo-400" /><span className="absolute right-4 text-xs font-bold text-slate-400">년차</span></div>
+              <div className="relative flex items-center">
+                 <input type="number" placeholder="예: 5" value={userProfile.experience} onChange={e=>setUserProfile({...userProfile, experience:e.target.value})} className="w-full bg-white border border-slate-200 rounded-xl pl-4 pr-10 py-3 text-sm font-bold outline-none focus:border-indigo-400" />
+                 <span className="absolute right-4 text-xs font-bold text-slate-400">년차</span>
+              </div>
             </div>
+
             <div className="bg-indigo-50 border border-indigo-100 rounded-2xl p-4 flex items-center justify-between">
-              <div><h4 className="font-black text-slate-900 text-sm">사내 동료에게 프로필 공개</h4><p className="text-[10px] font-bold text-slate-500 mt-1 leading-relaxed">비공개 시 팀원 목록에 <br/>이름이 별표(예: 차**)로 표시됩니다.</p></div>
-              <button onClick={() => setUserProfile({...userProfile, isPublic: !userProfile.isPublic})} className="text-indigo-600 transition-transform active:scale-90">{userProfile.isPublic ? <ToggleRight size={40} strokeWidth={1.5} /> : <ToggleLeft size={40} className="text-slate-300" strokeWidth={1.5} />}</button>
+              <div>
+                <h4 className="font-black text-slate-900 text-sm">사내 동료에게 프로필 공개</h4>
+                <p className="text-[10px] font-bold text-slate-500 mt-1 leading-relaxed">비공개 시 팀원 목록에 <br/>이름이 별표(예: 차**)로 표시됩니다.</p>
+              </div>
+              <button onClick={() => setUserProfile({...userProfile, isPublic: !userProfile.isPublic})} className="text-indigo-600 transition-transform active:scale-90">
+                {userProfile.isPublic ? <ToggleRight size={40} strokeWidth={1.5} /> : <ToggleLeft size={40} className="text-slate-300" strokeWidth={1.5} />}
+              </button>
             </div>
           </div>
         </div>
-        <div className="absolute bottom-0 inset-x-0 p-6 bg-gradient-to-t from-slate-50 via-slate-50 to-transparent"><button disabled={!isNextEnabled} onClick={handleCompleteProfileStep2} className={`w-full py-4 rounded-2xl font-black text-base transition-all ${isNextEnabled ? 'bg-slate-900 text-white shadow-xl shadow-slate-900/20 active:scale-95' : 'bg-slate-200 text-slate-400'}`}>프로필 등록 완료</button></div>
+        <div className="absolute bottom-0 inset-x-0 p-6 bg-gradient-to-t from-slate-50 via-slate-50 to-transparent">
+          <button 
+            disabled={!isNextEnabled}
+            onClick={handleCompleteProfileStep2} 
+            className={`w-full py-4 rounded-2xl font-black text-base transition-all ${isNextEnabled ? 'bg-slate-900 text-white shadow-xl shadow-slate-900/20 active:scale-95' : 'bg-slate-200 text-slate-400'}`}
+          >
+            프로필 등록 완료
+          </button>
+        </div>
       </div>
     );
   };
@@ -794,14 +753,22 @@ export default function App() {
       <div className="p-5 space-y-5 animate-in fade-in duration-500 pb-32 flex flex-col min-h-full">
         <header className="flex justify-between items-start pt-2">
           <div className="pt-1 flex-1">
-            <h2 className="text-[10px] font-bold text-indigo-600 uppercase tracking-widest flex items-center gap-1.5">Good Morning <button onClick={() => setIsMyCardsModalOpen(true)} className="bg-indigo-100 text-indigo-700 px-1.5 py-0.5 rounded text-[9px] cursor-pointer hover:bg-indigo-200 transition-colors shrink-0">내 명함 {myBusinessCards.length}/5</button></h2>
+            <h2 className="text-[10px] font-bold text-indigo-600 uppercase tracking-widest flex items-center gap-1.5">
+              Good Morning
+              <button onClick={() => setIsMyCardsModalOpen(true)} className="bg-indigo-100 text-indigo-700 px-1.5 py-0.5 rounded text-[9px] cursor-pointer hover:bg-indigo-200 transition-colors shrink-0">내 명함 {myBusinessCards.length}/5</button>
+            </h2>
             <h1 className="text-lg font-black text-slate-900 mt-0.5 tracking-tight truncate">{userProfile.name ? `${userProfile.name}님` : '차부장님'}, 오늘도 화이팅!</h1>
-            {user && <p className="text-[10px] font-bold text-emerald-600 mt-1.5 flex items-center gap-1"><CheckCircle2 size={12}/> 구글 클라우드 DB 연동 중</p>}
+            {user && <p className="text-[10px] font-bold text-emerald-600 mt-1.5 flex items-center gap-1"><CheckCircle2 size={12}/> 실시간 클라우드 DB 연동 중</p>}
           </div>
           <div className="flex flex-col items-end pt-1 shrink-0 ml-2">
             <button onClick={() => { setActiveTab('team'); setSelectedTeamMember(null); }} className="bg-white border border-slate-200 pl-2 pr-1.5 py-1.5 rounded-xl flex items-center gap-1.5 shadow-sm hover:border-indigo-300 active:scale-95 transition-all text-left max-w-[130px]">
-              <div className="w-6 h-6 bg-indigo-50 rounded-md flex items-center justify-center border border-indigo-100 shrink-0"><Building2 size={12} className="text-indigo-500" /></div>
-              <div className="flex flex-col overflow-hidden"><p className="text-[10px] font-black text-slate-800 tracking-tight whitespace-nowrap truncate">{userProfile.company || '소속 미지정'}</p><p className="text-[8px] font-bold text-slate-400 mt-0.5 tracking-tight whitespace-nowrap truncate">1,204명</p></div>
+              <div className="w-6 h-6 bg-indigo-50 rounded-md flex items-center justify-center border border-indigo-100 shrink-0">
+                <Building2 size={12} className="text-indigo-500" />
+              </div>
+              <div className="flex flex-col overflow-hidden">
+                <p className="text-[10px] font-black text-slate-800 tracking-tight whitespace-nowrap truncate">{userProfile.company || '소속 미지정'}</p>
+                <p className="text-[8px] font-bold text-slate-400 mt-0.5 tracking-tight whitespace-nowrap truncate">1,204명</p>
+              </div>
               <ChevronRight size={12} className="text-slate-300 shrink-0 ml-0.5" />
             </button>
           </div>
@@ -809,26 +776,69 @@ export default function App() {
 
         <section className="grid grid-cols-3 gap-2 mt-2">
           <button onClick={() => { setCustomerTab('가망'); setActiveTab('customers'); }} className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col items-center justify-center hover:border-blue-300 active:bg-slate-50 transition-all">
-            <div className="flex items-center gap-1.5 mb-1"><UserPlus size={12} className="text-blue-500" /><h4 className="text-[10px] font-black text-slate-700 whitespace-nowrap tracking-tight">가망 고객</h4></div><p className="text-sm font-black text-blue-600 leading-none">{customers.filter(c => c.status === '가망' && !c.isSharedWithMe).length}<span className="text-[8px] font-bold text-slate-400 ml-0.5">명</span></p>
+            <div className="flex items-center gap-1.5 mb-1">
+              <UserPlus size={12} className="text-blue-500" />
+              <h4 className="text-[10px] font-black text-slate-700 whitespace-nowrap tracking-tight">가망 고객</h4>
+            </div>
+            <p className="text-sm font-black text-blue-600 leading-none mt-1">{customers.filter(c => c.status === '가망' && !c.isSharedWithMe).length}<span className="text-[8px] font-bold text-slate-400 ml-0.5">명</span></p>
           </button>
+          
           <button onClick={() => { setCustomerTab('가입'); setActiveTab('customers'); }} className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col items-center justify-center hover:border-emerald-300 active:bg-slate-50 transition-all">
-            <div className="flex items-center gap-1.5 mb-1"><UserCheck size={12} className="text-emerald-500" /><h4 className="text-[10px] font-black text-slate-700 whitespace-nowrap tracking-tight">가입 고객</h4></div><p className="text-sm font-black text-emerald-600 leading-none">{customers.filter(c => c.status === '가입' && !c.isSharedWithMe).length}<span className="text-[8px] font-bold text-slate-400 ml-0.5">명</span></p>
+            <div className="flex items-center gap-1.5 mb-1">
+              <UserCheck size={12} className="text-emerald-500" />
+              <h4 className="text-[10px] font-black text-slate-700 whitespace-nowrap tracking-tight">가입 고객</h4>
+            </div>
+            <p className="text-sm font-black text-emerald-600 leading-none mt-1">{customers.filter(c => c.status === '가입' && !c.isSharedWithMe).length}<span className="text-[8px] font-bold text-slate-400 ml-0.5">명</span></p>
           </button>
+          
           <button onClick={() => { setCustomerTab('거래처'); setActiveTab('customers'); }} className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col items-center justify-center hover:border-orange-300 active:bg-slate-50 transition-all">
-            <div className="flex items-center gap-1.5 mb-1"><Briefcase size={12} className="text-orange-500" /><h4 className="text-[10px] font-black text-slate-700 whitespace-nowrap tracking-tight">거래처</h4></div><p className="text-sm font-black text-orange-600 leading-none">{customers.filter(c => c.status === '거래처' && !c.isSharedWithMe).length}<span className="text-[8px] font-bold text-slate-400 ml-0.5">곳</span></p>
+            <div className="flex items-center gap-1.5 mb-1">
+              <Briefcase size={12} className="text-orange-500" />
+              <h4 className="text-[10px] font-black text-slate-700 whitespace-nowrap tracking-tight">거래처</h4>
+            </div>
+            <p className="text-sm font-black text-orange-600 leading-none mt-1">{customers.filter(c => c.status === '거래처' && !c.isSharedWithMe).length}<span className="text-[8px] font-bold text-slate-400 ml-0.5">곳</span></p>
           </button>
         </section>
 
         <section className="relative mt-2">
-          <div className="flex justify-between items-end mb-3"><h3 className="text-xs font-black text-slate-800">최근 등록한 명함</h3><span className="text-[9px] font-bold text-indigo-500 bg-indigo-50 px-2 py-1 rounded-lg">가로로 스와이프 <ChevronRight size={10} className="inline"/></span></div>
+          <div className="flex justify-between items-end mb-3">
+            <h3 className="text-xs font-black text-slate-800">최근 등록한 명함</h3>
+            <span className="text-[9px] font-bold text-indigo-500 bg-indigo-50 px-2 py-1 rounded-lg">가로로 스와이프 <ChevronRight size={10} className="inline"/></span>
+          </div>
+          
           <div className="flex overflow-x-auto hide-scrollbar gap-4 pb-2 -mx-5 px-5 snap-x snap-mandatory">
             {recentCustomers.length > 0 ? recentCustomers.map(customer => (
               <div key={customer.id} onClick={() => { setSelectedCustomer(customer); setCustomerDetailTab('기본정보'); }} className="w-[280px] h-[150px] rounded-[1.25rem] bg-white shadow-[0_4px_20px_-5px_rgba(0,0,0,0.08)] border border-slate-100 p-5 relative overflow-hidden flex-shrink-0 snap-start cursor-pointer active:scale-[0.98] transition-transform">
-                <div className="flex justify-between items-start mb-3"><div><p className="text-[9px] font-black text-slate-400 tracking-widest uppercase">{customer.company}</p><h3 className="text-lg font-black text-slate-900 mt-0.5 tracking-tight">{customer.name} <span className="text-[10px] font-bold text-slate-500 tracking-normal ml-1">{customer.position}</span></h3></div><div className="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center border border-slate-100"><Building2 size={16} className="text-slate-400" /></div></div>
-                <div className="space-y-1.5 mt-4"><p className="text-[11px] font-bold text-slate-600 flex items-center gap-2"><Phone size={12} className="text-indigo-400"/> {customer.phone}</p>{customer.email && <p className="text-[11px] font-bold text-slate-600 flex items-center gap-2"><Mail size={12} className="text-indigo-400"/> {customer.email}</p>}</div>
-                <div className="absolute bottom-4 right-4 flex items-center gap-1"><span className={`px-2 py-1 rounded-md text-[9px] font-black tracking-widest ${customer.status === 'VIP' ? 'bg-purple-100 text-purple-600' : customer.status === '가입' ? 'bg-emerald-100 text-emerald-600' : customer.status === '가망' ? 'bg-blue-50 text-blue-600' : 'bg-orange-50 text-orange-600'}`}>{customer.status}</span>{customer.isSharedWithMe && (<span className="px-1.5 py-1 rounded-md text-[9px] font-black bg-slate-100 text-slate-500 border border-slate-200 flex items-center gap-0.5"><Share2 size={8}/> 공유</span>)}</div>
+                <div className="flex justify-between items-start mb-3">
+                  <div>
+                    <p className="text-[9px] font-black text-slate-400 tracking-widest uppercase">{customer.company}</p>
+                    <h3 className="text-lg font-black text-slate-900 mt-0.5 tracking-tight">{customer.name} <span className="text-[10px] font-bold text-slate-500 tracking-normal ml-1">{customer.position}</span></h3>
+                  </div>
+                  <div className="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center border border-slate-100">
+                    <Building2 size={16} className="text-slate-400" />
+                  </div>
+                </div>
+                <div className="space-y-1.5 mt-4">
+                  <p className="text-[11px] font-bold text-slate-600 flex items-center gap-2"><Phone size={12} className="text-indigo-400"/> {customer.phone}</p>
+                  {customer.email && <p className="text-[11px] font-bold text-slate-600 flex items-center gap-2"><Mail size={12} className="text-indigo-400"/> {customer.email}</p>}
+                </div>
+                <div className="absolute bottom-4 right-4 flex items-center gap-1">
+                  <span className={`px-2 py-1 rounded-md text-[9px] font-black tracking-widest ${
+                    customer.status === 'VIP' ? 'bg-purple-100 text-purple-600' : 
+                    customer.status === '가입' ? 'bg-emerald-100 text-emerald-600' : 
+                    customer.status === '가망' ? 'bg-blue-50 text-blue-600' : 
+                    'bg-orange-50 text-orange-600'
+                  }`}>{customer.status}</span>
+                  {customer.isSharedWithMe && (
+                     <span className="px-1.5 py-1 rounded-md text-[9px] font-black bg-slate-100 text-slate-500 border border-slate-200 flex items-center gap-0.5"><Share2 size={8}/> 공유</span>
+                  )}
+                </div>
               </div>
-            )) : (<div className="w-[280px] h-[150px] rounded-[1.25rem] bg-slate-50 border border-slate-200 p-5 flex flex-col items-center justify-center flex-shrink-0 snap-start"><p className="text-xs font-bold text-slate-400">등록된 명함이 없습니다.</p></div>)}
+            )) : (
+              <div className="w-[280px] h-[150px] rounded-[1.25rem] bg-slate-50 border border-slate-200 p-5 flex flex-col items-center justify-center flex-shrink-0 snap-start">
+                <p className="text-xs font-bold text-slate-400">등록된 명함이 없습니다.</p>
+              </div>
+            )}
             <div className="min-w-[10px] flex-shrink-0"></div>
           </div>
         </section>
@@ -840,10 +850,23 @@ export default function App() {
               <div key={c.id} onClick={() => { setSelectedCustomer(c); setCustomerDetailTab('기본정보'); }} className="flex items-center justify-between cursor-pointer group">
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 bg-slate-50 rounded-lg flex items-center justify-center text-slate-400 text-sm font-black group-hover:bg-indigo-50 group-hover:text-indigo-600 transition-colors">{c.name[0]}</div>
-                  <div><h4 className="font-bold text-slate-900 text-xs">{c.name}</h4><p className="text-[9px] font-bold text-slate-400 tracking-tight mt-0.5">{c.company} · {c.product}</p></div>
+                  <div>
+                    <h4 className="font-bold text-slate-900 text-xs">{c.name}</h4>
+                    <p className="text-[9px] font-bold text-slate-400 tracking-tight mt-0.5">{c.company}</p>
+                  </div>
                 </div>
                 <div className="flex flex-col items-end">
-                  <div className="flex gap-1 mb-1"><span className={`px-2 py-0.5 rounded-md text-[8px] font-black ${c.status === 'VIP' ? 'bg-purple-100 text-purple-600' : c.status === '가입' ? 'bg-emerald-100 text-emerald-600' : c.status === '가망' ? 'bg-blue-50 text-blue-600' : 'bg-orange-50 text-orange-600'}`}>{c.status}</span>{c.isSharedWithMe && <span className="bg-slate-100 text-slate-500 px-1 py-0.5 rounded-md text-[8px] font-black border border-slate-200"><Share2 size={8}/></span>}</div>
+                  <div className="flex gap-1 mb-1">
+                    <span className={`px-2 py-0.5 rounded-md text-[8px] font-black ${
+                      c.status === 'VIP' ? 'bg-purple-100 text-purple-600' : 
+                      c.status === '가입' ? 'bg-emerald-100 text-emerald-600' : 
+                      c.status === '가망' ? 'bg-blue-50 text-blue-600' : 
+                      'bg-orange-50 text-orange-600'
+                    }`}>
+                      {c.status}
+                    </span>
+                    {c.isSharedWithMe && <span className="bg-slate-100 text-slate-500 px-1 py-0.5 rounded-md text-[8px] font-black border border-slate-200"><Share2 size={8}/></span>}
+                  </div>
                   <span className="text-[8px] text-indigo-400 font-bold bg-indigo-50 px-1 rounded">{c.lastContact}</span>
                 </div>
               </div>
@@ -859,13 +882,29 @@ export default function App() {
   const renderCustomerListPage = () => (
     <div className="p-5 space-y-4 animate-in slide-in-from-right duration-300 pb-32">
       <div className="flex justify-between items-center pt-2 mb-2">
-        <div className="flex items-center gap-3"><button onClick={() => setActiveTab('home')} className="w-8 h-8 bg-white border border-slate-200 rounded-full flex items-center justify-center shadow-sm hover:bg-slate-50 active:scale-95 transition-all"><ChevronLeft size={18} className="text-slate-600 pr-0.5" /></button><h1 className="text-xl font-black text-slate-900 tracking-tight">고객 DB 관리</h1></div>
-        <div className="bg-indigo-50 px-3 py-1.5 rounded-lg border border-indigo-100"><p className="text-[10px] font-black text-indigo-600">총 {filteredCustomers.length}명</p></div>
+        <div className="flex items-center gap-3">
+          <button 
+            onClick={() => setActiveTab('home')} 
+            className="w-8 h-8 bg-white border border-slate-200 rounded-full flex items-center justify-center shadow-sm hover:bg-slate-50 active:scale-95 transition-all"
+          >
+            <ChevronLeft size={18} className="text-slate-600 pr-0.5" />
+          </button>
+          <h1 className="text-xl font-black text-slate-900 tracking-tight">고객 DB 관리</h1>
+        </div>
+        <div className="bg-indigo-50 px-3 py-1.5 rounded-lg border border-indigo-100">
+          <p className="text-[10px] font-black text-indigo-600">총 {filteredCustomers.length}명</p>
+        </div>
       </div>
 
       <div className="flex gap-1.5 p-1 bg-slate-100/80 rounded-xl mb-4">
         {['가망', '가입', '거래처', '공유'].map(tab => (
-          <button key={tab} onClick={() => setCustomerTab(tab)} className={`flex-1 py-2.5 text-[12px] font-black rounded-lg transition-all ${customerTab === tab ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}>{tab}</button>
+          <button 
+            key={tab}
+            onClick={() => setCustomerTab(tab)}
+            className={`flex-1 py-2.5 text-[12px] font-black rounded-lg transition-all ${customerTab === tab ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+          >
+            {tab}
+          </button>
         ))}
       </div>
 
@@ -883,18 +922,47 @@ export default function App() {
                   <div className="min-w-0 overflow-hidden">
                     <div className="flex items-center gap-1.5 whitespace-nowrap">
                       <h3 className="text-sm font-black text-slate-900 tracking-tight truncate max-w-[100px]">{c.name}</h3>
-                      <span className={`text-[8px] font-black px-2 py-0.5 rounded-md tracking-widest shrink-0 ${c.status === '가망' ? 'bg-blue-50 text-blue-600' : c.status === '가입' ? 'bg-emerald-50 text-emerald-600' : c.status === 'VIP' ? 'bg-purple-50 text-purple-600' : 'bg-orange-50 text-orange-600'}`}>{c.status}</span>
-                      {c.isSharedWithMe && (<div className="w-5 h-5 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center shrink-0" title={`${c.ownerName} 님이 공유함`}><Share2 size={10} strokeWidth={2.5}/></div>)}
+                      <span className={`text-[8px] font-black px-2 py-0.5 rounded-md tracking-widest shrink-0 ${
+                        c.status === '가망' ? 'bg-blue-50 text-blue-600' :
+                        c.status === '가입' ? 'bg-emerald-50 text-emerald-600' :
+                        c.status === 'VIP' ? 'bg-purple-50 text-purple-600' :
+                        'bg-orange-50 text-orange-600'
+                      }`}>
+                        {c.status}
+                      </span>
+                      {c.isSharedWithMe && (
+                        <div className="w-5 h-5 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center shrink-0" title={`${c.ownerName} 님이 공유함`}>
+                          <Share2 size={10} strokeWidth={2.5}/>
+                        </div>
+                      )}
                     </div>
-                    <p className="text-[10px] font-bold text-slate-400 mt-1 uppercase tracking-tight truncate">{c.company} | {c.product}</p>
-                    <div className="flex gap-2 mt-2.5"><p className="text-[9px] font-bold text-indigo-500 bg-indigo-50 px-1.5 py-0.5 rounded border border-indigo-100 shrink-0">이력변경: {c.lastContact}</p></div>
+                    <p className="text-[10px] font-bold text-slate-400 mt-1 uppercase tracking-tight truncate">{c.company}</p>
+                    
+                    <div className="flex gap-2 mt-2.5">
+                      <p className="text-[9px] font-bold text-indigo-500 bg-indigo-50 px-1.5 py-0.5 rounded border border-indigo-100 shrink-0">이력변경: {c.lastContact}</p>
+                    </div>
                   </div>
                 </div>
                 
                 <div className="flex gap-1.5 pl-2 shrink-0">
-                  <button onClick={(e) => { e.stopPropagation(); window.location.href=`tel:${c.phone}`; }} className="w-8 h-8 rounded-full bg-slate-50 text-slate-500 flex items-center justify-center shadow-sm hover:bg-blue-50 hover:text-blue-600 active:scale-95 transition-all"><Phone size={13} /></button>
-                  <button onClick={(e) => { e.stopPropagation(); window.location.href=`sms:${c.phone}`; }} className="w-8 h-8 rounded-full bg-slate-50 text-slate-500 flex items-center justify-center shadow-sm hover:bg-indigo-50 hover:text-indigo-600 active:scale-95 transition-all"><MessageCircle size={13} /></button>
-                  <button onClick={(e) => { e.stopPropagation(); showToast("카카오톡 채팅으로 연결합니다."); }} className="w-8 h-8 rounded-full bg-[#FEE500] text-black flex items-center justify-center shadow-sm hover:bg-[#FDD800] active:scale-95 transition-all"><MessageSquare size={13} className="fill-black" /></button>
+                  <button 
+                    onClick={(e) => { e.stopPropagation(); window.location.href=`tel:${c.phone}`; }} 
+                    className="w-8 h-8 rounded-full bg-slate-50 text-slate-500 flex items-center justify-center shadow-sm hover:bg-blue-50 hover:text-blue-600 active:scale-95 transition-all"
+                  >
+                    <Phone size={13} />
+                  </button>
+                  <button 
+                    onClick={(e) => { e.stopPropagation(); window.location.href=`sms:${c.phone}`; }} 
+                    className="w-8 h-8 rounded-full bg-slate-50 text-slate-500 flex items-center justify-center shadow-sm hover:bg-indigo-50 hover:text-indigo-600 active:scale-95 transition-all"
+                  >
+                    <MessageCircle size={13} />
+                  </button>
+                  <button 
+                    onClick={(e) => { e.stopPropagation(); showToast("카카오톡 채팅으로 연결합니다."); }} 
+                    className="w-8 h-8 rounded-full bg-[#FEE500] text-black flex items-center justify-center shadow-sm hover:bg-[#FDD800] active:scale-95 transition-all"
+                  >
+                    <MessageSquare size={13} className="fill-black" />
+                  </button>
                 </div>
               </div>
             </React.Fragment>
@@ -906,14 +974,25 @@ export default function App() {
 
   const renderNotificationPage = () => {
     const filteredNotis = notiTab === '전체' ? notifications : notifications.filter(n => n.type === notiTab);
+    
     return (
       <div className="p-5 space-y-5 animate-in fade-in duration-300 pb-32">
-        <div className="flex justify-between items-center pt-2 mb-2"><h1 className="text-xl font-black text-slate-900 tracking-tight">알림 센터</h1></div>
+        <div className="flex justify-between items-center pt-2 mb-2">
+          <h1 className="text-xl font-black text-slate-900 tracking-tight">알림 센터</h1>
+        </div>
+        
         <div className="flex gap-1.5 p-1 bg-slate-100/80 rounded-xl mb-4 overflow-x-auto hide-scrollbar">
           {['전체', '공지', '약속', '공유'].map(tab => (
-            <button key={tab} onClick={() => setNotiTab(tab)} className={`flex-1 min-w-[60px] py-2.5 text-[12px] font-black rounded-lg transition-all ${notiTab === tab ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500'}`}>{tab}</button>
+            <button 
+              key={tab} 
+              onClick={() => setNotiTab(tab)} 
+              className={`flex-1 min-w-[60px] py-2.5 text-[12px] font-black rounded-lg transition-all ${notiTab === tab ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500'}`}
+            >
+              {tab}
+            </button>
           ))}
         </div>
+        
         <div className="space-y-3">
           {filteredNotis.length === 0 ? (
             <div className="py-16 text-center text-slate-400 font-bold text-sm">알림이 없습니다.</div>
@@ -922,11 +1001,17 @@ export default function App() {
               const Icon = noti.icon;
               return (
                 <div key={noti.id} onClick={() => handleNotiClick(noti)} className="bg-white rounded-2xl p-4 shadow-sm border border-slate-100 flex items-start gap-4 cursor-pointer hover:border-indigo-300 transition-colors">
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${noti.bg} ${noti.color}`}><Icon size={18} /></div>
+                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${noti.bg} ${noti.color}`}>
+                    <Icon size={18} />
+                  </div>
                   <div className="flex-1 min-w-0">
-                    <div className="flex justify-between items-start mb-1"><span className={`text-[9px] font-black px-1.5 py-0.5 rounded ${noti.bg} ${noti.color}`}>{noti.type}</span><span className="text-[9px] font-bold text-slate-400">{noti.time}</span></div>
+                    <div className="flex justify-between items-start mb-1">
+                      <span className={`text-[9px] font-black px-1.5 py-0.5 rounded ${noti.bg} ${noti.color}`}>{noti.type}</span>
+                      <span className="text-[9px] font-bold text-slate-400">{noti.time}</span>
+                    </div>
                     <h4 className="text-sm font-black text-slate-900">{noti.title}</h4>
                     <p className="text-xs font-bold text-slate-500 mt-1">{noti.desc}</p>
+                    
                     {noti.type === '공유' && noti.isNew && (
                       <div className="flex gap-2 mt-3 pt-3 border-t border-slate-100">
                         <button onClick={(e) => handleRejectShare(e, noti.id)} className="flex-1 py-2 bg-slate-100 text-slate-600 text-[11px] font-black rounded-lg active:scale-95 transition-all">거절</button>
@@ -948,24 +1033,43 @@ export default function App() {
     const deptMembers = TEAM_MEMBERS.filter(m => m.dept === '영업1팀');
     const companyMembers = TEAM_MEMBERS;
     const displayMembers = teamTab === 'dept' ? deptMembers : companyMembers;
+
     const orgString1 = userProfile.dept2 || '영업1팀';
     const orgString2 = userProfile.company || '대한생명';
     
     return (
       <div className="p-5 space-y-5 animate-in fade-in duration-300 pb-32">
-        <div className="flex justify-between items-center pt-2"><div className="flex items-center gap-3"><button onClick={() => setActiveTab('home')} className="w-8 h-8 bg-white border border-slate-200 rounded-full flex items-center justify-center shadow-sm hover:bg-slate-50 active:scale-95 transition-all"><ChevronLeft size={18} className="text-slate-600 pr-0.5" /></button><h1 className="text-xl font-black text-slate-900 tracking-tight">조직도</h1></div></div>
-        <div className="flex gap-2 p-1 bg-slate-200/60 rounded-xl">
-          <button onClick={() => setTeamTab('dept')} className={`flex-1 py-2.5 text-[11px] font-black rounded-lg transition-all ${teamTab === 'dept' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500'}`}>{orgString1} (45명)</button>
-          <button onClick={() => setTeamTab('company')} className={`flex-1 py-2.5 text-[11px] font-black rounded-lg transition-all ${teamTab === 'company' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500'}`}>{orgString2} 전체 (1,204명)</button>
+        <div className="flex justify-between items-center pt-2">
+          <div className="flex items-center gap-3">
+            <button onClick={() => setActiveTab('home')} className="w-8 h-8 bg-white border border-slate-200 rounded-full flex items-center justify-center shadow-sm hover:bg-slate-50 active:scale-95 transition-all">
+              <ChevronLeft size={18} className="text-slate-600 pr-0.5" />
+            </button>
+            <h1 className="text-xl font-black text-slate-900 tracking-tight">조직도</h1>
+          </div>
         </div>
+
+        <div className="flex gap-2 p-1 bg-slate-200/60 rounded-xl">
+          <button onClick={() => setTeamTab('dept')} className={`flex-1 py-2.5 text-[11px] font-black rounded-lg transition-all ${teamTab === 'dept' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500'}`}>
+            {orgString1} (45명)
+          </button>
+          <button onClick={() => setTeamTab('company')} className={`flex-1 py-2.5 text-[11px] font-black rounded-lg transition-all ${teamTab === 'company' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500'}`}>
+            {orgString2} 전체 (1,204명)
+          </button>
+        </div>
+
         <div className="space-y-3">
            {displayMembers.map(member => (
              <div key={member.id} onClick={() => setSelectedTeamMember(member)} className="bg-white p-4 rounded-2xl border border-slate-200 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] flex items-center justify-between hover:border-indigo-300 transition-all group cursor-pointer active:scale-[0.98]">
                <div className="flex items-center gap-4">
                  <div className="w-12 h-12 bg-slate-50 text-slate-400 rounded-full flex items-center justify-center text-lg font-black group-hover:bg-indigo-50 group-hover:text-indigo-600 transition-colors">{member.name[0]}</div>
                  <div>
-                   <div className="flex items-center gap-1.5"><h4 className="font-black text-sm text-slate-900">{member.isPublic ? member.name : `${member.name[0]}**`} <span className="text-[10px] font-bold text-slate-400 ml-0.5">{member.position}</span></h4>{!member.isPublic && <ShieldCheck size={12} className="text-slate-300" />}</div>
-                   {teamTab === 'company' && member.dept && <p className="text-[10px] font-bold text-indigo-500 mt-0.5 tracking-tight">{member.dept}</p>}
+                   <div className="flex items-center gap-1.5">
+                     <h4 className="font-black text-sm text-slate-900">{member.isPublic ? member.name : `${member.name[0]}**`} <span className="text-[10px] font-bold text-slate-400 ml-0.5">{member.position}</span></h4>
+                     {!member.isPublic && <ShieldCheck size={12} className="text-slate-300" />}
+                   </div>
+                   {teamTab === 'company' && member.dept && (
+                     <p className="text-[10px] font-bold text-indigo-500 mt-0.5 tracking-tight">{member.dept}</p>
+                   )}
                    <p className="text-[10px] text-slate-500 font-medium mt-1 uppercase tracking-tighter">{member.isPublic ? (member.certs || '등록된 자격 없음') : '프로필 비공개'}</p>
                  </div>
                </div>
@@ -982,30 +1086,64 @@ export default function App() {
 
   const renderTeamMemberDetailView = () => {
     if (!selectedTeamMember) return null;
+
     return (
       <div className="pb-10 animate-in slide-in-from-right duration-300 bg-[#f8fafc] min-h-full">
         <div className="bg-white px-5 pt-4 pb-4 flex items-center sticky top-0 z-20 shadow-sm border-b border-slate-100 gap-3">
-          <button onClick={() => setSelectedTeamMember(null)} className="w-9 h-9 flex items-center justify-center rounded-full bg-slate-50 text-slate-600 active:scale-95 transition-all"><ChevronLeft size={20} className="pr-0.5" /></button>
+          <button onClick={() => setSelectedTeamMember(null)} className="w-9 h-9 flex items-center justify-center rounded-full bg-slate-50 text-slate-600 active:scale-95 transition-all">
+            <ChevronLeft size={20} className="pr-0.5" />
+          </button>
           <h2 className="text-lg font-black text-slate-900 tracking-tight">동료 상세 프로필</h2>
         </div>
+
         <div className="p-5">
           <div className="bg-gradient-to-br from-slate-800 via-slate-900 to-black rounded-[2rem] p-6 shadow-md border border-slate-700 relative overflow-hidden aspect-[1.6/1] flex flex-col justify-between text-white">
-            <div className="absolute -right-10 -top-10 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div><div className="absolute -left-10 -bottom-10 w-40 h-40 bg-indigo-500/20 rounded-full blur-3xl"></div>
-            <div className="flex justify-between items-start relative z-10"><div><p className="text-[10px] font-black text-slate-400 tracking-widest uppercase">{userProfile.company || '대한생명'}</p><p className="text-[10px] font-bold text-slate-300 mt-0.5">{selectedTeamMember.dept}</p><h3 className="text-2xl font-black mt-2 tracking-tight">{selectedTeamMember.isPublic ? selectedTeamMember.name : `${selectedTeamMember.name[0]}**`} <span className="text-sm font-bold text-slate-400 ml-1">{selectedTeamMember.position}</span></h3></div><div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center border border-white/10 shadow-sm backdrop-blur-md"><Building2 size={20} className="text-white" /></div></div>
-            <div className="space-y-1.5 relative z-10"><p className="text-xs font-bold text-slate-300 flex items-center gap-2.5 tracking-wide"><Phone size={14} className="text-indigo-400"/> {selectedTeamMember.isPublic ? '010-****-****' : '비공개'}</p></div>
+            <div className="absolute -right-10 -top-10 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
+            <div className="absolute -left-10 -bottom-10 w-40 h-40 bg-indigo-500/20 rounded-full blur-3xl"></div>
+            
+            <div className="flex justify-between items-start relative z-10">
+              <div>
+                <p className="text-[10px] font-black text-slate-400 tracking-widest uppercase">{userProfile.company || '대한생명'}</p>
+                <p className="text-[10px] font-bold text-slate-300 mt-0.5">{selectedTeamMember.dept}</p>
+                <h3 className="text-2xl font-black mt-2 tracking-tight">
+                  {selectedTeamMember.isPublic ? selectedTeamMember.name : `${selectedTeamMember.name[0]}**`} 
+                  <span className="text-sm font-bold text-slate-400 ml-1">{selectedTeamMember.position}</span>
+                </h3>
+              </div>
+              <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center border border-white/10 shadow-sm backdrop-blur-md">
+                <Building2 size={20} className="text-white" />
+              </div>
+            </div>
+            
+            <div className="space-y-1.5 relative z-10">
+              <p className="text-xs font-bold text-slate-300 flex items-center gap-2.5 tracking-wide">
+                <Phone size={14} className="text-indigo-400"/> 
+                {selectedTeamMember.isPublic ? '010-****-****' : '비공개'}
+              </p>
+            </div>
           </div>
         </div>
+
         <div className="px-5 flex gap-2 mb-6">
            <button onClick={() => showToast('전화 연결합니다.')} className="flex-1 bg-white border border-slate-200 text-slate-700 py-3.5 rounded-xl text-[11px] font-black flex items-center justify-center gap-1.5 shadow-sm hover:bg-slate-50 transition-all active:scale-95"><Phone size={14}/> 전화</button>
            <button onClick={() => showToast('메시지를 작성합니다.')} className="flex-1 bg-white border border-slate-200 text-slate-700 py-3.5 rounded-xl text-[11px] font-black flex items-center justify-center gap-1.5 shadow-sm hover:bg-slate-50 transition-all active:scale-95"><MessageCircle size={14}/> 문자</button>
         </div>
+
         <div className="p-5 pb-10">
            <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm space-y-4">
-             <div><p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">소속</p><p className="text-sm font-black text-slate-800">{userProfile.company || '대한생명'} {selectedTeamMember.dept}</p></div>
+             <div>
+               <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">소속</p>
+               <p className="text-sm font-black text-slate-800">{userProfile.company || '대한생명'} {selectedTeamMember.dept}</p>
+             </div>
              <div>
                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">보유 자격</p>
                <div className="flex flex-wrap gap-1.5 mt-2">
-                 {selectedTeamMember.isPublic && selectedTeamMember.certs ? (Array.isArray(selectedTeamMember.certs) ? selectedTeamMember.certs : selectedTeamMember.certs.split(' · ')).map(cert => (<span key={cert} className="bg-indigo-50 text-indigo-600 px-2.5 py-1 rounded-lg text-[11px] font-black border border-indigo-100">{cert}</span>)) : <span className="text-xs font-bold text-slate-500">프로필 비공개 또는 등록된 자격 없음</span>}
+                 {selectedTeamMember.isPublic && selectedTeamMember.certs ? 
+                   (Array.isArray(selectedTeamMember.certs) ? selectedTeamMember.certs : selectedTeamMember.certs.split(' · ')).map(cert => (
+                     <span key={cert} className="bg-indigo-50 text-indigo-600 px-2.5 py-1 rounded-lg text-[11px] font-black border border-indigo-100">{cert}</span>
+                   )) : 
+                   <span className="text-xs font-bold text-slate-500">프로필 비공개 또는 등록된 자격 없음</span>
+                 }
                </div>
              </div>
            </div>
@@ -1016,36 +1154,85 @@ export default function App() {
 
   const renderCustomerDetailView = () => {
     if (!selectedCustomer) return null;
-    let allCards = [{ name: selectedCustomer.name, company: selectedCustomer.company, position: selectedCustomer.position, phone: selectedCustomer.phone, email: selectedCustomer.email, isCurrent: true }, ...(selectedCustomer.pastCards || []).map(c => ({...c, isCurrent: false}))];
-    const displayCard = allCards[cardIndex] || allCards[0];
+
+    let allCards = [];
+    if (selectedCustomer) {
+      allCards = [
+        { 
+          name: selectedCustomer.name, company: selectedCustomer.company, 
+          position: selectedCustomer.position, phone: selectedCustomer.phone, 
+          email: selectedCustomer.email, isCurrent: true 
+        },
+        ...(selectedCustomer.pastCards || []).map(c => ({...c, isCurrent: false}))
+      ];
+    }
+    const displayCard = allCards.length > 0 ? (allCards[cardIndex] || allCards[0]) : {};
 
     return (
       <div className="pb-10 animate-in slide-in-from-right duration-300 bg-[#f8fafc] min-h-full">
         <div className="bg-white px-5 pt-4 pb-4 flex justify-between items-center sticky top-0 z-20 shadow-sm border-b border-slate-100">
-          <button onClick={() => setSelectedCustomer(null)} className="w-9 h-9 flex items-center justify-center rounded-full bg-slate-50 text-slate-600 active:scale-95 transition-all"><ChevronLeft size={20} className="pr-0.5" /></button>
+          <button onClick={() => setSelectedCustomer(null)} className="w-9 h-9 flex items-center justify-center rounded-full bg-slate-50 text-slate-600 active:scale-95 transition-all">
+            <ChevronLeft size={20} className="pr-0.5" />
+          </button>
           <h2 className="text-lg font-black text-slate-900 tracking-tight">고객 상세 프로필</h2>
-          <button onClick={() => { setShareSearchQuery(''); setSelectedShareMembers(selectedCustomer.sharedWith || []); setIsShareModalOpen(true); }} className="w-9 h-9 flex items-center justify-center rounded-full bg-indigo-50 text-indigo-600 active:scale-95 transition-all"><Share2 size={16} /></button>
+          <button onClick={() => { setShareSearchQuery(''); setSelectedShareMembers(selectedCustomer.sharedWith || []); setIsShareModalOpen(true); }} className="w-9 h-9 flex items-center justify-center rounded-full bg-indigo-50 text-indigo-600 active:scale-95 transition-all">
+            <Share2 size={16} />
+          </button>
         </div>
 
         <div className="p-5">
           <div className="relative">
             {allCards.length > 1 && cardIndex === 0 && (
-              <div className="absolute inset-0 bg-slate-200 rounded-[2rem] rotate-3 scale-[0.96] origin-bottom translate-y-3 cursor-pointer border border-slate-300 shadow-sm hover:rotate-6 transition-all" onClick={() => setCardIndex(1)} title="이전 명함 보기"><div className="absolute bottom-4 right-6 text-[10px] font-black text-slate-500 flex items-center gap-1">이전 명함 보기 <ChevronRight size={10}/></div></div>
+              <div 
+                className="absolute inset-0 bg-slate-200 rounded-[2rem] rotate-3 scale-[0.96] origin-bottom translate-y-3 cursor-pointer border border-slate-300 shadow-sm hover:rotate-6 transition-all"
+                onClick={() => setCardIndex(1)}
+                title="이전 명함 보기"
+              >
+                <div className="absolute bottom-4 right-6 text-[10px] font-black text-slate-500 flex items-center gap-1">이전 명함 보기 <ChevronRight size={10}/></div>
+              </div>
             )}
             {allCards.length > 1 && cardIndex > 0 && (
-              <div className="absolute inset-0 bg-indigo-100 rounded-[2rem] -rotate-3 scale-[0.96] origin-bottom translate-y-3 cursor-pointer border border-indigo-300 shadow-sm hover:-rotate-6 transition-all" onClick={() => setCardIndex(0)} title="최신 명함 보기"><div className="absolute bottom-4 left-6 text-[10px] font-black text-indigo-600 flex items-center gap-1"><ChevronLeft size={10}/> 최신 명함 보기</div></div>
+              <div 
+                className="absolute inset-0 bg-indigo-100 rounded-[2rem] -rotate-3 scale-[0.96] origin-bottom translate-y-3 cursor-pointer border border-indigo-300 shadow-sm hover:-rotate-6 transition-all"
+                onClick={() => setCardIndex(0)}
+                title="최신 명함 보기"
+              >
+                <div className="absolute bottom-4 left-6 text-[10px] font-black text-indigo-600 flex items-center gap-1"><ChevronLeft size={10}/> 최신 명함 보기</div>
+              </div>
             )}
 
-            <div className={`rounded-[2rem] p-6 shadow-md border relative overflow-hidden aspect-[1.6/1] flex flex-col justify-between z-10 transition-all ${selectedCustomer.isSharedWithMe ? 'bg-gradient-to-br from-purple-50 to-white border-purple-200' : (displayCard.isCurrent ? 'bg-white border-slate-200' : 'bg-slate-50 border-dashed border-slate-300')}`}>
-              {selectedCustomer.isSharedWithMe && <Share2 size={140} className="absolute -right-6 -bottom-6 text-purple-500 opacity-5 pointer-events-none" />}
-              {!displayCard.isCurrent && <div className="absolute top-6 right-6 bg-slate-600 text-white text-[9px] font-black px-2 py-1 rounded-md">과거 명함</div>}
+            <div className={`rounded-[2rem] p-6 shadow-md border relative overflow-hidden aspect-[1.6/1] flex flex-col justify-between z-10 transition-all ${
+              selectedCustomer.isSharedWithMe 
+                ? 'bg-gradient-to-br from-purple-50 to-white border-purple-200' 
+                : (displayCard.isCurrent ? 'bg-white border-slate-200' : 'bg-slate-50 border-dashed border-slate-300')
+            }`}>
+              {selectedCustomer.isSharedWithMe && (
+                <Share2 size={140} className="absolute -right-6 -bottom-6 text-purple-500 opacity-5 pointer-events-none" />
+              )}
+              {!displayCard.isCurrent && (
+                <div className="absolute top-6 right-6 bg-slate-600 text-white text-[9px] font-black px-2 py-1 rounded-md">과거 명함</div>
+              )}
               <div className="flex justify-between items-start relative z-10">
                 <div>
                   <p className={`text-[10px] font-bold tracking-widest uppercase ${selectedCustomer.isSharedWithMe ? 'text-purple-500' : 'text-slate-400'}`}>{displayCard.company}</p>
-                  <div className="flex items-center gap-1.5 mt-1"><h3 className="text-2xl font-black tracking-tight text-slate-900">{displayCard.name} <span className="text-sm font-bold text-slate-500 ml-0.5">{displayCard.position}</span></h3>{selectedCustomer.isSharedWithMe && displayCard.isCurrent && (<div className="w-6 h-6 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center shadow-sm shrink-0" title={`${selectedCustomer.ownerName} 님의 공유 고객`}><Share2 size={12} strokeWidth={2.5}/></div>)}</div>
-                  {selectedCustomer.isSharedWithMe && displayCard.isCurrent && (<div className="inline-flex items-center gap-1 mt-2 bg-slate-100/80 border border-slate-200 px-2 py-1 rounded-md"><Share2 size={10} className="text-slate-500" /><span className="text-[9px] font-black text-slate-600">{selectedCustomer.ownerName} 님의 공유 고객</span></div>)}
+                  <div className="flex items-center gap-1.5 mt-1">
+                    <h3 className="text-2xl font-black tracking-tight text-slate-900">{displayCard.name} <span className="text-sm font-bold text-slate-500 ml-0.5">{displayCard.position}</span></h3>
+                    {selectedCustomer.isSharedWithMe && displayCard.isCurrent && (
+                      <div className="w-6 h-6 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center shadow-sm shrink-0" title={`${selectedCustomer.ownerName} 님의 공유 고객`}>
+                        <Share2 size={12} strokeWidth={2.5}/>
+                      </div>
+                    )}
+                  </div>
+                  {selectedCustomer.isSharedWithMe && displayCard.isCurrent && (
+                     <div className="inline-flex items-center gap-1 mt-2 bg-slate-100/80 border border-slate-200 px-2 py-1 rounded-md">
+                       <Share2 size={10} className="text-slate-500" />
+                       <span className="text-[9px] font-black text-slate-600">{selectedCustomer.ownerName} 님의 공유 고객</span>
+                     </div>
+                  )}
                 </div>
-                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center border shadow-sm shrink-0 ${selectedCustomer.isSharedWithMe ? 'bg-purple-50 border-purple-100 text-purple-400' : 'bg-slate-50 border-slate-100 text-slate-400'}`}><Building2 size={20} /></div>
+                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center border shadow-sm shrink-0 ${selectedCustomer.isSharedWithMe ? 'bg-purple-50 border-purple-100 text-purple-400' : 'bg-slate-50 border-slate-100 text-slate-400'}`}>
+                  <Building2 size={20} />
+                </div>
               </div>
               <div className="space-y-1.5 relative z-10 mt-3">
                 <p className={`text-xs font-bold flex items-center gap-2.5 tracking-wide ${selectedCustomer.isSharedWithMe ? 'text-purple-700' : 'text-slate-600'}`}><Phone size={14} className={selectedCustomer.isSharedWithMe ? 'text-purple-400' : 'text-slate-400'}/> {displayCard.phone}</p>
@@ -1063,8 +1250,13 @@ export default function App() {
 
         <div className="px-2 flex w-full justify-between sticky top-[68px] bg-[#f8fafc] z-10 pt-2 border-b border-slate-200">
           {['기본정보', '상담이력', '가입상품', '메모'].map(tab => (
-            <button key={tab} onClick={() => setCustomerDetailTab(tab)} className={`flex-1 text-center pb-3 text-[13px] font-black transition-colors relative ${customerDetailTab === tab ? 'text-indigo-600' : 'text-slate-400'}`}>
-              {tab}{customerDetailTab === tab && <div className="absolute bottom-0 inset-x-0 mx-auto w-10 h-0.5 bg-indigo-600 rounded-t-full"></div>}
+            <button 
+              key={tab}
+              onClick={() => setCustomerDetailTab(tab)}
+              className={`flex-1 text-center pb-3 text-[13px] font-black transition-colors relative ${customerDetailTab === tab ? 'text-indigo-600' : 'text-slate-400'}`}
+            >
+              {tab}
+              {customerDetailTab === tab && <div className="absolute bottom-0 inset-x-0 mx-auto w-10 h-0.5 bg-indigo-600 rounded-t-full"></div>}
             </button>
           ))}
         </div>
@@ -1075,14 +1267,31 @@ export default function App() {
                <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
                  <div className="flex justify-between items-center mb-2">
                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">고객 분류 상태 (원본)</p>
-                   {!isEditingStatus && !selectedCustomer.isSharedWithMe && (<button onClick={() => { setTempStatus(selectedCustomer.status); setIsEditingStatus(true); }} className="text-[10px] font-bold text-indigo-500 bg-indigo-50 px-2 py-1 rounded-lg hover:bg-indigo-100 transition-colors flex items-center gap-1"><Edit2 size={10}/> 변경하기</button>)}
+                   {!isEditingStatus && !selectedCustomer.isSharedWithMe && (
+                     <button onClick={() => { setTempStatus(selectedCustomer.status); setIsEditingStatus(true); }} className="text-[10px] font-bold text-indigo-500 bg-indigo-50 px-2 py-1 rounded-lg hover:bg-indigo-100 transition-colors flex items-center gap-1"><Edit2 size={10}/> 변경하기</button>
+                   )}
                  </div>
                  {!isEditingStatus ? (
-                    <div className="flex items-center gap-2"><span className={`px-3 py-1 rounded-lg text-xs font-black tracking-widest ${selectedCustomer.status === 'VIP' ? 'bg-purple-100 text-purple-600' : selectedCustomer.status === '가입' ? 'bg-emerald-100 text-emerald-600' : selectedCustomer.status === '가망' ? 'bg-blue-50 text-blue-600' : 'bg-orange-50 text-orange-600'}`}>{selectedCustomer.status} 고객</span></div>
+                    <div className="flex items-center gap-2">
+                       <span className={`px-3 py-1 rounded-lg text-xs font-black tracking-widest ${
+                         selectedCustomer.status === 'VIP' ? 'bg-purple-100 text-purple-600' : 
+                         selectedCustomer.status === '가입' ? 'bg-emerald-100 text-emerald-600' : 
+                         selectedCustomer.status === '가망' ? 'bg-blue-50 text-blue-600' : 
+                         'bg-orange-50 text-orange-600'
+                       }`}>{selectedCustomer.status} 고객</span>
+                    </div>
                  ) : (
                     <div className="space-y-2.5 animate-in fade-in duration-200">
                       <div className="flex gap-2">
-                        {['가망', '가입', 'VIP', '거래처'].map(status => (<button key={status} onClick={() => setTempStatus(status)} className={`flex-1 py-2 rounded-xl text-xs font-black transition-all border ${tempStatus === status ? 'border-indigo-500 bg-indigo-50 text-indigo-600 shadow-sm' : 'border-slate-100 bg-white text-slate-500 hover:bg-slate-50'}`}>{status}</button>))}
+                        {['가망', '가입', 'VIP', '거래처'].map(status => (
+                          <button 
+                            key={status} 
+                            onClick={() => setTempStatus(status)} 
+                            className={`flex-1 py-2 rounded-xl text-xs font-black transition-all border ${tempStatus === status ? 'border-indigo-500 bg-indigo-50 text-indigo-600 shadow-sm' : 'border-slate-100 bg-white text-slate-500 hover:bg-slate-50'}`}
+                          >
+                            {status}
+                          </button>
+                        ))}
                       </div>
                       <div className="flex gap-2 pt-1">
                         <button onClick={() => setIsEditingStatus(false)} className="flex-1 py-2 bg-slate-100 text-slate-500 rounded-xl text-[11px] font-black transition-colors active:bg-slate-200">취소</button>
@@ -1093,13 +1302,37 @@ export default function App() {
                </div>
 
                <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
-                 <div className="flex justify-between items-center mb-2.5"><p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1.5"><Hash size={12}/> 커스텀 해시태그</p><button onClick={() => setIsAddingHashtag(true)} className="w-6 h-6 rounded-full bg-slate-50 text-indigo-500 flex items-center justify-center hover:bg-indigo-50 transition-colors"><Plus size={14}/></button></div>
+                 <div className="flex justify-between items-center mb-2.5">
+                   <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1.5"><Hash size={12}/> 커스텀 해시태그</p>
+                   <button onClick={() => setIsAddingHashtag(true)} className="w-6 h-6 rounded-full bg-slate-50 text-indigo-500 flex items-center justify-center hover:bg-indigo-50 transition-colors"><Plus size={14}/></button>
+                 </div>
                  <div className="flex flex-wrap gap-1.5">
-                   {selectedCustomer.hashtags?.map(tag => (<span key={tag} className="flex items-center gap-1 bg-indigo-50 text-indigo-600 px-2 py-1 rounded-lg text-[11px] font-black border border-indigo-100 shadow-sm">#{tag}<X size={12} className="cursor-pointer hover:text-indigo-800 opacity-50 hover:opacity-100" onClick={() => handleRemoveHashtag(tag)} /></span>))}
+                   {selectedCustomer.hashtags?.map(tag => (
+                     <span key={tag} className="flex items-center gap-1 bg-indigo-50 text-indigo-600 px-2 py-1 rounded-lg text-[11px] font-black border border-indigo-100 shadow-sm">
+                       #{tag}
+                       <X size={12} className="cursor-pointer hover:text-indigo-800 opacity-50 hover:opacity-100" onClick={() => handleRemoveHashtag(tag)} />
+                     </span>
+                   ))}
                    {isAddingHashtag && (
-                     <input autoFocus type="text" value={hashtagInput} onChange={e => setHashtagInput(e.target.value)} onBlur={handleAddHashtag} onKeyDown={e => { if (e.key === 'Enter' && !e.nativeEvent.isComposing) { e.preventDefault(); handleAddHashtag(); } }} className="w-24 bg-slate-50 border border-indigo-200 rounded-lg px-2 py-1 text-[11px] font-black text-indigo-600 outline-none focus:border-indigo-400" placeholder="입력..."/>
+                     <input 
+                       autoFocus
+                       type="text" 
+                       value={hashtagInput}
+                       onChange={e => setHashtagInput(e.target.value)}
+                       onBlur={handleAddHashtag}
+                       onKeyDown={e => {
+                         if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
+                           e.preventDefault();
+                           handleAddHashtag();
+                         }
+                       }}
+                       className="w-24 bg-slate-50 border border-indigo-200 rounded-lg px-2 py-1 text-[11px] font-black text-indigo-600 outline-none focus:border-indigo-400"
+                       placeholder="입력..."
+                     />
                    )}
-                   {!(selectedCustomer.hashtags?.length > 0) && !isAddingHashtag && (<p className="text-[11px] text-slate-400 font-bold">등록된 해시태그가 없습니다.</p>)}
+                   {!(selectedCustomer.hashtags?.length > 0) && !isAddingHashtag && (
+                     <p className="text-[11px] text-slate-400 font-bold">등록된 해시태그가 없습니다.</p>
+                   )}
                  </div>
                </div>
 
@@ -1109,20 +1342,35 @@ export default function App() {
                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">공동 관리 팀원 <span className="text-indigo-500 ml-1 font-black">{(selectedCustomer.sharedWith || []).length}명</span></p>
                      <div className="flex items-center gap-2">
                        <div className="flex -space-x-2">
-                         {selectedCustomer.sharedWith?.length > 0 ? (selectedCustomer.sharedWith.slice(0, 4).map(id => { const m = TEAM_MEMBERS.find(tm => tm.id === id); return <div key={id} className="w-7 h-7 rounded-full bg-slate-200 border-2 border-white flex items-center justify-center text-[9px] font-black text-slate-600 shadow-sm" title={m?.name}>{m?.name[0]}</div> })) : <p className="text-[11px] text-slate-400 font-bold">공유된 팀원이 없습니다.</p>}
+                         {selectedCustomer.sharedWith?.length > 0 ? (
+                            selectedCustomer.sharedWith.slice(0, 4).map(id => {
+                              const m = TEAM_MEMBERS.find(tm => tm.id === id);
+                              return <div key={id} className="w-7 h-7 rounded-full bg-slate-200 border-2 border-white flex items-center justify-center text-[9px] font-black text-slate-600 shadow-sm" title={m?.name}>{m?.name[0]}</div>
+                            })
+                         ) : <p className="text-[11px] text-slate-400 font-bold">공유된 팀원이 없습니다.</p>}
                          {(selectedCustomer.sharedWith?.length || 0) > 4 && <div className="w-7 h-7 rounded-full bg-slate-100 border-2 border-white flex items-center justify-center text-[8px] font-black text-slate-500 shadow-sm">+{selectedCustomer.sharedWith.length - 4}</div>}
                        </div>
                        <span className="text-[9px] font-bold text-indigo-500 bg-indigo-50 px-1.5 py-0.5 rounded-md ml-1">관리/변경</span>
                      </div>
                    </div>
-                   <div className="w-9 h-9 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-500"><Users size={16} /></div>
+                   <div className="w-9 h-9 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-500">
+                     <Users size={16} />
+                   </div>
                  </div>
                )}
 
                <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex justify-between items-center">
                  <div className="flex-1">
                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5">최초 등록 일자</p>
-                   <div className="flex items-center gap-2"><input type="date" value={selectedCustomer.createdAt} onChange={e => updateSelectedCustomer({ createdAt: e.target.value })} className="text-base font-black text-slate-800 outline-none w-full bg-transparent cursor-pointer" disabled={selectedCustomer.isSharedWithMe} /></div>
+                   <div className="flex items-center gap-2">
+                     <input 
+                       type="date" 
+                       value={selectedCustomer.createdAt} 
+                       onChange={e => updateSelectedCustomer({ createdAt: e.target.value })}
+                       className="text-base font-black text-slate-800 outline-none w-full bg-transparent cursor-pointer"
+                       disabled={selectedCustomer.isSharedWithMe}
+                     />
+                   </div>
                  </div>
                  <CalendarDays size={24} className="text-indigo-100" />
                </div>
@@ -1136,24 +1384,47 @@ export default function App() {
                  <>
                    <div className="flex justify-between items-center px-1">
                      <h3 className="text-xs font-black text-slate-800">전체 상담 이력</h3>
-                     <button onClick={() => { setIsAddingHistory(true); setNewHistory({ type: '통화', date: getOffsetDate(0), time: '', location: '', alarm: '알림 없음', note: '' }); }} className="text-[10px] font-bold text-indigo-600 bg-indigo-50 px-3 py-1.5 rounded-lg flex items-center gap-1 hover:bg-indigo-100 transition-colors shadow-sm"><Plus size={12} strokeWidth={3} /> 신규 이력 추가</button>
+                     <button onClick={() => {
+                        setIsAddingHistory(true);
+                        setNewHistory({ type: '통화', date: getOffsetDate(0), time: '', location: '', alarm: '알림 없음', note: '' });
+                     }} className="text-[10px] font-bold text-indigo-600 bg-indigo-50 px-3 py-1.5 rounded-lg flex items-center gap-1 hover:bg-indigo-100 transition-colors shadow-sm">
+                       <Plus size={12} strokeWidth={3} /> 신규 이력 추가
+                     </button>
                    </div>
                    
                    <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
-                     {!(selectedCustomer.history?.length > 0) ? (<div className="text-center py-8 text-slate-400 text-xs font-bold">등록된 상담 이력이 없습니다.</div>) : (
+                     {!(selectedCustomer.history?.length > 0) ? (
+                        <div className="text-center py-8 text-slate-400 text-xs font-bold">등록된 상담 이력이 없습니다.</div>
+                     ) : (
                        <div className="relative pl-5 border-l-2 border-indigo-100 space-y-8">
-                         {(selectedCustomer.history || []).sort((a, b) => new Date(b.date) - new Date(a.date)).map((h, i) => {
+                         {(selectedCustomer.history || [])
+                            .sort((a, b) => new Date(b.date) - new Date(a.date))
+                            .map((h, i) => {
                            const histType = CONTACT_TYPES.find(t => t.id === h.type) || CONTACT_TYPES[0];
                            const HistIcon = histType.icon;
                            const isExpanded = expandedHistoryIds.includes(h.id);
+                           
                            return (
                              <div key={h.id || i} className={`relative ${i !== 0 ? 'opacity-60 hover:opacity-100 transition-opacity' : ''}`}>
                                <div className={`absolute -left-[27px] top-1 w-3 h-3 rounded-full ring-4 ring-white ${i === 0 ? 'bg-indigo-600' : 'bg-slate-300'}`}></div>
                                <div className="flex justify-between items-center mb-2 pr-1">
-                                 <div className="flex items-center gap-2"><p className={`text-[10px] font-bold ${i === 0 ? 'text-indigo-600' : 'text-slate-500'}`}>{h.date}</p><span className={`text-[9px] font-black px-1.5 py-0.5 rounded border flex items-center gap-1 ${histType.bg} ${histType.color} ${histType.border}`}><HistIcon size={10} strokeWidth={3} /> {h.type}</span></div>
-                                 {h.author && (<span className="text-[8px] font-black text-slate-500 bg-slate-100 border border-slate-200 px-1.5 py-0.5 rounded-md flex items-center gap-1"><Edit2 size={8} /> {h.author}</span>)}
+                                 <div className="flex items-center gap-2">
+                                   <p className={`text-[10px] font-bold ${i === 0 ? 'text-indigo-600' : 'text-slate-500'}`}>{h.date}</p>
+                                   <span className={`text-[9px] font-black px-1.5 py-0.5 rounded border flex items-center gap-1 ${histType.bg} ${histType.color} ${histType.border}`}>
+                                     <HistIcon size={10} strokeWidth={3} /> {h.type}
+                                   </span>
+                                 </div>
+                                 {h.author && (
+                                   <span className="text-[8px] font-black text-slate-500 bg-slate-100 border border-slate-200 px-1.5 py-0.5 rounded-md flex items-center gap-1">
+                                     <Edit2 size={8} /> {h.author}
+                                   </span>
+                                 )}
                                </div>
-                               <div onClick={() => toggleHistoryExpand(h.id)} className="bg-slate-50 p-3.5 rounded-xl border border-slate-100 mt-1.5 cursor-pointer hover:border-indigo-300 hover:shadow-sm transition-all">
+                               
+                               <div 
+                                 onClick={() => toggleHistoryExpand(h.id)}
+                                 className="bg-slate-50 p-3.5 rounded-xl border border-slate-100 mt-1.5 cursor-pointer hover:border-indigo-300 hover:shadow-sm transition-all"
+                               >
                                   <div className={`overflow-hidden transition-all ${isExpanded ? 'max-h-[500px]' : 'max-h-[38px]'}`}>
                                     {h.type === '미팅약속' && (h.time || h.location) && (
                                       <div className={`mb-2 pb-2 border-b border-slate-200/60 space-y-1.5 ${!isExpanded ? 'hidden' : ''}`}>
@@ -1163,7 +1434,9 @@ export default function App() {
                                     )}
                                     <p className={`text-xs font-bold text-slate-700 leading-relaxed whitespace-pre-wrap ${!isExpanded ? 'line-clamp-2' : ''}`}>{h.note}</p>
                                   </div>
-                                  <div className="flex justify-center mt-2 pt-1 border-t border-slate-200/50">{isExpanded ? <ChevronUp size={12} className="text-slate-400" /> : <ChevronDown size={12} className="text-slate-400" />}</div>
+                                  <div className="flex justify-center mt-2 pt-1 border-t border-slate-200/50">
+                                      {isExpanded ? <ChevronUp size={12} className="text-slate-400" /> : <ChevronDown size={12} className="text-slate-400" />}
+                                  </div>
                                </div>
                              </div>
                            );
@@ -1171,6 +1444,7 @@ export default function App() {
                        </div>
                      )}
                    </div>
+                   
                    <GoogleAdPlaceholder className="mt-6" />
                  </>
                ) : (
@@ -1194,7 +1468,10 @@ export default function App() {
                            const Icon = type.icon;
                            const isSelected = newHistory.type === type.id;
                            return (
-                             <button key={type.id} type="button" onClick={() => setNewHistory({...newHistory, type: type.id})} className={`flex flex-col items-center justify-center gap-1.5 px-1 py-3 rounded-xl border transition-all ${isSelected ? `${type.border} ${type.bg} shadow-sm scale-105` : 'border-slate-100 bg-white hover:bg-slate-50'}`}><Icon size={16} className={isSelected ? type.color : 'text-slate-300'} /><span className={`text-[10px] font-black ${isSelected ? type.color : 'text-slate-400'}`}>{type.id}</span></button>
+                             <button key={type.id} type="button" onClick={() => setNewHistory({...newHistory, type: type.id})} className={`flex flex-col items-center justify-center gap-1.5 px-1 py-3 rounded-xl border transition-all ${isSelected ? `${type.border} ${type.bg} shadow-sm scale-105` : 'border-slate-100 bg-white hover:bg-slate-50'}`}>
+                               <Icon size={16} className={isSelected ? type.color : 'text-slate-300'} />
+                               <span className={`text-[10px] font-black ${isSelected ? type.color : 'text-slate-400'}`}>{type.id}</span>
+                             </button>
                            )
                          })}
                        </div>
@@ -1205,7 +1482,9 @@ export default function App() {
                             <div><label className="text-[10px] font-bold text-slate-400 mb-1.5 block">약속 시간 *</label><input type="time" value={newHistory.time} onChange={e => setNewHistory({...newHistory, time: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 outline-none focus:border-rose-400" /></div>
                             <div><label className="text-[10px] font-bold text-slate-400 mb-1.5 block">알림 설정</label>
                               <div className="relative">
-                                <select value={newHistory.alarm} onChange={e => setNewHistory({...newHistory, alarm: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-4 pr-10 py-3 text-sm font-bold text-slate-800 outline-none focus:border-rose-400 appearance-none shadow-sm"><option>알림 없음</option><option>정각</option><option>1시간 전</option><option>하루 전</option></select>
+                                <select value={newHistory.alarm} onChange={e => setNewHistory({...newHistory, alarm: e.target.value})} className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-4 pr-10 py-3 text-sm font-bold text-slate-800 outline-none focus:border-rose-400 appearance-none shadow-sm">
+                                  <option>알림 없음</option><option>정각</option><option>1시간 전</option><option>하루 전</option>
+                                </select>
                                 <ChevronRight size={16} className="absolute right-4 top-3.5 text-slate-400 rotate-90 pointer-events-none" />
                               </div>
                             </div>
@@ -1231,6 +1510,7 @@ export default function App() {
              <div className="animate-in fade-in duration-300">
                {!isAddingProduct ? (
                  <div className="space-y-6">
+                   {/* 1. 신규 가입 상품 */}
                    <div>
                      <div className="flex justify-between items-center mb-3"><h4 className="text-xs font-black text-emerald-600 uppercase tracking-widest flex items-center gap-1.5"><ShieldCheck size={14}/> 신규 가입 상품</h4></div>
                      {!(selectedCustomer.products?.filter(p => p.origin === '가입상품' || p.origin === '신규 계약').length > 0) ? (
@@ -1256,6 +1536,7 @@ export default function App() {
                        </div>
                      )}
                    </div>
+                   {/* 2. 기존 가입 상품 */}
                    <div>
                      <div className="flex justify-between items-center mb-3"><h4 className="text-xs font-black text-slate-600 uppercase tracking-widest flex items-center gap-1.5"><Briefcase size={14}/> 기존 상품 (타사 포함)</h4></div>
                      {!(selectedCustomer.products?.filter(p => p.origin === '기존상품' || p.origin === '기존 가입').length > 0) ? (
@@ -1281,6 +1562,7 @@ export default function App() {
                        </div>
                      )}
                    </div>
+                   {/* 3. 추천/소개 상품 */}
                    <div>
                      <div className="flex justify-between items-center mb-3"><h4 className="text-xs font-black text-blue-600 uppercase tracking-widest flex items-center gap-1.5"><LayoutGrid size={14}/> 추천/소개 상품</h4></div>
                      {!(selectedCustomer.products?.filter(p => p.origin === '소개상품').length > 0) ? (
