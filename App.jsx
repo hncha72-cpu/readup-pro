@@ -1,57 +1,20 @@
+/* eslint-disable */
 import React, { useState, useEffect, useMemo } from 'react';
 import { 
-  UserPlus, 
-  Users, 
-  Home, 
-  Share2, 
-  Phone, 
-  Bell,
-  CheckCircle2,
-  X,
-  Wifi,
-  Battery,
-  Signal,
-  Camera,
-  Building2,
-  Briefcase,
-  UserCheck,
-  LayoutGrid,
-  Mail,
-  Loader2,
-  ChevronLeft,
-  MessageCircle,
-  Smartphone,
-  CheckSquare,
-  Square,
-  ToggleLeft,
-  ToggleRight,
-  ShieldCheck,
-  ChevronRight,
-  CalendarDays,
-  FileText,
-  Plus,
-  Search,
-  Check,
-  Hash,
-  Edit2,
-  MessageSquare,
-  Coffee,
-  CreditCard,
-  Clock,
-  MapPin,
-  ChevronDown,
-  ChevronUp
+  UserPlus, Users, Home, Share2, Phone, Bell, CheckCircle2, X, Wifi, Battery, Signal,
+  Camera, Building2, Briefcase, UserCheck, LayoutGrid, Mail, Loader2, ChevronLeft,
+  MessageCircle, Smartphone, CheckSquare, Square, ToggleLeft, ToggleRight, ShieldCheck,
+  ChevronRight, CalendarDays, FileText, Plus, Edit2, MessageSquare,
+  Coffee, CreditCard, Clock, MapPin, ChevronDown, ChevronUp, Hash
 } from 'lucide-react';
 
-const safeGet = (key) => { try { return localStorage.getItem(key); } catch(e) { return null; } };
-const safeSet = (key, val) => { try { localStorage.setItem(key, val); } catch(e) { console.warn("Storage restricted"); } };
-
-// === Firebase 서버 연동 라이브러리 임포트 ===
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore, collection, doc, setDoc, onSnapshot } from 'firebase/firestore';
 
-// 파이어베이스 설정 (부장님 제공 Config 적용)
+const safeGet = (key) => { try { return localStorage.getItem(key); } catch(e) { return null; } };
+const safeSet = (key, val) => { try { localStorage.setItem(key, val); } catch(e) { console.warn("Storage restricted"); } };
+
 let firebaseConfig;
 try {
   firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
@@ -169,6 +132,7 @@ export default function App() {
   const [customers, setCustomers] = useState([]);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [selectedTeamMember, setSelectedTeamMember] = useState(null);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [toast, setToast] = useState({ show: false, message: '' });
 
   const [customerTab, setCustomerTab] = useState('가망');
@@ -206,9 +170,7 @@ export default function App() {
   const [isAddingMemo, setIsAddingMemo] = useState(false);
   const [newMemoText, setNewMemoText] = useState('');
 
-  const [shareScope, setShareScope] = useState('basic');
   const [selectedShareMembers, setSelectedShareMembers] = useState([]);
-  const [shareSearchQuery, setShareSearchQuery] = useState('');
 
   const [tosAgreed, setTosAgreed] = useState({ all: false, service: false, privacy: false, marketing: false });
   const [isScanning, setIsScanning] = useState(false);
@@ -255,7 +217,6 @@ export default function App() {
   ]);
   const [popupData, setPopupData] = useState(null);
 
-  // === Firebase Auth 및 Firestore 데이터 동기화 ===
   useEffect(() => {
     if (appState === 'intro') {
       const timer = setTimeout(() => setAppState('login'), 2500);
@@ -325,20 +286,6 @@ export default function App() {
             products: [],
             history: [
               { id: 205, date: '2026-03-25', type: '제안서', note: '자녀 교육자금 마련 목적 상담. 변액유니버셜 상품 안내 자료 메일로 송부 완료.', author: '본인' }
-            ]
-          },
-          { 
-            id: 4, name: "박민수", company: "태양물산", position: "팀장", 
-            phone: "010-4444-5555", email: "ms.park@test.com", 
-            status: "가망", product: "종합건강보험", 
-            isSharedWithMe: true, ownerName: "이현우 차장",
-            lastContact: "2026-03-22", note: "이관 고객", createdAt: "2026-02-10",
-            hashtags: ['이관고객'], sharedWith: [1],
-            products: [
-              { id: 104, origin: '가입상품', category: '손해보험', company: 'DB손해보험', productType: '종합/건강/실손', name: '(무)참좋은 종합건강보험', amount: '1억원', enrollDate: '2026-03', author: '이현우 차장' }
-            ],
-            history: [
-              { id: 206, date: '2026-03-22', type: '메세지', note: '첫 인사 문자 발송', author: '이현우 차장' }
             ]
           }
         ];
