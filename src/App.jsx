@@ -699,7 +699,7 @@ export default function App() {
     const recentCustomers = [...customers].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 5);
 
     return (
-      // 💡 상단 패딩을 pt-1로 대폭 줄여 빈 공간(붕 뜨는 느낌)을 최소화했습니다.
+      // 💡 상단 패딩을 pt-1로 대폭 줄여 빈 공간(붕 뜨는 느낌)을 완전히 제거했습니다.
       <div className="px-5 pt-1 pb-32 space-y-4 animate-in fade-in duration-500 flex flex-col min-h-full">
         <header className="flex justify-between items-start">
           <div className="flex-1">
@@ -724,23 +724,36 @@ export default function App() {
           </div>
         </header>
 
-        <section className="grid grid-cols-3 gap-2 mt-1">
-          <button onClick={() => { setCustomerTab('가망'); setActiveTab('customers'); }} className="bg-white py-3.5 rounded-xl border border-slate-200 shadow-sm flex flex-col items-center justify-center hover:border-blue-300 active:bg-slate-50 transition-all">
-            <UserPlus size={14} className="text-blue-500 mb-1.5" />
-            <h4 className="text-[10px] font-black text-slate-700 whitespace-nowrap tracking-tight">가망 고객</h4>
-            <p className="text-sm font-black text-blue-600 leading-none mt-1">{customers.filter(c => c.status === '가망' && !c.isSharedWithMe).length}<span className="text-[8px] font-bold text-slate-400 ml-0.5">명</span></p>
+        {/* 💡 요청하신 대시보드 버튼 3개 (가망/가입/거래처)의 그라데이션 및 카드형 디자인 반영 */}
+        <section className="grid grid-cols-3 gap-2.5 mt-1">
+          {/* 1. 가망 고객 카드 (Blue Theme) */}
+          <button onClick={() => { setCustomerTab('가망'); setActiveTab('customers'); }} className="relative overflow-hidden bg-gradient-to-br from-blue-500 to-indigo-600 p-3.5 rounded-2xl shadow-lg shadow-blue-500/20 flex flex-col items-start justify-between active:scale-95 transition-all border border-blue-400/30 min-h-[90px]">
+            <UserPlus size={54} strokeWidth={1} className="absolute -right-2 -bottom-2 text-white opacity-15 pointer-events-none" />
+            <div className="flex items-center gap-1.5 z-10">
+              <div className="bg-white/20 p-1 rounded-md backdrop-blur-md shadow-sm"><UserPlus size={12} className="text-white" /></div>
+              <h4 className="text-[10px] font-black text-blue-50 whitespace-nowrap tracking-tight">가망 고객</h4>
+            </div>
+            <p className="text-2xl font-black text-white leading-none z-10 mt-3">{customers.filter(c => c.status === '가망' && !c.isSharedWithMe).length}<span className="text-[10px] font-bold text-blue-100/80 ml-0.5">명</span></p>
           </button>
           
-          <button onClick={() => { setCustomerTab('가입'); setActiveTab('customers'); }} className="bg-white py-3.5 rounded-xl border border-slate-200 shadow-sm flex flex-col items-center justify-center hover:border-emerald-300 active:bg-slate-50 transition-all">
-            <UserCheck size={14} className="text-emerald-500 mb-1.5" />
-            <h4 className="text-[10px] font-black text-slate-700 whitespace-nowrap tracking-tight">가입 고객</h4>
-            <p className="text-sm font-black text-emerald-600 leading-none mt-1">{customers.filter(c => c.status === '가입' && !c.isSharedWithMe).length}<span className="text-[8px] font-bold text-slate-400 ml-0.5">명</span></p>
+          {/* 2. 가입 고객 카드 (Emerald Theme) */}
+          <button onClick={() => { setCustomerTab('가입'); setActiveTab('customers'); }} className="relative overflow-hidden bg-gradient-to-br from-emerald-400 to-teal-500 p-3.5 rounded-2xl shadow-lg shadow-emerald-500/20 flex flex-col items-start justify-between active:scale-95 transition-all border border-emerald-300/30 min-h-[90px]">
+            <UserCheck size={54} strokeWidth={1} className="absolute -right-2 -bottom-2 text-white opacity-15 pointer-events-none" />
+            <div className="flex items-center gap-1.5 z-10">
+              <div className="bg-white/20 p-1 rounded-md backdrop-blur-md shadow-sm"><UserCheck size={12} className="text-white" /></div>
+              <h4 className="text-[10px] font-black text-emerald-50 whitespace-nowrap tracking-tight">가입 고객</h4>
+            </div>
+            <p className="text-2xl font-black text-white leading-none z-10 mt-3">{customers.filter(c => c.status === '가입' && !c.isSharedWithMe).length}<span className="text-[10px] font-bold text-emerald-100/80 ml-0.5">명</span></p>
           </button>
           
-          <button onClick={() => { setCustomerTab('거래처'); setActiveTab('customers'); }} className="bg-white py-3.5 rounded-xl border border-slate-200 shadow-sm flex flex-col items-center justify-center hover:border-orange-300 active:bg-slate-50 transition-all">
-            <Briefcase size={14} className="text-orange-500 mb-1.5" />
-            <h4 className="text-[10px] font-black text-slate-700 whitespace-nowrap tracking-tight">거래처</h4>
-            <p className="text-sm font-black text-orange-600 leading-none mt-1">{customers.filter(c => c.status === '거래처' && !c.isSharedWithMe).length}<span className="text-[8px] font-bold text-slate-400 ml-0.5">곳</span></p>
+          {/* 3. 거래처 카드 (Orange Theme) */}
+          <button onClick={() => { setCustomerTab('거래처'); setActiveTab('customers'); }} className="relative overflow-hidden bg-gradient-to-br from-orange-400 to-rose-400 p-3.5 rounded-2xl shadow-lg shadow-orange-500/20 flex flex-col items-start justify-between active:scale-95 transition-all border border-orange-300/30 min-h-[90px]">
+            <Briefcase size={54} strokeWidth={1} className="absolute -right-2 -bottom-2 text-white opacity-15 pointer-events-none" />
+            <div className="flex items-center gap-1.5 z-10">
+              <div className="bg-white/20 p-1 rounded-md backdrop-blur-md shadow-sm"><Briefcase size={12} className="text-white" /></div>
+              <h4 className="text-[10px] font-black text-orange-50 whitespace-nowrap tracking-tight">거래처</h4>
+            </div>
+            <p className="text-2xl font-black text-white leading-none z-10 mt-3">{customers.filter(c => c.status === '거래처' && !c.isSharedWithMe).length}<span className="text-[10px] font-bold text-orange-100/80 ml-0.5">곳</span></p>
           </button>
         </section>
 
@@ -752,7 +765,7 @@ export default function App() {
           
           <div className="flex overflow-x-auto hide-scrollbar gap-4 pb-4 pt-1 -mx-5 px-5 snap-x snap-mandatory">
             {recentCustomers.length > 0 ? recentCustomers.map(customer => (
-              /* 💡 메인 명함 크기를 w-[280px] ➔ w-[315px]로 15% 확대하고 입체적인 그림자 추가 */
+              /* 💡 메인 명함 크기를 w-[280px] ➔ w-[315px]로 15% 확대하고 부드러운 입체 그림자 추가 */
               <div key={customer.id} onClick={() => { setSelectedCustomer(customer); setCustomerDetailTab('기본정보'); }} className="w-[315px] h-[175px] rounded-[1.25rem] bg-white shadow-[0_8px_30px_-12px_rgba(0,0,0,0.12)] border border-slate-200 p-5 relative overflow-hidden flex-shrink-0 snap-start cursor-pointer active:scale-[0.98] transition-transform">
                 <div className="flex justify-between items-start mb-4">
                   <div>
@@ -914,8 +927,8 @@ export default function App() {
           ))
         )}
       </div>
-    </div>
-  );
+    );
+  };
 
   const renderTeamMockPage = () => {
     const deptMembers = TEAM_MEMBERS.filter(m => m.dept === '영업1팀');
@@ -947,7 +960,7 @@ export default function App() {
 
         <div className="space-y-3">
            {displayMembers.map(member => (
-             <div key={member.id} onClick={() => setSelectedTeamMember(member)} className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between hover:border-indigo-300 hover:shadow-md transition-all group cursor-pointer active:scale-[0.98]">
+             <div key={member.id} onClick={() => setSelectedTeamMember(member)} className="bg-white p-4 rounded-2xl border border-slate-200 shadow-md flex items-center justify-between hover:border-indigo-300 hover:shadow-md transition-all group cursor-pointer active:scale-[0.98]">
                <div className="flex items-center gap-4">
                  <div className="w-12 h-12 bg-slate-50 border border-slate-200 text-slate-500 shadow-sm rounded-full flex items-center justify-center text-lg font-black group-hover:bg-indigo-50 group-hover:text-indigo-600 group-hover:border-indigo-200 transition-colors">{member.name[0]}</div>
                  <div>
@@ -1075,7 +1088,7 @@ export default function App() {
         </div>
 
         <div className="p-5 pb-10">
-           <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+           <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-md space-y-4">
              <div>
                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">소속</p>
                <p className="text-sm font-black text-slate-800">{userProfile.company || '대한생명'} {selectedTeamMember.dept}</p>
@@ -1209,7 +1222,7 @@ export default function App() {
         <div className="p-5 pb-10">
           {customerDetailTab === '기본정보' && (
              <div className="space-y-3 animate-in fade-in duration-300">
-               <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+               <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-md">
                  <div className="flex justify-between items-center mb-2">
                    <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">고객 분류 상태 (원본)</p>
                    {!isEditingStatus && !selectedCustomer.isSharedWithMe && (
@@ -1246,7 +1259,7 @@ export default function App() {
                  )}
                </div>
 
-               <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+               <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-md">
                  <div className="flex justify-between items-center mb-2.5">
                    <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-1.5"><Hash size={12}/> 커스텀 해시태그</p>
                    <button onClick={() => setIsAddingHashtag(true)} className="w-6 h-6 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 shadow-sm flex items-center justify-center hover:bg-indigo-100 transition-colors"><Plus size={14}/></button>
@@ -1279,7 +1292,7 @@ export default function App() {
                </div>
 
                {!selectedCustomer.isSharedWithMe && (
-                 <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex justify-between items-center cursor-pointer hover:border-indigo-300 transition-colors" onClick={() => { setShareSearchQuery(''); setSelectedShareMembers(selectedCustomer.sharedWith || []); setIsShareModalOpen(true); }}>
+                 <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-md flex justify-between items-center cursor-pointer hover:border-indigo-300 transition-colors" onClick={() => { setShareSearchQuery(''); setSelectedShareMembers(selectedCustomer.sharedWith || []); setIsShareModalOpen(true); }}>
                    <div>
                      <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1.5">공동 관리 팀원 <span className="text-indigo-600 ml-1 font-black">{(selectedCustomer.sharedWith || []).length}명</span></p>
                      <div className="flex items-center gap-2">
@@ -1301,7 +1314,7 @@ export default function App() {
                  </div>
                )}
 
-               <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex justify-between items-center">
+               <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-md flex justify-between items-center">
                  <div className="flex-1">
                    <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1.5">최초 등록 일자</p>
                    <div className="flex items-center gap-2">
@@ -1334,7 +1347,7 @@ export default function App() {
                      </button>
                    </div>
                    
-                   <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                   <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-md">
                      {!(selectedCustomer.history?.length > 0) ? (
                         <div className="text-center py-8 text-slate-400 text-xs font-bold">등록된 상담 이력이 없습니다.</div>
                      ) : (
@@ -1401,7 +1414,7 @@ export default function App() {
                          <button type="button" onClick={() => setNewHistory({...newHistory, date: getOffsetDate(0)})} className="flex-1 py-1.5 bg-indigo-600 text-white shadow-md shadow-indigo-200 rounded-lg text-[10px] font-black border border-indigo-600">오늘</button>
                          <button type="button" onClick={() => setNewHistory({...newHistory, date: getOffsetDate(1)})} className="flex-1 py-1.5 bg-slate-100 text-slate-600 border border-slate-200 shadow-sm rounded-lg text-[10px] font-black hover:bg-slate-200">내일</button>
                        </div>
-                       <input type="date" value={newHistory.date} onChange={e => setNewHistory({...newHistory, date: e.target.value})} className="w-full bg-white border border-slate-300 shadow-sm rounded-xl px-4 py-3 text-sm font-black text-slate-800 outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400" />
+                       <input type="date" value={newHistory.date} onChange={e => setNewHistory({...newHistory, date: e.target.value})} className="w-full bg-white border border-slate-300 shadow-sm rounded-xl px-4 py-3 text-sm font-black text-slate-900 outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400" />
                      </div>
                      <div>
                        <label className="text-[10px] font-bold text-slate-500 mb-2 block">상담 채널 / 방식</label>
@@ -1421,22 +1434,22 @@ export default function App() {
                      {newHistory.type === '미팅약속' && (
                        <div className="space-y-4 animate-in fade-in duration-300 border-t border-slate-100 pt-4 mt-4">
                           <div className="grid grid-cols-2 gap-3">
-                            <div><label className="text-[10px] font-bold text-slate-500 mb-1.5 block">약속 시간 *</label><input type="time" value={newHistory.time} onChange={e => setNewHistory({...newHistory, time: e.target.value})} className="w-full bg-white shadow-sm border border-slate-300 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 outline-none focus:ring-2 focus:ring-rose-100 focus:border-rose-400" /></div>
+                            <div><label className="text-[10px] font-bold text-slate-500 mb-1.5 block">약속 시간 *</label><input type="time" value={newHistory.time} onChange={e => setNewHistory({...newHistory, time: e.target.value})} className="w-full bg-white shadow-sm border border-slate-300 rounded-xl px-4 py-3 text-sm font-bold text-slate-900 outline-none focus:ring-2 focus:ring-rose-100 focus:border-rose-400" /></div>
                             <div><label className="text-[10px] font-bold text-slate-500 mb-1.5 block">알림 설정</label>
                               <div className="relative">
-                                <select value={newHistory.alarm} onChange={e => setNewHistory({...newHistory, alarm: e.target.value})} className="w-full bg-white shadow-sm border border-slate-300 rounded-xl pl-4 pr-10 py-3 text-sm font-bold text-slate-800 outline-none focus:ring-2 focus:ring-rose-100 focus:border-rose-400 appearance-none">
+                                <select value={newHistory.alarm} onChange={e => setNewHistory({...newHistory, alarm: e.target.value})} className="w-full bg-white shadow-sm border border-slate-300 rounded-xl pl-4 pr-10 py-3 text-sm font-bold text-slate-900 outline-none focus:ring-2 focus:ring-rose-100 focus:border-rose-400 appearance-none">
                                   <option>알림 없음</option><option>정각</option><option>1시간 전</option><option>하루 전</option>
                                 </select>
                                 <ChevronRight size={16} className="absolute right-4 top-3.5 text-slate-400 rotate-90 pointer-events-none" />
                               </div>
                             </div>
                           </div>
-                          <div><label className="text-[10px] font-bold text-slate-500 mb-1.5 block">미팅 장소 *</label><input type="text" placeholder="예: 강남역 3번출구 스타벅스" value={newHistory.location} onChange={e => setNewHistory({...newHistory, location: e.target.value})} className="w-full bg-white shadow-sm border border-slate-300 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 outline-none focus:ring-2 focus:ring-rose-100 focus:border-rose-400" /></div>
+                          <div><label className="text-[10px] font-bold text-slate-500 mb-1.5 block">미팅 장소 *</label><input type="text" placeholder="예: 강남역 3번출구 스타벅스" value={newHistory.location} onChange={e => setNewHistory({...newHistory, location: e.target.value})} className="w-full bg-white shadow-sm border border-slate-300 rounded-xl px-4 py-3 text-sm font-bold text-slate-900 outline-none focus:ring-2 focus:ring-rose-100 focus:border-rose-400" /></div>
                        </div>
                      )}
                      <div>
                        <label className="text-[10px] font-bold text-slate-500 mb-2 block">{newHistory.type === '미팅약속' ? '미팅 목적 / 특이사항' : '상담 내용'}</label>
-                       <textarea rows="4" placeholder={newHistory.type === '미팅약속' ? "미팅의 목적이나 사전에 준비할 특이사항을 기록해 주세요." : "고객과의 상담 내용이나 특이사항을 상세히 기록해 주세요."} value={newHistory.note} onChange={e => setNewHistory({...newHistory, note: e.target.value})} className="w-full bg-white shadow-inner border border-slate-300 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400 resize-none leading-relaxed"></textarea>
+                       <textarea rows="4" placeholder={newHistory.type === '미팅약속' ? "미팅의 목적이나 사전에 준비할 특이사항을 기록해 주세요." : "고객과의 상담 내용이나 특이사항을 상세히 기록해 주세요."} value={newHistory.note} onChange={e => setNewHistory({...newHistory, note: e.target.value})} className="w-full bg-white shadow-inner border border-slate-300 rounded-xl px-4 py-3 text-sm font-bold text-slate-900 outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400 resize-none leading-relaxed"></textarea>
                      </div>
                    </div>
                    <div className="flex gap-2 pt-2">
@@ -1464,7 +1477,7 @@ export default function App() {
                            const compData = catData[p.company] || { color: '#64748B' };
                            const bgColor = compData.color;
                            return (
-                             <div key={p.id} className="bg-white p-4 rounded-2xl border border-emerald-200 shadow-sm relative overflow-hidden">
+                             <div key={p.id} className="bg-white p-4 rounded-2xl border border-emerald-200 shadow-md relative overflow-hidden">
                                <div className="absolute top-0 left-0 w-1.5 h-full" style={{ backgroundColor: bgColor }}></div>
                                <div className="flex justify-between items-center mb-1.5 pl-2">
                                  <div className="flex items-center gap-1.5"><span className="text-[9px] font-black px-1.5 py-0.5 rounded shadow-sm border" style={{ color: bgColor, backgroundColor: `${bgColor}15`, borderColor: `${bgColor}30` }}>{p.company}</span><span className="text-[9px] font-bold text-slate-500 flex items-center gap-1"><span className="text-emerald-500 font-black">[{p.origin}]</span> {p.enrollDate} 가입</span></div>
@@ -1490,7 +1503,7 @@ export default function App() {
                            const compData = catData[p.company] || { color: '#64748B' };
                            const bgColor = compData.color;
                            return (
-                             <div key={p.id} className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden">
+                             <div key={p.id} className="bg-white p-4 rounded-2xl border border-slate-200 shadow-md relative overflow-hidden">
                                <div className="absolute top-0 left-0 w-1.5 h-full bg-slate-400"></div>
                                <div className="flex justify-between items-center mb-1.5 pl-2">
                                  <div className="flex items-center gap-1.5"><span className="text-[9px] font-black px-1.5 py-0.5 rounded shadow-sm border" style={{ color: bgColor, backgroundColor: `${bgColor}15`, borderColor: `${bgColor}30` }}>{p.company}</span><span className="text-[9px] font-bold text-slate-500">{p.enrollDate} 가입</span></div>
@@ -1516,7 +1529,7 @@ export default function App() {
                            const compData = catData[p.company] || { color: '#64748B' };
                            const bgColor = compData.color;
                            return (
-                             <div key={p.id} className="bg-white p-4 rounded-2xl border border-blue-200 shadow-sm relative overflow-hidden">
+                             <div key={p.id} className="bg-white p-4 rounded-2xl border border-blue-200 shadow-md relative overflow-hidden">
                                <div className="absolute top-0 left-0 w-1.5 h-full" style={{ backgroundColor: bgColor }}></div>
                                <div className="flex justify-between items-center mb-1.5 pl-2">
                                  <div className="flex items-center gap-1.5"><span className="text-[9px] font-black px-1.5 py-0.5 rounded shadow-sm border" style={{ color: bgColor, backgroundColor: `${bgColor}15`, borderColor: `${bgColor}30` }}>{p.company}</span><span className="text-[9px] font-bold text-slate-500 flex items-center gap-1"><span className="text-blue-500 font-black">[{p.origin}]</span> {p.enrollDate} 추천</span></div>
@@ -1609,7 +1622,7 @@ export default function App() {
                      <h3 className="text-xs font-black text-slate-800">전체 상담 메모</h3>
                      <button onClick={() => { setIsAddingMemo(true); setNewMemoText(''); }} className="text-[10px] font-bold text-indigo-600 bg-indigo-50 border border-indigo-100 px-3 py-1.5 rounded-lg flex items-center gap-1 hover:bg-indigo-100 transition-colors shadow-sm"><Plus size={12} strokeWidth={3} /> 신규 메모 추가</button>
                    </div>
-                   <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm min-h-[200px] flex flex-col">
+                   <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-md min-h-[200px] flex flex-col">
                      <div className="flex-1 space-y-4">
                        {selectedCustomer.history && selectedCustomer.history.filter(h => h.type === '메모').length > 0 ? (
                          selectedCustomer.history.filter(h => h.type === '메모').map(h => {
@@ -1714,7 +1727,7 @@ export default function App() {
                 </div>
                 {renderBottomNav()}
 
-                {/* 내 명함 관리 */}
+                {/* 내 명함 관리 모달 */}
                 {isMyCardsModalOpen && (
                   <div className="absolute inset-0 z-[200] flex items-end justify-center animate-in fade-in duration-200">
                     <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={() => setIsMyCardsModalOpen(false)} />
@@ -1746,7 +1759,7 @@ export default function App() {
                   </div>
                 )}
 
-                {/* 메인 카메라 모달 */}
+                {/* 메인 카메라 스캐너 기능 모달 */}
                 {isMainScanning && (
                   <div className="absolute inset-0 z-[300] bg-slate-900 flex flex-col animate-in fade-in duration-300">
                     <div className="flex justify-between items-center p-5 text-white pt-14"><h2 className="text-lg font-black">신규 고객 등록</h2><button onClick={() => setIsMainScanning(false)}><X size={24}/></button></div>
