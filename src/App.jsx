@@ -45,7 +45,7 @@ try {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-const appId = typeof __app_id !== 'undefined' ? __app_id : 'leadup-pro-v1'; // LeadUp으로 변경됨
+const appId = typeof __app_id !== 'undefined' ? __app_id : 'leadup-pro-v1'; 
 
 const GoogleAdPlaceholder = ({ type = 'banner', className = '' }) => {
   let sizeClass = 'h-[100px]'; 
@@ -53,8 +53,8 @@ const GoogleAdPlaceholder = ({ type = 'banner', className = '' }) => {
   if (type === 'infeed') sizeClass = 'h-[120px]'; 
 
   return (
-    <div className={`bg-slate-200 border-2 border-dashed border-slate-300 rounded-2xl flex flex-col items-center justify-center text-center p-4 shadow-inner ${sizeClass} ${className}`}>
-      <div className="w-8 h-8 rounded-full bg-slate-300 flex items-center justify-center mb-2 shadow-sm">
+    <div className={`bg-slate-200/60 border-2 border-dashed border-slate-300 rounded-2xl flex flex-col items-center justify-center text-center p-4 shadow-inner ${sizeClass} ${className}`}>
+      <div className="w-8 h-8 rounded-full bg-slate-300/50 flex items-center justify-center mb-2 shadow-sm">
         <CreditCard size={16} className="text-slate-500" />
       </div>
       <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Google AdMob</p>
@@ -63,7 +63,6 @@ const GoogleAdPlaceholder = ({ type = 'banner', className = '' }) => {
   );
 };
 
-// 보험사 전체 데이터 복구
 const INSURANCE_DATA = {
   '생명보험': {
     '삼성생명': { color: '#005BAC', types: { '종신/정기': ['(무)삼성생명 다(多)모은 종신보험', '(무)삼성생명 든든플러스 종신보험', '(무)삼성생명 경영인정기보험', '(무)삼성생명 에이스 종신보험', '직접 입력'], '건강/암/간병': ['(무)삼성생명 백세시대 간병보험', '(무)삼성생명 다(多)모은 건강보험', '(무)삼성 치매보장보험', '(무)삼성생명 올인원 암보험', '직접 입력'], '연금/저축': ['(무)삼성 연금저축보험', '(무)삼성 인터넷 연금보험', '(무)삼성생명 모아모아 저축보험', '직접 입력'], '변액/기타': ['(무)변액유니버셜종신', '(무)삼성생명 변액연금보험', '(무)삼성생명 인덱스 펀드 연금', '직접 입력']}},
@@ -140,21 +139,15 @@ export default function App() {
   const [toast, setToast] = useState({ show: false, message: '' });
 
   const [customerTab, setCustomerTab] = useState('가망');
-  const [customerDetailTab, setCustomerDetailTab] = useState('기본정보'); // 💡 4개 탭 상태 복구 완료
+  const [customerDetailTab, setCustomerDetailTab] = useState('기본정보'); 
 
   const [isEditingStatus, setIsEditingStatus] = useState(false);
   const [tempStatus, setTempStatus] = useState('');
 
   const [isAddingProduct, setIsAddingProduct] = useState(false);
   const [newProduct, setNewProduct] = useState({
-    origin: '가입상품', 
-    category: '생명보험', 
-    company: '삼성생명', 
-    productType: '종신/정기',
-    name: '(무)삼성생명 다(多)모은 종신보험', 
-    isCustomName: false,
-    customName: '',
-    amount: '', 
+    origin: '가입상품', category: '생명보험', company: '삼성생명', productType: '종신/정기',
+    name: '(무)삼성생명 다(多)모은 종신보험', isCustomName: false, customName: '', amount: '', 
     enrollDate: new Date().toISOString().split('T')[0].substring(0, 7)
   });
 
@@ -162,9 +155,7 @@ export default function App() {
   const [hashtagInput, setHashtagInput] = useState('');
 
   const [isAddingHistory, setIsAddingHistory] = useState(false);
-  const [newHistory, setNewHistory] = useState({
-    type: '통화', date: new Date().toISOString().split('T')[0], time: '', location: '', alarm: '알림 없음', note: ''
-  });
+  const [newHistory, setNewHistory] = useState({ type: '통화', date: new Date().toISOString().split('T')[0], time: '', location: '', alarm: '알림 없음', note: '' });
 
   const [isAddingMemo, setIsAddingMemo] = useState(false);
   const [newMemoText, setNewMemoText] = useState('');
@@ -172,7 +163,7 @@ export default function App() {
   const [shareScope, setShareScope] = useState('basic');
   const [selectedShareMembers, setSelectedShareMembers] = useState([]);
   const [shareSearchQuery, setShareSearchQuery] = useState('');
-  const [isShareModalOpen, setIsShareModalOpen] = useState(false); // 💡 공유 모달 상태
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false); 
 
   const [tosAgreed, setTosAgreed] = useState({ all: false, service: false, privacy: false, marketing: false });
   const [isScanning, setIsScanning] = useState(false);
@@ -180,9 +171,7 @@ export default function App() {
   const [isMainScanning, setIsMainScanning] = useState(false);
   const [mainScanStep, setMainScanStep] = useState('choice'); 
   const [scannedData, setScannedData] = useState(null);
-  const [manualData, setManualData] = useState({
-    name: '', phone: '', job: '회사원', company: '', dept: '', position: ''
-  });
+  const [manualData, setManualData] = useState({ name: '', phone: '', job: '회사원', company: '', dept: '', position: '' });
 
   const [teamTab, setTeamTab] = useState('dept');
   const [myBusinessCards, setMyBusinessCards] = useState([]);
@@ -203,23 +192,12 @@ export default function App() {
       id: 1, type: '공유', icon: Share2, color: 'text-purple-600', bg: 'bg-purple-100', 
       title: "고객 공유 요청", desc: "이현우 차장님이 '강동원' 고객님의 공동 관리를 요청했습니다.", time: "방금 전", isNew: true, 
       payload: { id: 999, name: "강동원", company: "스타트업", position: "대표", phone: "010-9999-8888", email: "kang@startup.com", status: "가망", product: "경영인정기보험", isSharedWithMe: true, ownerName: "이현우 차장", lastContact: new Date().toISOString().split('T')[0], note: "법인 자금 및 대표이사 리스크 대비 상담 요청", createdAt: new Date().toISOString().split('T')[0], hashtags: ['CEO', '법인'], sharedWith: [1], products: [], history: [] } 
-    },
-    { 
-      id: 2, type: '약속', icon: Clock, color: 'text-rose-600', bg: 'bg-rose-100', 
-      title: "오후 3시 고객 미팅", desc: "김태양 고객님 - 상속세 관련 추가 상담 (강남역 스타벅스)", time: "2시간 전", isNew: true, 
-      payload: { name: "김태양", phone: "010-1234-5678", time: "15:00", location: "강남역 3번출구 스타벅스", note: "상속세 관련 추가 상담 진행 및 가입 제안서 전달 예정" } 
-    },
-    { 
-      id: 3, type: '공지', icon: Bell, color: 'text-blue-600', bg: 'bg-blue-100', 
-      title: "신규 상품 업데이트", desc: "다이렉트 및 외국계 보험사 상품군이 DB에 추가되었습니다.", time: "어제", isNew: false, 
-      payload: { fullText: "안녕하세요. 시스템 관리자입니다.\n\n이번 업데이트를 통해 생명보험사와 다이렉트 전용 손해보험사 상품 데이터가 대거 추가되었습니다.\n\n고객 상품 등록 시 3단계 세부분류 탭에서 바로 확인하실 수 있습니다.\n\n감사합니다." } 
     }
   ]);
   const [popupData, setPopupData] = useState(null);
 
   const fileInputRef = useRef(null);
 
-  // === Firebase Auth 및 Firestore 데이터 동기화 복구 ===
   useEffect(() => {
     if (appState === 'intro') {
       const timer = setTimeout(() => setAppState('login'), 2500);
@@ -572,14 +550,14 @@ export default function App() {
 
 
   // ==========================================
-  // 렌더링 함수들 (LeadUp 디자인 완전체 복구)
+  // 렌더링 함수들 (LeadUp 디자인 개선본)
   // ==========================================
 
   const renderIntroPage = () => (
     <div className="absolute inset-0 z-[200] bg-slate-50 flex flex-col items-center justify-center animate-in fade-in duration-700">
       <div className="flex flex-col items-center gap-6 animate-in zoom-in-95 duration-1000">
         <div className="w-24 h-24 bg-indigo-600 rounded-[2rem] shadow-2xl flex items-center justify-center text-white"><ShieldCheck size={48} strokeWidth={1.5} /></div>
-        <div className="text-center space-y-2"><h1 className="text-4xl font-black text-slate-900 tracking-tighter">LeadUp <span className="text-indigo-600">Pro</span></h1><p className="text-xs font-bold text-slate-400 tracking-widest uppercase">Insurance Sales Master</p></div>
+        <div className="text-center space-y-2"><h1 className="text-4xl font-black text-slate-800 tracking-tighter">LeadUp <span className="text-indigo-600">Pro</span></h1><p className="text-xs font-bold text-slate-400 tracking-widest uppercase">Insurance Sales Master</p></div>
       </div>
       <div className="absolute bottom-20"><Loader2 className="w-6 h-6 text-indigo-600 animate-spin" /></div>
     </div>
@@ -589,14 +567,14 @@ export default function App() {
     <div className="absolute inset-0 z-[190] bg-slate-50 flex flex-col px-8 pt-24 pb-12 animate-in slide-in-from-right duration-300">
       <div className="flex-1">
         <div className="w-16 h-16 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center mb-6 shadow-sm"><UserPlus size={32} /></div>
-        <h1 className="text-3xl font-black text-slate-900 tracking-tight leading-tight">영업의 시작,<br/>리드업과 함께하세요</h1>
+        <h1 className="text-3xl font-black text-slate-800 tracking-tight leading-tight">영업의 시작,<br/>리드업과 함께하세요</h1>
         <p className="text-sm font-bold text-slate-500 mt-4 leading-relaxed">고객 관리부터 팀 협업까지<br/>보험 영업 프로를 위한 완벽한 솔루션</p>
       </div>
       <div className="space-y-3">
         <button onClick={() => setAppState('terms')} className="w-full bg-[#FEE500] text-[#000000] py-4 rounded-2xl font-black text-sm flex items-center justify-center gap-3 active:scale-95 transition-transform shadow-md border border-yellow-400/50"><MessageCircle size={18} className="fill-black" /> 카카오로 3초 만에 시작하기</button>
         <button onClick={() => setAppState('terms')} className="w-full bg-[#03C75A] text-white py-4 rounded-2xl font-black text-sm flex items-center justify-center gap-3 active:scale-95 transition-transform shadow-sm"><span className="font-extrabold text-lg leading-none">N</span> 네이버로 시작하기</button>
         <button onClick={() => setAppState('terms')} className="w-full bg-white text-slate-800 border border-slate-200 py-4 rounded-2xl font-black text-sm flex items-center justify-center gap-3 active:scale-95 transition-transform shadow-sm"><svg className="w-4 h-4" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg> Google로 시작하기</button>
-        <button onClick={() => setAppState('terms')} className="w-full bg-slate-900 text-white py-4 rounded-2xl font-black text-sm flex items-center justify-center gap-3 active:scale-95 transition-transform shadow-sm mt-2"><Smartphone size={18} /> 휴대폰 번호로 가입하기</button>
+        <button onClick={() => setAppState('terms')} className="w-full bg-slate-800 text-white py-4 rounded-2xl font-black text-sm flex items-center justify-center gap-3 active:scale-95 transition-transform shadow-sm mt-2"><Smartphone size={18} /> 휴대폰 번호로 가입하기</button>
       </div>
     </div>
   );
@@ -606,9 +584,9 @@ export default function App() {
     const canProceed = tosAgreed.service && tosAgreed.privacy;
     return (
       <div className="absolute inset-0 z-[180] bg-slate-100 flex flex-col px-6 pt-20 pb-10 animate-in slide-in-from-right duration-300">
-        <h2 className="text-2xl font-black text-slate-900 mb-8">서비스 이용 약관에<br/>동의해 주세요.</h2>
+        <h2 className="text-2xl font-black text-slate-800 mb-8">서비스 이용 약관에<br/>동의해 주세요.</h2>
         <div className="bg-white rounded-3xl p-6 shadow-md border border-slate-200 space-y-6 flex-1">
-          <div className="flex items-center gap-3 pb-6 border-b border-slate-100 cursor-pointer" onClick={handleToggleAll}>{tosAgreed.all ? <CheckSquare size={24} className="text-indigo-600" /> : <Square size={24} className="text-slate-300" />} <span className="font-black text-lg text-slate-900">약관 전체 동의</span></div>
+          <div className="flex items-center gap-3 pb-6 border-b border-slate-100 cursor-pointer" onClick={handleToggleAll}>{tosAgreed.all ? <CheckSquare size={24} className="text-indigo-600" /> : <Square size={24} className="text-slate-300" />} <span className="font-black text-lg text-slate-800">약관 전체 동의</span></div>
           <div className="space-y-5">
             <div className="flex items-center justify-between cursor-pointer" onClick={() => setTosAgreed({...tosAgreed, service: !tosAgreed.service})}><div className="flex items-center gap-3">{tosAgreed.service ? <CheckSquare size={20} className="text-indigo-600" /> : <Square size={20} className="text-slate-300" />}<span className="font-bold text-sm text-slate-700">[필수] LeadUp 서비스 이용약관</span></div></div>
             <div className="flex items-center justify-between cursor-pointer" onClick={() => setTosAgreed({...tosAgreed, privacy: !tosAgreed.privacy})}><div className="flex items-center gap-3">{tosAgreed.privacy ? <CheckSquare size={20} className="text-indigo-600" /> : <Square size={20} className="text-slate-300" />}<span className="font-bold text-sm text-slate-700">[필수] 개인정보 수집 및 이용 동의</span></div></div>
@@ -639,9 +617,9 @@ export default function App() {
 
   const renderProfileStep1Page = () => (
     <div className="absolute inset-0 z-[160] bg-slate-100 flex flex-col animate-in slide-in-from-right duration-300">
-      <div className="bg-white px-6 pt-14 pb-5 border-b border-slate-200 sticky top-0 z-10 shadow-sm flex items-center justify-between"><div><h2 className="text-2xl font-black text-slate-900">프로필 등록 <span className="text-indigo-600 ml-1">1/2</span></h2><p className="text-[11px] font-bold text-slate-500 mt-1">스캔된 명함 정보를 확인하고 수정하세요.</p></div></div>
+      <div className="bg-white px-6 pt-14 pb-5 border-b border-slate-200 sticky top-0 z-10 shadow-sm flex items-center justify-between"><div><h2 className="text-2xl font-black text-slate-800">프로필 등록 <span className="text-indigo-600 ml-1">1/2</span></h2><p className="text-[11px] font-bold text-slate-500 mt-1">스캔된 명함 정보를 확인하고 수정하세요.</p></div></div>
       <div className="flex-1 overflow-y-auto px-6 py-6 space-y-6 pb-32 hide-scrollbar">
-        <div className="bg-gradient-to-br from-slate-800 to-black rounded-2xl p-5 text-white shadow-xl aspect-[1.6/1] flex flex-col justify-between relative overflow-hidden">
+        <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-5 text-white shadow-xl aspect-[1.6/1] flex flex-col justify-between relative overflow-hidden">
            <div className="absolute -right-10 -top-10 w-40 h-40 bg-white/10 rounded-full blur-3xl pointer-events-none"></div>
            <div><p className="text-[10px] font-black text-slate-400 tracking-widest">{userProfile.company}</p><p className="text-[10px] font-bold text-slate-300 mt-0.5">{userProfile.dept1} {userProfile.dept2}</p><h3 className="text-2xl font-black mt-2 tracking-tight">{userProfile.name} <span className="text-xs font-bold text-slate-400 ml-1">{userProfile.position}</span></h3></div>
            <div><p className="text-[11px] font-bold text-slate-300 flex items-center gap-2"><Phone size={12}/> {userProfile.phone || '연락처 없음'}</p></div>
@@ -649,12 +627,12 @@ export default function App() {
         <div className="space-y-4">
           <h3 className="text-xs font-black text-indigo-600 uppercase tracking-widest flex items-center gap-1.5"><CheckCircle2 size={14}/> 스캔 정보 검토</h3>
           <div className="grid grid-cols-2 gap-3">
-            <div className="col-span-2"><label className="text-[10px] font-bold text-slate-500 ml-1">소속 회사</label><input type="text" value={userProfile.company} onChange={e=>setUserProfile({...userProfile, company:e.target.value})} className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-sm font-bold mt-1 outline-none focus:border-indigo-400 shadow-sm" /></div>
-            <div><label className="text-[10px] font-bold text-slate-500 ml-1">소속 본부 (선택)</label><input type="text" value={userProfile.dept1} placeholder="예: 수도권본부" onChange={e=>setUserProfile({...userProfile, dept1:e.target.value})} className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-sm font-bold mt-1 outline-none focus:border-indigo-400 shadow-sm" /></div>
-            <div><label className="text-[10px] font-bold text-slate-500 ml-1">소속 팀 (선택)</label><input type="text" value={userProfile.dept2} placeholder="예: 영업1팀" onChange={e=>setUserProfile({...userProfile, dept2:e.target.value})} className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-sm font-bold mt-1 outline-none focus:border-indigo-400 shadow-sm" /></div>
-            <div><label className="text-[10px] font-bold text-slate-500 ml-1">직급</label><input type="text" value={userProfile.position} onChange={e=>setUserProfile({...userProfile, position:e.target.value})} className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-sm font-bold mt-1 outline-none focus:border-indigo-400 shadow-sm" /></div>
-            <div><label className="text-[10px] font-bold text-slate-500 ml-1">이름</label><input type="text" value={userProfile.name} onChange={e=>setUserProfile({...userProfile, name:e.target.value})} className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-sm font-bold mt-1 outline-none focus:border-indigo-400 shadow-sm" /></div>
-            <div className="col-span-2"><label className="text-[10px] font-bold text-slate-500 ml-1">연락처</label><input type="text" value={userProfile.phone} onChange={e=>setUserProfile({...userProfile, phone:e.target.value})} className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-sm font-bold mt-1 outline-none focus:border-indigo-400 shadow-sm" /></div>
+            <div className="col-span-2"><label className="text-[10px] font-bold text-slate-500 ml-1">소속 회사</label><input type="text" value={userProfile.company} onChange={e=>setUserProfile({...userProfile, company:e.target.value})} className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 mt-1 outline-none focus:border-indigo-400 shadow-sm" /></div>
+            <div><label className="text-[10px] font-bold text-slate-500 ml-1">소속 본부 (선택)</label><input type="text" value={userProfile.dept1} placeholder="예: 수도권본부" onChange={e=>setUserProfile({...userProfile, dept1:e.target.value})} className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 mt-1 outline-none focus:border-indigo-400 shadow-sm" /></div>
+            <div><label className="text-[10px] font-bold text-slate-500 ml-1">소속 팀 (선택)</label><input type="text" value={userProfile.dept2} placeholder="예: 영업1팀" onChange={e=>setUserProfile({...userProfile, dept2:e.target.value})} className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 mt-1 outline-none focus:border-indigo-400 shadow-sm" /></div>
+            <div><label className="text-[10px] font-bold text-slate-500 ml-1">직급</label><input type="text" value={userProfile.position} onChange={e=>setUserProfile({...userProfile, position:e.target.value})} className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 mt-1 outline-none focus:border-indigo-400 shadow-sm" /></div>
+            <div><label className="text-[10px] font-bold text-slate-500 ml-1">이름</label><input type="text" value={userProfile.name} onChange={e=>setUserProfile({...userProfile, name:e.target.value})} className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 mt-1 outline-none focus:border-indigo-400 shadow-sm" /></div>
+            <div className="col-span-2"><label className="text-[10px] font-bold text-slate-500 ml-1">연락처</label><input type="text" value={userProfile.phone} onChange={e=>setUserProfile({...userProfile, phone:e.target.value})} className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 mt-1 outline-none focus:border-indigo-400 shadow-sm" /></div>
           </div>
         </div>
       </div>
@@ -667,7 +645,7 @@ export default function App() {
     const isNextEnabled = userProfile.certs.length > 0; 
     return (
       <div className="absolute inset-0 z-[160] bg-slate-100 flex flex-col animate-in slide-in-from-right duration-300">
-        <div className="bg-white px-6 pt-14 pb-5 border-b border-slate-200 sticky top-0 z-10 shadow-sm flex items-center gap-3"><button onClick={() => setAppState('profile_step1')} className="w-8 h-8 flex items-center justify-center bg-slate-100 rounded-full text-slate-600 border border-slate-200 shadow-sm active:scale-95"><ChevronLeft size={18} className="pr-0.5" /></button><div><h2 className="text-2xl font-black text-slate-900">프로필 등록 <span className="text-indigo-600 ml-1">2/2</span></h2><p className="text-[11px] font-bold text-slate-500 mt-1">전문성을 나타낼 영업 정보를 선택해주세요.</p></div></div>
+        <div className="bg-white px-6 pt-14 pb-5 border-b border-slate-200 sticky top-0 z-10 shadow-sm flex items-center gap-3"><button onClick={() => setAppState('profile_step1')} className="w-8 h-8 flex items-center justify-center bg-slate-100 rounded-full text-slate-600 border border-slate-200 shadow-sm active:scale-95"><ChevronLeft size={18} className="pr-0.5" /></button><div><h2 className="text-2xl font-black text-slate-800">프로필 등록 <span className="text-indigo-600 ml-1">2/2</span></h2><p className="text-[11px] font-bold text-slate-500 mt-1">전문성을 나타낼 영업 정보를 선택해주세요.</p></div></div>
         <div className="flex-1 overflow-y-auto px-6 py-6 space-y-8 pb-32 hide-scrollbar">
           <div className="space-y-6">
             <div>
@@ -677,7 +655,7 @@ export default function App() {
                 {CERTIFICATIONS.map(cert => {
                   const isActive = userProfile.certs.includes(cert);
                   return (
-                    <button key={cert} type="button" onClick={() => toggleCert(cert)} className={`px-4 py-2.5 rounded-xl text-xs font-black transition-all border shadow-sm ${isActive ? 'bg-indigo-600 border-indigo-600 text-white' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'}`}>
+                    <button key={cert} type="button" onClick={() => toggleCert(cert)} className={`px-4 py-2.5 rounded-xl text-xs font-black transition-colors border shadow-sm ${isActive ? 'bg-indigo-600 border-indigo-600 text-white' : 'bg-white border-slate-300 text-slate-700 hover:bg-slate-50'}`}>
                       {cert}
                     </button>
                   )
@@ -688,14 +666,14 @@ export default function App() {
             <div>
               <label className="text-[10px] font-black text-slate-500 ml-1 mb-1 block uppercase tracking-widest">보험 영업 경력 (선택)</label>
               <div className="relative flex items-center">
-                 <input type="number" placeholder="예: 5" value={userProfile.experience} onChange={e=>setUserProfile({...userProfile, experience:e.target.value})} className="w-full bg-white border border-slate-300 rounded-xl pl-4 pr-10 py-3 text-sm font-bold outline-none focus:border-indigo-400 shadow-sm" />
+                 <input type="number" placeholder="예: 5" value={userProfile.experience} onChange={e=>setUserProfile({...userProfile, experience:e.target.value})} className="w-full bg-white border border-slate-300 rounded-xl pl-4 pr-10 py-3 text-sm font-bold text-slate-800 outline-none focus:border-indigo-400 shadow-sm" />
                  <span className="absolute right-4 text-xs font-bold text-slate-400">년차</span>
               </div>
             </div>
 
             <div className="bg-indigo-50 border border-indigo-100 rounded-2xl p-4 flex items-center justify-between shadow-sm">
               <div>
-                <h4 className="font-black text-slate-900 text-sm">사내 동료에게 프로필 공개</h4>
+                <h4 className="font-black text-slate-800 text-sm">사내 동료에게 프로필 공개</h4>
                 <p className="text-[10px] font-bold text-slate-500 mt-1 leading-relaxed">비공개 시 팀원 목록에 <br/>이름이 별표(예: 차**)로 표시됩니다.</p>
               </div>
               <button onClick={() => setUserProfile({...userProfile, isPublic: !userProfile.isPublic})} className="text-indigo-600 transition-transform active:scale-90">
@@ -708,7 +686,7 @@ export default function App() {
           <button 
             disabled={!isNextEnabled}
             onClick={handleCompleteProfileStep2} 
-            className={`w-full py-4 rounded-2xl font-black text-base transition-all shadow-lg ${isNextEnabled ? 'bg-slate-900 text-white shadow-slate-900/30 active:scale-95' : 'bg-slate-300 text-slate-500'}`}
+            className={`w-full py-4 rounded-2xl font-black text-base transition-all shadow-lg ${isNextEnabled ? 'bg-slate-800 text-white shadow-slate-800/30 active:scale-95' : 'bg-slate-300 text-slate-500'}`}
           >
             프로필 등록 완료
           </button>
@@ -721,23 +699,24 @@ export default function App() {
     const recentCustomers = [...customers].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 5);
 
     return (
-      <div className="p-5 space-y-5 animate-in fade-in duration-500 pb-32 flex flex-col min-h-full">
-        <header className="flex justify-between items-start pt-2">
-          <div className="pt-1 flex-1">
+      // 💡 상단 패딩을 pt-1로 대폭 줄여 빈 공간(붕 뜨는 느낌)을 최소화했습니다.
+      <div className="px-5 pt-1 pb-32 space-y-4 animate-in fade-in duration-500 flex flex-col min-h-full">
+        <header className="flex justify-between items-start">
+          <div className="flex-1">
             <h2 className="text-[10px] font-bold text-indigo-600 uppercase tracking-widest flex items-center gap-1.5">
               Good Morning
               <button onClick={() => setIsMyCardsModalOpen(true)} className="bg-indigo-100 text-indigo-700 px-1.5 py-0.5 rounded text-[9px] cursor-pointer hover:bg-indigo-200 transition-colors shrink-0">내 명함 {myBusinessCards.length}/5</button>
             </h2>
-            <h1 className="text-lg font-black text-slate-900 mt-0.5 tracking-tight truncate">{userProfile.name ? `${userProfile.name}님` : '차부장님'}, 오늘도 화이팅!</h1>
+            <h1 className="text-lg font-black text-slate-800 mt-0.5 tracking-tight truncate">{userProfile.name ? `${userProfile.name}님` : '차부장님'}, 오늘도 화이팅!</h1>
             {user && <p className="text-[10px] font-bold text-emerald-600 mt-1.5 flex items-center gap-1"><CheckCircle2 size={12}/> 실시간 클라우드 DB 연동 중</p>}
           </div>
-          <div className="flex flex-col items-end pt-1 shrink-0 ml-2">
+          <div className="flex flex-col items-end shrink-0 ml-2">
             <button onClick={() => { setActiveTab('team'); setSelectedTeamMember(null); }} className="bg-white border border-slate-200 pl-2 pr-1.5 py-1.5 rounded-xl flex items-center gap-1.5 shadow-sm hover:border-indigo-300 active:scale-95 transition-all text-left max-w-[130px]">
               <div className="w-6 h-6 bg-indigo-50 rounded-md flex items-center justify-center border border-indigo-100 shrink-0">
                 <Building2 size={12} className="text-indigo-500" />
               </div>
               <div className="flex flex-col overflow-hidden">
-                <p className="text-[10px] font-black text-slate-800 tracking-tight whitespace-nowrap truncate">{userProfile.company || '소속 미지정'}</p>
+                <p className="text-[10px] font-black text-slate-700 tracking-tight whitespace-nowrap truncate">{userProfile.company || '소속 미지정'}</p>
                 <p className="text-[8px] font-bold text-slate-400 mt-0.5 tracking-tight whitespace-nowrap truncate">1,204명</p>
               </div>
               <ChevronRight size={12} className="text-slate-300 shrink-0 ml-0.5" />
@@ -745,62 +724,63 @@ export default function App() {
           </div>
         </header>
 
-        <section className="grid grid-cols-3 gap-3 mt-2">
-          <button onClick={() => { setCustomerTab('가망'); setActiveTab('customers'); }} className="bg-white py-4 rounded-xl border border-slate-200 shadow-md flex flex-col items-center justify-center hover:border-blue-300 active:bg-slate-50 transition-all">
+        <section className="grid grid-cols-3 gap-2 mt-1">
+          <button onClick={() => { setCustomerTab('가망'); setActiveTab('customers'); }} className="bg-white py-3.5 rounded-xl border border-slate-200 shadow-sm flex flex-col items-center justify-center hover:border-blue-300 active:bg-slate-50 transition-all">
             <UserPlus size={14} className="text-blue-500 mb-1.5" />
             <h4 className="text-[10px] font-black text-slate-700 whitespace-nowrap tracking-tight">가망 고객</h4>
             <p className="text-sm font-black text-blue-600 leading-none mt-1">{customers.filter(c => c.status === '가망' && !c.isSharedWithMe).length}<span className="text-[8px] font-bold text-slate-400 ml-0.5">명</span></p>
           </button>
           
-          <button onClick={() => { setCustomerTab('가입'); setActiveTab('customers'); }} className="bg-white py-4 rounded-xl border border-slate-200 shadow-md flex flex-col items-center justify-center hover:border-emerald-300 active:bg-slate-50 transition-all">
+          <button onClick={() => { setCustomerTab('가입'); setActiveTab('customers'); }} className="bg-white py-3.5 rounded-xl border border-slate-200 shadow-sm flex flex-col items-center justify-center hover:border-emerald-300 active:bg-slate-50 transition-all">
             <UserCheck size={14} className="text-emerald-500 mb-1.5" />
             <h4 className="text-[10px] font-black text-slate-700 whitespace-nowrap tracking-tight">가입 고객</h4>
             <p className="text-sm font-black text-emerald-600 leading-none mt-1">{customers.filter(c => c.status === '가입' && !c.isSharedWithMe).length}<span className="text-[8px] font-bold text-slate-400 ml-0.5">명</span></p>
           </button>
           
-          <button onClick={() => { setCustomerTab('거래처'); setActiveTab('customers'); }} className="bg-white py-4 rounded-xl border border-slate-200 shadow-md flex flex-col items-center justify-center hover:border-orange-300 active:bg-slate-50 transition-all">
+          <button onClick={() => { setCustomerTab('거래처'); setActiveTab('customers'); }} className="bg-white py-3.5 rounded-xl border border-slate-200 shadow-sm flex flex-col items-center justify-center hover:border-orange-300 active:bg-slate-50 transition-all">
             <Briefcase size={14} className="text-orange-500 mb-1.5" />
             <h4 className="text-[10px] font-black text-slate-700 whitespace-nowrap tracking-tight">거래처</h4>
             <p className="text-sm font-black text-orange-600 leading-none mt-1">{customers.filter(c => c.status === '거래처' && !c.isSharedWithMe).length}<span className="text-[8px] font-bold text-slate-400 ml-0.5">곳</span></p>
           </button>
         </section>
 
-        <section className="relative mt-2">
-          <div className="flex justify-between items-end mb-3">
-            <h3 className="text-xs font-black text-slate-800">최근 등록한 명함</h3>
+        <section className="relative mt-1">
+          <div className="flex justify-between items-end mb-2.5">
+            <h3 className="text-xs font-black text-slate-700">최근 등록한 명함</h3>
             <span className="text-[9px] font-bold text-indigo-500 bg-indigo-50 px-2 py-1 rounded-lg">가로로 스와이프 <ChevronRight size={10} className="inline"/></span>
           </div>
           
-          <div className="flex overflow-x-auto hide-scrollbar gap-4 pb-2 -mx-5 px-5 snap-x snap-mandatory">
+          <div className="flex overflow-x-auto hide-scrollbar gap-4 pb-4 pt-1 -mx-5 px-5 snap-x snap-mandatory">
             {recentCustomers.length > 0 ? recentCustomers.map(customer => (
-              <div key={customer.id} onClick={() => { setSelectedCustomer(customer); setCustomerDetailTab('기본정보'); }} className="w-[280px] h-[150px] rounded-[1.25rem] bg-white shadow-[0_4px_20px_-5px_rgba(0,0,0,0.1)] border border-slate-200 p-5 relative overflow-hidden flex-shrink-0 snap-start cursor-pointer active:scale-[0.98] transition-transform">
-                <div className="flex justify-between items-start mb-3">
+              /* 💡 메인 명함 크기를 w-[280px] ➔ w-[315px]로 15% 확대하고 입체적인 그림자 추가 */
+              <div key={customer.id} onClick={() => { setSelectedCustomer(customer); setCustomerDetailTab('기본정보'); }} className="w-[315px] h-[175px] rounded-[1.25rem] bg-white shadow-[0_8px_30px_-12px_rgba(0,0,0,0.12)] border border-slate-200 p-5 relative overflow-hidden flex-shrink-0 snap-start cursor-pointer active:scale-[0.98] transition-transform">
+                <div className="flex justify-between items-start mb-4">
                   <div>
-                    <p className="text-[9px] font-black text-slate-400 tracking-widest uppercase">{customer.company}</p>
-                    <h3 className="text-lg font-black text-slate-900 mt-0.5 tracking-tight">{customer.name} <span className="text-[10px] font-bold text-slate-500 tracking-normal ml-1">{customer.position}</span></h3>
+                    <p className="text-[10px] font-black text-slate-400 tracking-widest uppercase">{customer.company}</p>
+                    <h3 className="text-xl font-black text-slate-800 mt-0.5 tracking-tight">{customer.name} <span className="text-[11px] font-bold text-slate-500 tracking-normal ml-1">{customer.position}</span></h3>
                   </div>
-                  <div className="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center border border-slate-200 shadow-sm">
-                    <Building2 size={16} className="text-slate-400" />
+                  <div className="w-11 h-11 bg-slate-50 rounded-xl flex items-center justify-center border border-slate-200 shadow-sm">
+                    <Building2 size={18} className="text-slate-400" />
                   </div>
                 </div>
-                <div className="space-y-1.5 mt-4">
-                  <p className="text-[11px] font-bold text-slate-600 flex items-center gap-2"><Phone size={12} className="text-indigo-400"/> {customer.phone}</p>
-                  {customer.email && <p className="text-[11px] font-bold text-slate-600 flex items-center gap-2"><Mail size={12} className="text-indigo-400"/> {customer.email}</p>}
+                <div className="space-y-1.5 mt-5">
+                  <p className="text-xs font-bold text-slate-600 flex items-center gap-2"><Phone size={13} className="text-indigo-400"/> {customer.phone}</p>
+                  {customer.email && <p className="text-xs font-bold text-slate-600 flex items-center gap-2"><Mail size={13} className="text-indigo-400"/> {customer.email}</p>}
                 </div>
-                <div className="absolute bottom-4 right-4 flex items-center gap-1">
-                  <span className={`px-2 py-1 rounded-md text-[9px] font-black tracking-widest shadow-sm ${
+                <div className="absolute bottom-5 right-5 flex items-center gap-1.5">
+                  <span className={`px-2.5 py-1 rounded-md text-[9px] font-black tracking-widest shadow-sm ${
                     customer.status === 'VIP' ? 'bg-purple-100 text-purple-600 border border-purple-200' : 
                     customer.status === '가입' ? 'bg-emerald-100 text-emerald-600 border border-emerald-200' : 
                     customer.status === '가망' ? 'bg-blue-50 text-blue-600 border border-blue-200' : 
                     'bg-orange-50 text-orange-600 border border-orange-200'
                   }`}>{customer.status}</span>
                   {customer.isSharedWithMe && (
-                     <span className="px-1.5 py-1 rounded-md text-[9px] font-black bg-slate-100 text-slate-500 border border-slate-200 flex items-center gap-0.5 shadow-sm"><Share2 size={8}/> 공유</span>
+                     <span className="px-2 py-1 rounded-md text-[9px] font-black bg-slate-100 text-slate-500 border border-slate-200 flex items-center gap-0.5 shadow-sm"><Share2 size={8}/> 공유</span>
                   )}
                 </div>
               </div>
             )) : (
-              <div className="w-[280px] h-[150px] rounded-[1.25rem] bg-slate-100 border border-slate-200 p-5 flex flex-col items-center justify-center flex-shrink-0 snap-start shadow-inner">
+              <div className="w-[315px] h-[175px] rounded-[1.25rem] bg-slate-100 border border-slate-200 p-5 flex flex-col items-center justify-center flex-shrink-0 snap-start shadow-inner">
                 <p className="text-xs font-bold text-slate-500">등록된 명함이 없습니다.</p>
               </div>
             )}
@@ -808,15 +788,15 @@ export default function App() {
           </div>
         </section>
 
-        <section className="bg-white rounded-2xl border border-slate-200 p-5 shadow-md flex-1">
-           <h3 className="text-xs font-black text-slate-900 mb-4">최근 관리된 연락처</h3>
-           <div className="space-y-4">
+        <section className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm flex-1">
+           <h3 className="text-xs font-black text-slate-700 mb-3.5">최근 관리된 연락처</h3>
+           <div className="space-y-3">
             {customers.sort((a, b) => new Date(b.lastContact) - new Date(a.lastContact)).slice(0, 3).map(c => (
-              <div key={c.id} onClick={() => { setSelectedCustomer(c); setCustomerDetailTab('기본정보'); }} className="flex items-center justify-between cursor-pointer group bg-slate-50/50 p-3 rounded-xl border border-slate-100 hover:border-indigo-200 transition-colors">
+              <div key={c.id} onClick={() => { setSelectedCustomer(c); setCustomerDetailTab('기본정보'); }} className="flex items-center justify-between cursor-pointer group bg-slate-50/50 p-2.5 rounded-xl border border-slate-100 hover:border-indigo-200 hover:shadow-sm transition-all">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-white border border-slate-200 rounded-xl flex items-center justify-center text-slate-500 font-black shadow-sm group-hover:text-indigo-600 group-hover:border-indigo-200 transition-colors">{c.name[0]}</div>
                   <div>
-                    <h4 className="font-black text-slate-900 text-sm">{c.name}</h4>
+                    <h4 className="font-black text-slate-800 text-sm">{c.name}</h4>
                     <p className="text-[10px] font-bold text-slate-500 tracking-tight mt-0.5">{c.company}</p>
                   </div>
                 </div>
@@ -839,7 +819,7 @@ export default function App() {
           </div>
         </section>
         
-        <GoogleAdPlaceholder type="banner" className="mt-4 mb-2" />
+        <GoogleAdPlaceholder type="banner" className="mt-2 mb-2" />
       </div>
     );
   };
@@ -854,7 +834,7 @@ export default function App() {
           >
             <ChevronLeft size={18} className="text-slate-600 pr-0.5" />
           </button>
-          <h1 className="text-xl font-black text-slate-900 tracking-tight">고객 DB 관리</h1>
+          <h1 className="text-xl font-black text-slate-800 tracking-tight">고객 DB 관리</h1>
         </div>
         <div className="bg-indigo-100 px-3 py-1.5 rounded-lg border border-indigo-200">
           <p className="text-[10px] font-black text-indigo-700">총 {filteredCustomers.length}명</p>
@@ -881,12 +861,12 @@ export default function App() {
             <React.Fragment key={c.id}>
               {index === 2 && <GoogleAdPlaceholder type="infeed" className="mb-3" />}
               
-              <div onClick={() => { setSelectedCustomer(c); setCustomerDetailTab('기본정보'); }} className="bg-white rounded-2xl p-5 shadow-md border border-slate-200 flex items-center justify-between group cursor-pointer hover:border-indigo-300 active:bg-slate-50 transition-all">
+              <div onClick={() => { setSelectedCustomer(c); setCustomerDetailTab('기본정보'); }} className="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 flex items-center justify-between group cursor-pointer hover:border-indigo-300 hover:shadow-md transition-all">
                 <div className="flex items-center gap-4 min-w-0">
                   <div className="w-12 h-12 bg-slate-50 border border-slate-200 rounded-2xl flex items-center justify-center text-slate-500 text-lg font-black group-hover:bg-indigo-50 group-hover:text-indigo-600 group-hover:border-indigo-200 shadow-sm transition-colors shrink-0">{c.name[0]}</div>
                   <div className="min-w-0 overflow-hidden">
                     <div className="flex items-center gap-1.5 whitespace-nowrap">
-                      <h3 className="text-[15px] font-black text-slate-900 tracking-tight truncate max-w-[100px]">{c.name}</h3>
+                      <h3 className="text-[15px] font-black text-slate-800 tracking-tight truncate max-w-[100px]">{c.name}</h3>
                       <span className={`text-[8px] font-black px-2 py-0.5 rounded-md tracking-widest border shrink-0 shadow-sm ${
                         c.status === '가망' ? 'bg-blue-50 text-blue-600 border-blue-200' :
                         c.status === '가입' ? 'bg-emerald-50 text-emerald-600 border-emerald-200' :
@@ -909,7 +889,6 @@ export default function App() {
                   </div>
                 </div>
                 
-                {/* 💡 삭제되었던 우측 액션 버튼 3개 복구 */}
                 <div className="flex gap-1.5 pl-2 shrink-0">
                   <button 
                     onClick={(e) => { e.stopPropagation(); window.location.href=`tel:${c.phone}`; }} 
@@ -953,7 +932,7 @@ export default function App() {
             <button onClick={() => setActiveTab('home')} className="w-8 h-8 bg-white border border-slate-200 rounded-full flex items-center justify-center shadow-sm hover:bg-slate-50 active:scale-95 transition-all">
               <ChevronLeft size={18} className="text-slate-600 pr-0.5" />
             </button>
-            <h1 className="text-xl font-black text-slate-900 tracking-tight">조직도</h1>
+            <h1 className="text-xl font-black text-slate-800 tracking-tight">조직도</h1>
           </div>
         </div>
 
@@ -968,12 +947,12 @@ export default function App() {
 
         <div className="space-y-3">
            {displayMembers.map(member => (
-             <div key={member.id} onClick={() => setSelectedTeamMember(member)} className="bg-white p-4 rounded-2xl border border-slate-200 shadow-md flex items-center justify-between hover:border-indigo-300 transition-all group cursor-pointer active:scale-[0.98]">
+             <div key={member.id} onClick={() => setSelectedTeamMember(member)} className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between hover:border-indigo-300 hover:shadow-md transition-all group cursor-pointer active:scale-[0.98]">
                <div className="flex items-center gap-4">
                  <div className="w-12 h-12 bg-slate-50 border border-slate-200 text-slate-500 shadow-sm rounded-full flex items-center justify-center text-lg font-black group-hover:bg-indigo-50 group-hover:text-indigo-600 group-hover:border-indigo-200 transition-colors">{member.name[0]}</div>
                  <div>
                    <div className="flex items-center gap-1.5">
-                     <h4 className="font-black text-sm text-slate-900">{member.isPublic ? member.name : `${member.name[0]}**`} <span className="text-[10px] font-bold text-slate-500 ml-0.5">{member.position}</span></h4>
+                     <h4 className="font-black text-sm text-slate-800">{member.isPublic ? member.name : `${member.name[0]}**`} <span className="text-[10px] font-bold text-slate-500 ml-0.5">{member.position}</span></h4>
                      {!member.isPublic && <ShieldCheck size={12} className="text-slate-300" />}
                    </div>
                    {teamTab === 'company' && member.dept && (
@@ -999,7 +978,7 @@ export default function App() {
     return (
       <div className="p-5 space-y-5 animate-in fade-in duration-300 pb-32">
         <div className="flex justify-between items-center pt-2 mb-2">
-          <h1 className="text-xl font-black text-slate-900 tracking-tight">알림 센터</h1>
+          <h1 className="text-xl font-black text-slate-800 tracking-tight">알림 센터</h1>
         </div>
         
         <div className="flex gap-1.5 p-1 bg-slate-200/60 border border-slate-200/50 rounded-xl mb-4 overflow-x-auto hide-scrollbar">
@@ -1021,7 +1000,7 @@ export default function App() {
             filteredNotis.map(noti => {
               const Icon = noti.icon;
               return (
-                <div key={noti.id} onClick={() => handleNotiClick(noti)} className="bg-white rounded-2xl p-4 shadow-md border border-slate-200 flex items-start gap-4 cursor-pointer hover:border-indigo-300 transition-colors">
+                <div key={noti.id} onClick={() => handleNotiClick(noti)} className="bg-white rounded-2xl p-4 shadow-sm border border-slate-200 flex items-start gap-4 cursor-pointer hover:border-indigo-300 hover:shadow-md transition-all">
                   <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 border border-white shadow-sm ${noti.bg} ${noti.color}`}>
                     <Icon size={18} />
                   </div>
@@ -1030,7 +1009,7 @@ export default function App() {
                       <span className={`text-[9px] font-black px-1.5 py-0.5 rounded border ${noti.bg} ${noti.color} border-${noti.color.split('-')[1]}-200`}>{noti.type}</span>
                       <span className="text-[9px] font-bold text-slate-400">{noti.time}</span>
                     </div>
-                    <h4 className="text-sm font-black text-slate-900">{noti.title}</h4>
+                    <h4 className="text-sm font-black text-slate-800">{noti.title}</h4>
                     <p className="text-xs font-bold text-slate-500 mt-1">{noti.desc}</p>
                     
                     {noti.type === '공유' && noti.isNew && (
@@ -1059,17 +1038,17 @@ export default function App() {
           <button onClick={() => setSelectedTeamMember(null)} className="w-9 h-9 flex items-center justify-center rounded-full bg-slate-100 border border-slate-200 shadow-sm text-slate-600 active:scale-95 transition-all">
             <ChevronLeft size={20} className="pr-0.5" />
           </button>
-          <h2 className="text-lg font-black text-slate-900 tracking-tight">동료 상세 프로필</h2>
+          <h2 className="text-lg font-black text-slate-800 tracking-tight">동료 상세 프로필</h2>
         </div>
 
         <div className="p-5">
-          <div className="bg-gradient-to-br from-slate-800 via-slate-900 to-black rounded-[2rem] p-6 shadow-xl border border-slate-700 relative overflow-hidden aspect-[1.6/1] flex flex-col justify-between text-white">
+          <div className="bg-gradient-to-br from-slate-700 via-slate-800 to-slate-900 rounded-[2rem] p-6 shadow-xl border border-slate-600 relative overflow-hidden aspect-[1.6/1] flex flex-col justify-between text-white">
             <div className="absolute -right-10 -top-10 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
             <div className="absolute -left-10 -bottom-10 w-40 h-40 bg-indigo-500/20 rounded-full blur-3xl"></div>
             
             <div className="flex justify-between items-start relative z-10">
               <div>
-                <p className="text-[10px] font-black text-slate-400 tracking-widest uppercase">{userProfile.company || '대한생명'}</p>
+                <p className="text-[10px] font-black text-slate-300 tracking-widest uppercase">{userProfile.company || '대한생명'}</p>
                 <p className="text-[10px] font-bold text-slate-300 mt-0.5">{selectedTeamMember.dept}</p>
                 <h3 className="text-2xl font-black mt-2 tracking-tight">
                   {selectedTeamMember.isPublic ? selectedTeamMember.name : `${selectedTeamMember.name[0]}**`} 
@@ -1082,7 +1061,7 @@ export default function App() {
             </div>
             
             <div className="space-y-1.5 relative z-10">
-              <p className="text-xs font-bold text-slate-300 flex items-center gap-2.5 tracking-wide">
+              <p className="text-xs font-bold text-slate-200 flex items-center gap-2.5 tracking-wide">
                 <Phone size={14} className="text-indigo-400"/> 
                 {selectedTeamMember.isPublic ? '010-****-****' : '비공개'}
               </p>
@@ -1096,7 +1075,7 @@ export default function App() {
         </div>
 
         <div className="p-5 pb-10">
-           <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-md space-y-4">
+           <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
              <div>
                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">소속</p>
                <p className="text-sm font-black text-slate-800">{userProfile.company || '대한생명'} {selectedTeamMember.dept}</p>
@@ -1118,7 +1097,6 @@ export default function App() {
     );
   };
 
-  // 💡 삭제되었던 4개의 상세 탭 (기본정보, 상담이력, 가입상품, 메모) 모두 완벽 복구
   const renderCustomerDetailView = () => {
     if (!selectedCustomer) return null;
 
@@ -1141,7 +1119,7 @@ export default function App() {
           <button onClick={() => setSelectedCustomer(null)} className="w-9 h-9 flex items-center justify-center rounded-full bg-slate-100 border border-slate-200 text-slate-600 shadow-sm active:scale-95 transition-all">
             <ChevronLeft size={20} className="pr-0.5" />
           </button>
-          <h2 className="text-lg font-black text-slate-900 tracking-tight">고객 상세 프로필</h2>
+          <h2 className="text-lg font-black text-slate-800 tracking-tight">고객 상세 프로필</h2>
           <button onClick={() => { setShareSearchQuery(''); setSelectedShareMembers(selectedCustomer.sharedWith || []); setIsShareModalOpen(true); }} className="w-9 h-9 flex items-center justify-center rounded-full bg-indigo-50 border border-indigo-200 text-indigo-600 shadow-sm active:scale-95 transition-all">
             <Share2 size={16} strokeWidth={2.5}/>
           </button>
@@ -1183,7 +1161,7 @@ export default function App() {
                 <div>
                   <p className={`text-[10px] font-bold tracking-widest uppercase ${selectedCustomer.isSharedWithMe ? 'text-purple-500' : 'text-slate-500'}`}>{displayCard.company}</p>
                   <div className="flex items-center gap-1.5 mt-1">
-                    <h3 className="text-2xl font-black tracking-tight text-slate-900">{displayCard.name} <span className="text-sm font-bold text-slate-500 ml-0.5">{displayCard.position}</span></h3>
+                    <h3 className="text-2xl font-black tracking-tight text-slate-800">{displayCard.name} <span className="text-sm font-bold text-slate-500 ml-0.5">{displayCard.position}</span></h3>
                     {selectedCustomer.isSharedWithMe && displayCard.isCurrent && (
                       <div className="w-6 h-6 rounded-full bg-purple-100 text-purple-600 border border-purple-200 flex items-center justify-center shadow-sm shrink-0" title={`${selectedCustomer.ownerName} 님의 공유 고객`}>
                         <Share2 size={12} strokeWidth={2.5}/>
@@ -1231,7 +1209,7 @@ export default function App() {
         <div className="p-5 pb-10">
           {customerDetailTab === '기본정보' && (
              <div className="space-y-3 animate-in fade-in duration-300">
-               <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-md">
+               <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
                  <div className="flex justify-between items-center mb-2">
                    <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">고객 분류 상태 (원본)</p>
                    {!isEditingStatus && !selectedCustomer.isSharedWithMe && (
@@ -1268,7 +1246,7 @@ export default function App() {
                  )}
                </div>
 
-               <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-md">
+               <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
                  <div className="flex justify-between items-center mb-2.5">
                    <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-1.5"><Hash size={12}/> 커스텀 해시태그</p>
                    <button onClick={() => setIsAddingHashtag(true)} className="w-6 h-6 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 shadow-sm flex items-center justify-center hover:bg-indigo-100 transition-colors"><Plus size={14}/></button>
@@ -1301,7 +1279,7 @@ export default function App() {
                </div>
 
                {!selectedCustomer.isSharedWithMe && (
-                 <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-md flex justify-between items-center cursor-pointer hover:border-indigo-300 transition-colors" onClick={() => { setShareSearchQuery(''); setSelectedShareMembers(selectedCustomer.sharedWith || []); setIsShareModalOpen(true); }}>
+                 <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex justify-between items-center cursor-pointer hover:border-indigo-300 transition-colors" onClick={() => { setShareSearchQuery(''); setSelectedShareMembers(selectedCustomer.sharedWith || []); setIsShareModalOpen(true); }}>
                    <div>
                      <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1.5">공동 관리 팀원 <span className="text-indigo-600 ml-1 font-black">{(selectedCustomer.sharedWith || []).length}명</span></p>
                      <div className="flex items-center gap-2">
@@ -1323,7 +1301,7 @@ export default function App() {
                  </div>
                )}
 
-               <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-md flex justify-between items-center">
+               <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex justify-between items-center">
                  <div className="flex-1">
                    <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1.5">최초 등록 일자</p>
                    <div className="flex items-center gap-2">
@@ -1331,7 +1309,7 @@ export default function App() {
                        type="date" 
                        value={selectedCustomer.createdAt} 
                        onChange={e => updateSelectedCustomer({ createdAt: e.target.value })}
-                       className="text-base font-black text-slate-900 outline-none w-full bg-transparent cursor-pointer"
+                       className="text-base font-black text-slate-800 outline-none w-full bg-transparent cursor-pointer"
                        disabled={selectedCustomer.isSharedWithMe}
                      />
                    </div>
@@ -1347,7 +1325,7 @@ export default function App() {
                {!isAddingHistory ? (
                  <>
                    <div className="flex justify-between items-center px-1">
-                     <h3 className="text-xs font-black text-slate-900">전체 상담 이력</h3>
+                     <h3 className="text-xs font-black text-slate-800">전체 상담 이력</h3>
                      <button onClick={() => {
                         setIsAddingHistory(true);
                         setNewHistory({ type: '통화', date: getOffsetDate(0), time: '', location: '', alarm: '알림 없음', note: '' });
@@ -1356,7 +1334,7 @@ export default function App() {
                      </button>
                    </div>
                    
-                   <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-md">
+                   <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
                      {!(selectedCustomer.history?.length > 0) ? (
                         <div className="text-center py-8 text-slate-400 text-xs font-bold">등록된 상담 이력이 없습니다.</div>
                      ) : (
@@ -1387,7 +1365,7 @@ export default function App() {
                                
                                <div 
                                  onClick={() => toggleHistoryExpand(h.id)}
-                                 className="bg-slate-50 p-3.5 rounded-xl border border-slate-200 mt-1.5 cursor-pointer hover:border-indigo-300 hover:shadow-md transition-all shadow-sm"
+                                 className="bg-slate-50 p-3.5 rounded-xl border border-slate-200 mt-1.5 cursor-pointer hover:border-indigo-300 hover:shadow-sm transition-all shadow-sm"
                                >
                                   <div className={`overflow-hidden transition-all ${isExpanded ? 'max-h-[500px]' : 'max-h-[38px]'}`}>
                                     {h.type === '미팅약속' && (h.time || h.location) && (
@@ -1413,7 +1391,7 @@ export default function App() {
                  </>
                ) : (
                  <div className="bg-white p-5 rounded-2xl border border-indigo-200 shadow-xl space-y-5 animate-in slide-in-from-bottom-4 duration-300">
-                   <h4 className="text-sm font-black text-slate-900 border-b border-slate-100 pb-3">신규 상담 이력 등록</h4>
+                   <h4 className="text-sm font-black text-slate-800 border-b border-slate-100 pb-3">신규 상담 이력 등록</h4>
                    <div className="space-y-4">
                      <div>
                        <label className="text-[10px] font-bold text-slate-500 mb-2 block">상담 일자</label>
@@ -1423,7 +1401,7 @@ export default function App() {
                          <button type="button" onClick={() => setNewHistory({...newHistory, date: getOffsetDate(0)})} className="flex-1 py-1.5 bg-indigo-600 text-white shadow-md shadow-indigo-200 rounded-lg text-[10px] font-black border border-indigo-600">오늘</button>
                          <button type="button" onClick={() => setNewHistory({...newHistory, date: getOffsetDate(1)})} className="flex-1 py-1.5 bg-slate-100 text-slate-600 border border-slate-200 shadow-sm rounded-lg text-[10px] font-black hover:bg-slate-200">내일</button>
                        </div>
-                       <input type="date" value={newHistory.date} onChange={e => setNewHistory({...newHistory, date: e.target.value})} className="w-full bg-white border border-slate-300 shadow-sm rounded-xl px-4 py-3 text-sm font-black text-slate-900 outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400" />
+                       <input type="date" value={newHistory.date} onChange={e => setNewHistory({...newHistory, date: e.target.value})} className="w-full bg-white border border-slate-300 shadow-sm rounded-xl px-4 py-3 text-sm font-black text-slate-800 outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400" />
                      </div>
                      <div>
                        <label className="text-[10px] font-bold text-slate-500 mb-2 block">상담 채널 / 방식</label>
@@ -1443,22 +1421,22 @@ export default function App() {
                      {newHistory.type === '미팅약속' && (
                        <div className="space-y-4 animate-in fade-in duration-300 border-t border-slate-100 pt-4 mt-4">
                           <div className="grid grid-cols-2 gap-3">
-                            <div><label className="text-[10px] font-bold text-slate-500 mb-1.5 block">약속 시간 *</label><input type="time" value={newHistory.time} onChange={e => setNewHistory({...newHistory, time: e.target.value})} className="w-full bg-white shadow-sm border border-slate-300 rounded-xl px-4 py-3 text-sm font-bold text-slate-900 outline-none focus:ring-2 focus:ring-rose-100 focus:border-rose-400" /></div>
+                            <div><label className="text-[10px] font-bold text-slate-500 mb-1.5 block">약속 시간 *</label><input type="time" value={newHistory.time} onChange={e => setNewHistory({...newHistory, time: e.target.value})} className="w-full bg-white shadow-sm border border-slate-300 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 outline-none focus:ring-2 focus:ring-rose-100 focus:border-rose-400" /></div>
                             <div><label className="text-[10px] font-bold text-slate-500 mb-1.5 block">알림 설정</label>
                               <div className="relative">
-                                <select value={newHistory.alarm} onChange={e => setNewHistory({...newHistory, alarm: e.target.value})} className="w-full bg-white shadow-sm border border-slate-300 rounded-xl pl-4 pr-10 py-3 text-sm font-bold text-slate-900 outline-none focus:ring-2 focus:ring-rose-100 focus:border-rose-400 appearance-none">
+                                <select value={newHistory.alarm} onChange={e => setNewHistory({...newHistory, alarm: e.target.value})} className="w-full bg-white shadow-sm border border-slate-300 rounded-xl pl-4 pr-10 py-3 text-sm font-bold text-slate-800 outline-none focus:ring-2 focus:ring-rose-100 focus:border-rose-400 appearance-none">
                                   <option>알림 없음</option><option>정각</option><option>1시간 전</option><option>하루 전</option>
                                 </select>
                                 <ChevronRight size={16} className="absolute right-4 top-3.5 text-slate-400 rotate-90 pointer-events-none" />
                               </div>
                             </div>
                           </div>
-                          <div><label className="text-[10px] font-bold text-slate-500 mb-1.5 block">미팅 장소 *</label><input type="text" placeholder="예: 강남역 3번출구 스타벅스" value={newHistory.location} onChange={e => setNewHistory({...newHistory, location: e.target.value})} className="w-full bg-white shadow-sm border border-slate-300 rounded-xl px-4 py-3 text-sm font-bold text-slate-900 outline-none focus:ring-2 focus:ring-rose-100 focus:border-rose-400" /></div>
+                          <div><label className="text-[10px] font-bold text-slate-500 mb-1.5 block">미팅 장소 *</label><input type="text" placeholder="예: 강남역 3번출구 스타벅스" value={newHistory.location} onChange={e => setNewHistory({...newHistory, location: e.target.value})} className="w-full bg-white shadow-sm border border-slate-300 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 outline-none focus:ring-2 focus:ring-rose-100 focus:border-rose-400" /></div>
                        </div>
                      )}
                      <div>
                        <label className="text-[10px] font-bold text-slate-500 mb-2 block">{newHistory.type === '미팅약속' ? '미팅 목적 / 특이사항' : '상담 내용'}</label>
-                       <textarea rows="4" placeholder={newHistory.type === '미팅약속' ? "미팅의 목적이나 사전에 준비할 특이사항을 기록해 주세요." : "고객과의 상담 내용이나 특이사항을 상세히 기록해 주세요."} value={newHistory.note} onChange={e => setNewHistory({...newHistory, note: e.target.value})} className="w-full bg-white shadow-inner border border-slate-300 rounded-xl px-4 py-3 text-sm font-bold text-slate-900 outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400 resize-none leading-relaxed"></textarea>
+                       <textarea rows="4" placeholder={newHistory.type === '미팅약속' ? "미팅의 목적이나 사전에 준비할 특이사항을 기록해 주세요." : "고객과의 상담 내용이나 특이사항을 상세히 기록해 주세요."} value={newHistory.note} onChange={e => setNewHistory({...newHistory, note: e.target.value})} className="w-full bg-white shadow-inner border border-slate-300 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400 resize-none leading-relaxed"></textarea>
                      </div>
                    </div>
                    <div className="flex gap-2 pt-2">
@@ -1486,14 +1464,14 @@ export default function App() {
                            const compData = catData[p.company] || { color: '#64748B' };
                            const bgColor = compData.color;
                            return (
-                             <div key={p.id} className="bg-white p-4 rounded-2xl border border-emerald-200 shadow-md relative overflow-hidden">
+                             <div key={p.id} className="bg-white p-4 rounded-2xl border border-emerald-200 shadow-sm relative overflow-hidden">
                                <div className="absolute top-0 left-0 w-1.5 h-full" style={{ backgroundColor: bgColor }}></div>
                                <div className="flex justify-between items-center mb-1.5 pl-2">
                                  <div className="flex items-center gap-1.5"><span className="text-[9px] font-black px-1.5 py-0.5 rounded shadow-sm border" style={{ color: bgColor, backgroundColor: `${bgColor}15`, borderColor: `${bgColor}30` }}>{p.company}</span><span className="text-[9px] font-bold text-slate-500 flex items-center gap-1"><span className="text-emerald-500 font-black">[{p.origin}]</span> {p.enrollDate} 가입</span></div>
                                  {p.author && <span className="text-[8px] font-black text-slate-600 bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200 shadow-sm">{p.author} 등록</span>}
                                </div>
-                               <h5 className="text-sm font-black text-slate-900 tracking-tight pl-2">{p.name}</h5>
-                               <p className="text-[10px] font-bold text-slate-500 mt-1.5 pl-2">가입금액: <span className="text-slate-900">{p.amount}</span></p>
+                               <h5 className="text-sm font-black text-slate-800 tracking-tight pl-2">{p.name}</h5>
+                               <p className="text-[10px] font-bold text-slate-500 mt-1.5 pl-2">가입금액: <span className="text-slate-800">{p.amount}</span></p>
                              </div>
                            )
                          })}
@@ -1512,7 +1490,7 @@ export default function App() {
                            const compData = catData[p.company] || { color: '#64748B' };
                            const bgColor = compData.color;
                            return (
-                             <div key={p.id} className="bg-white p-4 rounded-2xl border border-slate-200 shadow-md relative overflow-hidden">
+                             <div key={p.id} className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden">
                                <div className="absolute top-0 left-0 w-1.5 h-full bg-slate-400"></div>
                                <div className="flex justify-between items-center mb-1.5 pl-2">
                                  <div className="flex items-center gap-1.5"><span className="text-[9px] font-black px-1.5 py-0.5 rounded shadow-sm border" style={{ color: bgColor, backgroundColor: `${bgColor}15`, borderColor: `${bgColor}30` }}>{p.company}</span><span className="text-[9px] font-bold text-slate-500">{p.enrollDate} 가입</span></div>
@@ -1538,26 +1516,26 @@ export default function App() {
                            const compData = catData[p.company] || { color: '#64748B' };
                            const bgColor = compData.color;
                            return (
-                             <div key={p.id} className="bg-white p-4 rounded-2xl border border-blue-200 shadow-md relative overflow-hidden">
+                             <div key={p.id} className="bg-white p-4 rounded-2xl border border-blue-200 shadow-sm relative overflow-hidden">
                                <div className="absolute top-0 left-0 w-1.5 h-full" style={{ backgroundColor: bgColor }}></div>
                                <div className="flex justify-between items-center mb-1.5 pl-2">
                                  <div className="flex items-center gap-1.5"><span className="text-[9px] font-black px-1.5 py-0.5 rounded shadow-sm border" style={{ color: bgColor, backgroundColor: `${bgColor}15`, borderColor: `${bgColor}30` }}>{p.company}</span><span className="text-[9px] font-bold text-slate-500 flex items-center gap-1"><span className="text-blue-500 font-black">[{p.origin}]</span> {p.enrollDate} 추천</span></div>
                                  {p.author && <span className="text-[8px] font-black text-slate-600 bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200 shadow-sm">{p.author} 등록</span>}
                                </div>
-                               <h5 className="text-sm font-black text-slate-900 tracking-tight pl-2">{p.name}</h5>
-                               <p className="text-[10px] font-bold text-slate-500 mt-1.5 pl-2">예상금액: <span className="text-slate-900">{p.amount}</span></p>
+                               <h5 className="text-sm font-black text-slate-800 tracking-tight pl-2">{p.name}</h5>
+                               <p className="text-[10px] font-bold text-slate-500 mt-1.5 pl-2">예상금액: <span className="text-slate-800">{p.amount}</span></p>
                              </div>
                            )
                          })}
                        </div>
                      )}
                    </div>
-                   <button onClick={() => setIsAddingProduct(true)} className="w-full py-4 mt-2 border-2 border-dashed border-indigo-300 bg-indigo-50 text-indigo-600 font-black text-xs flex items-center justify-center gap-2 hover:bg-indigo-100 transition-colors active:scale-95 shadow-sm"><Plus size={16} /> 새로운 가입/소개상품 등록</button>
+                   <button onClick={() => setIsAddingProduct(true)} className="w-full py-4 mt-2 border-2 border-dashed border-indigo-300 bg-white text-indigo-600 font-black text-xs flex items-center justify-center gap-2 hover:bg-indigo-50 transition-colors active:scale-95 shadow-sm"><Plus size={16} /> 새로운 가입/소개상품 등록</button>
                    <GoogleAdPlaceholder type="banner" className="mt-6 mb-2" />
                  </div>
                ) : (
                  <div className="bg-white p-5 rounded-2xl border border-indigo-200 shadow-xl space-y-5 animate-in slide-in-from-bottom-4 duration-300">
-                   <h4 className="text-sm font-black text-slate-900 border-b border-slate-100 pb-3">가입상품 상세 등록</h4>
+                   <h4 className="text-sm font-black text-slate-800 border-b border-slate-100 pb-3">가입상품 상세 등록</h4>
                    <div className="space-y-5">
                      <div>
                        <label className="text-[10px] font-bold text-slate-500 mb-2 block uppercase tracking-widest">상품 출처 구분</label>
@@ -1578,7 +1556,7 @@ export default function App() {
                      <div>
                        <label className="text-[10px] font-bold text-slate-500 block mb-1.5 uppercase tracking-widest">가입 보험사</label>
                        <div className="relative">
-                         <select value={newProduct.company} onChange={(e) => setNewProduct({...newProduct, company: e.target.value})} className="w-full bg-white border border-slate-300 rounded-xl pl-4 pr-10 py-3.5 text-sm font-black outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400 appearance-none shadow-sm">
+                         <select value={newProduct.company} onChange={(e) => setNewProduct({...newProduct, company: e.target.value})} className="w-full bg-white border border-slate-300 rounded-xl pl-4 pr-10 py-3.5 text-sm font-black outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400 appearance-none shadow-sm text-slate-800">
                             {Object.keys(INSURANCE_DATA[newProduct.category] || {}).map(company => (<option key={company} value={company}>{company}</option>))}
                          </select>
                          <ChevronRight size={16} className="absolute right-4 top-4 text-slate-400 rotate-90 pointer-events-none" />
@@ -1587,7 +1565,7 @@ export default function App() {
                      <div>
                        <label className="text-[10px] font-bold text-slate-500 block mb-1.5 uppercase tracking-widest">상품군 분류</label>
                        <div className="relative">
-                         <select value={newProduct.productType} onChange={(e) => { const pType = e.target.value; const firstProd = INSURANCE_DATA[newProduct.category]?.[newProduct.company]?.types?.[pType]?.[0] || '직접 입력'; setNewProduct({...newProduct, productType: pType, name: firstProd, isCustomName: firstProd === '직접 입력', customName: ''}); }} className="w-full bg-white border border-slate-300 rounded-xl pl-4 pr-10 py-3.5 text-sm font-black outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400 appearance-none shadow-sm">
+                         <select value={newProduct.productType} onChange={(e) => { const pType = e.target.value; const firstProd = INSURANCE_DATA[newProduct.category]?.[newProduct.company]?.types?.[pType]?.[0] || '직접 입력'; setNewProduct({...newProduct, productType: pType, name: firstProd, isCustomName: firstProd === '직접 입력', customName: ''}); }} className="w-full bg-white border border-slate-300 rounded-xl pl-4 pr-10 py-3.5 text-sm font-black outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400 appearance-none shadow-sm text-slate-800">
                             {Object.keys(INSURANCE_DATA[newProduct.category]?.[newProduct.company]?.types || {}).map(type => (<option key={type} value={type}>{type}</option>))}
                          </select>
                          <ChevronRight size={16} className="absolute right-4 top-4 text-slate-400 rotate-90 pointer-events-none" />
@@ -1597,7 +1575,7 @@ export default function App() {
                        <div>
                          <label className="text-[10px] font-bold text-slate-500 block mb-1.5 uppercase tracking-widest">상품명 선택</label>
                          <div className="relative">
-                           <select value={newProduct.isCustomName ? '직접 입력' : newProduct.name} onChange={(e) => { const val = e.target.value; setNewProduct({...newProduct, name: val, isCustomName: val === '직접 입력', customName: val === '직접 입력' ? newProduct.customName : ''}); }} className="w-full bg-white border border-slate-300 rounded-xl pl-4 pr-10 py-3 text-sm font-black outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400 appearance-none shadow-sm">
+                           <select value={newProduct.isCustomName ? '직접 입력' : newProduct.name} onChange={(e) => { const val = e.target.value; setNewProduct({...newProduct, name: val, isCustomName: val === '직접 입력', customName: val === '직접 입력' ? newProduct.customName : ''}); }} className="w-full bg-white border border-slate-300 rounded-xl pl-4 pr-10 py-3 text-sm font-black outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400 appearance-none shadow-sm text-slate-800">
                               {(INSURANCE_DATA[newProduct.category]?.[newProduct.company]?.types?.[newProduct.productType] || ['직접 입력']).map(prod => (<option key={prod} value={prod}>{prod}</option>))}
                            </select>
                            <ChevronRight size={16} className="absolute right-4 top-3.5 text-slate-400 rotate-90 pointer-events-none" />
@@ -1610,8 +1588,8 @@ export default function App() {
                        )}
                      </div>
                      <div className="grid grid-cols-2 gap-3">
-                       <div><label className="text-[10px] font-bold text-slate-500 block mb-1.5 uppercase tracking-widest">가입 금액</label><input type="text" placeholder="예: 1억원" value={newProduct.amount} onChange={(e) => setNewProduct({...newProduct, amount: e.target.value})} className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3.5 text-sm font-bold outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400 shadow-sm" /></div>
-                       <div><label className="text-[10px] font-bold text-slate-500 block mb-1.5 uppercase tracking-widest">가입/소개 년월</label><input type="month" value={newProduct.enrollDate} onChange={(e) => setNewProduct({...newProduct, enrollDate: e.target.value})} className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3.5 text-sm font-bold outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400 shadow-sm" /></div>
+                       <div><label className="text-[10px] font-bold text-slate-500 block mb-1.5 uppercase tracking-widest">가입 금액</label><input type="text" placeholder="예: 1억원" value={newProduct.amount} onChange={(e) => setNewProduct({...newProduct, amount: e.target.value})} className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3.5 text-sm font-bold text-slate-800 outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400 shadow-sm" /></div>
+                       <div><label className="text-[10px] font-bold text-slate-500 block mb-1.5 uppercase tracking-widest">가입/소개 년월</label><input type="month" value={newProduct.enrollDate} onChange={(e) => setNewProduct({...newProduct, enrollDate: e.target.value})} className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3.5 text-sm font-bold text-slate-800 outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400 shadow-sm" /></div>
                      </div>
                    </div>
                    <div className="flex gap-2 pt-4 border-t border-slate-100">
@@ -1628,10 +1606,10 @@ export default function App() {
                {!isAddingMemo ? (
                  <>
                    <div className="flex justify-between items-center px-1">
-                     <h3 className="text-xs font-black text-slate-900">전체 상담 메모</h3>
+                     <h3 className="text-xs font-black text-slate-800">전체 상담 메모</h3>
                      <button onClick={() => { setIsAddingMemo(true); setNewMemoText(''); }} className="text-[10px] font-bold text-indigo-600 bg-indigo-50 border border-indigo-100 px-3 py-1.5 rounded-lg flex items-center gap-1 hover:bg-indigo-100 transition-colors shadow-sm"><Plus size={12} strokeWidth={3} /> 신규 메모 추가</button>
                    </div>
-                   <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-md min-h-[200px] flex flex-col">
+                   <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm min-h-[200px] flex flex-col">
                      <div className="flex-1 space-y-4">
                        {selectedCustomer.history && selectedCustomer.history.filter(h => h.type === '메모').length > 0 ? (
                          selectedCustomer.history.filter(h => h.type === '메모').map(h => {
@@ -1651,8 +1629,8 @@ export default function App() {
                  </>
                ) : (
                  <div className="bg-white p-5 rounded-2xl border border-indigo-200 shadow-xl space-y-5 animate-in slide-in-from-bottom-4 duration-300">
-                   <h4 className="text-sm font-black text-slate-900 border-b border-slate-100 pb-3">신규 메모 작성</h4>
-                   <div><textarea rows="5" placeholder="고객에 대한 중요한 메모나 특이사항을 기록해 주세요." value={newMemoText} onChange={e => setNewMemoText(e.target.value)} className="w-full bg-white shadow-inner border border-slate-300 rounded-xl px-4 py-3 text-sm font-bold text-slate-900 outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400 resize-none leading-relaxed" autoFocus></textarea></div>
+                   <h4 className="text-sm font-black text-slate-800 border-b border-slate-100 pb-3">신규 메모 작성</h4>
+                   <div><textarea rows="5" placeholder="고객에 대한 중요한 메모나 특이사항을 기록해 주세요." value={newMemoText} onChange={e => setNewMemoText(e.target.value)} className="w-full bg-white shadow-inner border border-slate-300 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400 resize-none leading-relaxed" autoFocus></textarea></div>
                    <div className="flex gap-2 pt-2 border-t border-slate-100">
                      <button onClick={() => setIsAddingMemo(false)} className="flex-1 bg-slate-100 border border-slate-200 shadow-sm text-slate-600 py-3.5 rounded-xl font-black text-xs transition-colors active:bg-slate-200">취소</button>
                      <button onClick={handleSaveMemo} className="flex-[2] bg-indigo-600 text-white py-3.5 rounded-xl font-black text-xs transition-transform active:scale-95 shadow-lg shadow-indigo-200 flex items-center justify-center gap-1.5"><CheckCircle2 size={16} /> 메모 저장하기</button>
@@ -1699,7 +1677,6 @@ export default function App() {
     <>
       <style>{`.hide-scrollbar::-webkit-scrollbar { display: none; } .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }`}</style>
       
-      {/* 💡 숨겨진 파일 입력 (카메라 및 갤러리 호출용) */}
       <input type="file" accept="image/*" capture="environment" ref={fileInputRef} onChange={handleImageUpload} style={{ display: 'none' }} />
 
       <div className="min-h-screen bg-slate-900 flex items-center justify-center sm:p-8">
@@ -1725,7 +1702,7 @@ export default function App() {
             {appState === 'profile_step2' && renderProfileStep2Page()}
             {appState === 'main' && (
               <>
-                <div className="flex-1 overflow-y-auto hide-scrollbar pt-12 relative pb-24">
+                <div className="flex-1 overflow-y-auto hide-scrollbar pt-10 relative pb-24">
                   {!selectedCustomer && !selectedTeamMember ? (
                     <>
                       {activeTab === 'home' && renderHomePage()}
@@ -1737,7 +1714,7 @@ export default function App() {
                 </div>
                 {renderBottomNav()}
 
-                {/* 내 명함 다중 관리 모달 */}
+                {/* 내 명함 관리 */}
                 {isMyCardsModalOpen && (
                   <div className="absolute inset-0 z-[200] flex items-end justify-center animate-in fade-in duration-200">
                     <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={() => setIsMyCardsModalOpen(false)} />
@@ -1745,14 +1722,14 @@ export default function App() {
                       <div className="w-10 h-1 bg-slate-300 rounded-full mx-auto mb-6 shrink-0" />
                       <div className="flex justify-between items-start mb-6 shrink-0">
                         <div>
-                          <h3 className="text-xl font-black text-slate-900 tracking-tight">내 명함 관리</h3>
+                          <h3 className="text-xl font-black text-slate-800 tracking-tight">내 명함 관리</h3>
                           <p className="text-[11px] font-bold text-slate-500 mt-1">상황에 맞는 명함을 선택하여 활동하세요.</p>
                         </div>
                         <button onClick={() => setIsMyCardsModalOpen(false)} className="w-8 h-8 flex items-center justify-center bg-white border border-slate-200 rounded-full text-slate-500 active:scale-95 transition-all shadow-sm"><X size={16} /></button>
                       </div>
                       <div className="flex-1 overflow-y-auto hide-scrollbar space-y-4 mb-6">
                         {myBusinessCards.map((card) => (
-                          <div key={card.id} onClick={() => { setUserProfile(card); setIsMyCardsModalOpen(false); showToast("활성 프로필이 변경되었습니다."); }} className={`p-5 rounded-2xl border-2 cursor-pointer relative overflow-hidden flex flex-col justify-between aspect-[1.8/1] shadow-md transition-all ${userProfile.id === card.id ? 'border-indigo-500 bg-gradient-to-br from-indigo-900 to-black text-white shadow-indigo-900/30' : 'border-slate-200 bg-white hover:border-indigo-300 text-slate-900'}`}>
+                          <div key={card.id} onClick={() => { setUserProfile(card); setIsMyCardsModalOpen(false); showToast("활성 프로필이 변경되었습니다."); }} className={`p-5 rounded-2xl border-2 cursor-pointer relative overflow-hidden flex flex-col justify-between aspect-[1.8/1] shadow-md transition-all ${userProfile.id === card.id ? 'border-indigo-500 bg-gradient-to-br from-indigo-800 to-slate-900 text-white shadow-indigo-900/30' : 'border-slate-200 bg-white hover:border-indigo-300 text-slate-800'}`}>
                             <div className="flex justify-between items-start relative z-10">
                               <div>
                                 <p className={`text-[9px] font-black ${userProfile.id === card.id ? 'text-indigo-300' : 'text-slate-400'}`}>{card.company}</p>
@@ -1769,14 +1746,13 @@ export default function App() {
                   </div>
                 )}
 
-                {/* 메인 카메라 스캐너 기능 모달 */}
+                {/* 메인 카메라 모달 */}
                 {isMainScanning && (
                   <div className="absolute inset-0 z-[300] bg-slate-900 flex flex-col animate-in fade-in duration-300">
                     <div className="flex justify-between items-center p-5 text-white pt-14"><h2 className="text-lg font-black">신규 고객 등록</h2><button onClick={() => setIsMainScanning(false)}><X size={24}/></button></div>
                     {mainScanStep === 'choice' && (
                       <div className="flex-1 relative flex flex-col items-center justify-center p-6">
                          <div className="w-full flex flex-col gap-4 mt-4">
-                           {/* 💡 AI 스캔 버튼 (누르면 폰 카메라가 켜짐) */}
                            <button onClick={() => fileInputRef.current.click()} className="w-full py-5 bg-indigo-600 text-white rounded-2xl font-black text-base shadow-lg shadow-indigo-900 active:scale-95 flex items-center justify-center gap-2 transition-transform"><Camera size={20} /> AI 명함 스캔하기</button>
                            <button onClick={() => setMainScanStep('manual')} className="w-full py-5 bg-slate-800 text-white border border-slate-700 rounded-2xl font-black text-base active:scale-95 flex items-center justify-center gap-2 transition-transform"><Edit2 size={20} /> 직접 입력하기</button>
                          </div>
@@ -1785,7 +1761,7 @@ export default function App() {
                     {mainScanStep === 'manual' && (
                       <div className="flex-1 bg-slate-100 rounded-t-[2rem] overflow-hidden flex flex-col mt-4 text-slate-800 border-t border-slate-700">
                          <div className="p-6 overflow-y-auto hide-scrollbar pb-32 flex-1 space-y-6">
-                            <h3 className="text-xl font-black text-slate-900 mb-2">고객 직접 입력</h3>
+                            <h3 className="text-xl font-black text-slate-800 mb-2">고객 직접 입력</h3>
                             <div className="space-y-4">
                               <div><label className="text-[10px] font-bold text-slate-500 block mb-1.5 uppercase">고객명 *</label><input value={manualData.name} onChange={e=>setManualData({...manualData, name: e.target.value})} className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3.5 text-sm font-bold shadow-sm outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400" /></div>
                               <div><label className="text-[10px] font-bold text-slate-500 block mb-1.5 uppercase">전화번호 *</label><input type="tel" value={manualData.phone} onChange={e=>setManualData({...manualData, phone: e.target.value})} className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3.5 text-sm font-bold shadow-sm outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400" /></div>
@@ -1808,15 +1784,15 @@ export default function App() {
                     {mainScanStep === 'result' && (
                       <div className="flex-1 bg-slate-100 rounded-t-[2rem] flex flex-col mt-4 border-t border-slate-700">
                          <div className="p-6 flex-1 overflow-y-auto pb-32">
-                            <h3 className="text-xl font-black mb-4">인식 결과 확인</h3>
-                            <input value={scannedData?.name} onChange={e=>setScannedData({...scannedData, name: e.target.value})} className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-sm font-bold mb-3 shadow-sm outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400"/>
-                            <input value={scannedData?.phone} onChange={e=>setScannedData({...scannedData, phone: e.target.value})} className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-sm font-bold mb-3 shadow-sm outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400"/>
-                            <input value={scannedData?.company} onChange={e=>setScannedData({...scannedData, company: e.target.value})} className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-sm font-bold mb-3 shadow-sm outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400"/>
-                            <input value={scannedData?.email} onChange={e=>setScannedData({...scannedData, email: e.target.value})} className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-sm font-bold mb-3 shadow-sm outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400" placeholder="이메일"/>
+                            <h3 className="text-xl font-black text-slate-800 mb-4">인식 결과 확인</h3>
+                            <input value={scannedData?.name} onChange={e=>setScannedData({...scannedData, name: e.target.value})} className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 mb-3 shadow-sm outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400"/>
+                            <input value={scannedData?.phone} onChange={e=>setScannedData({...scannedData, phone: e.target.value})} className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 mb-3 shadow-sm outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400"/>
+                            <input value={scannedData?.company} onChange={e=>setScannedData({...scannedData, company: e.target.value})} className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 mb-3 shadow-sm outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400"/>
+                            <input value={scannedData?.email} onChange={e=>setScannedData({...scannedData, email: e.target.value})} className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 mb-3 shadow-sm outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400" placeholder="이메일"/>
                          </div>
                          <div className="p-5 bg-white flex gap-2 border-t border-slate-200">
                            <button onClick={() => setMainScanStep('choice')} className="flex-1 py-4 bg-slate-100 text-slate-600 rounded-2xl font-black text-sm border border-slate-200 shadow-sm active:scale-95 transition-all">다시 찍기</button>
-                           <button onClick={handleSaveScannedData} className="flex-[2] py-4 bg-indigo-600 text-white rounded-2xl font-black text-sm shadow-lg shadow-indigo-200 active:scale-95 transition-all">저장</button>
+                           <button onClick={handleSaveScannedData} className="flex-[2] py-4 bg-indigo-600 text-white rounded-2xl font-black text-sm shadow-md shadow-indigo-200">저장</button>
                          </div>
                       </div>
                     )}
@@ -1840,8 +1816,8 @@ export default function App() {
                       <div className="flex-1 bg-slate-100 rounded-t-[2rem] flex flex-col mt-4 border-t border-slate-700">
                          <div className="p-6 flex-1 overflow-y-auto pb-32">
                            <p className="text-xs font-bold text-indigo-700 bg-indigo-50 p-4 rounded-xl border border-indigo-200 mb-4 shadow-sm">이전 명함은 보관되며 최신으로 교체됩니다.</p>
-                           <input value={scannedData?.name} onChange={e=>setScannedData({...scannedData, name: e.target.value})} className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-sm font-bold mb-3 shadow-sm outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400"/>
-                           <input value={scannedData?.company} onChange={e=>setScannedData({...scannedData, company: e.target.value})} className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-sm font-bold mb-3 shadow-sm outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400"/>
+                           <input value={scannedData?.name} onChange={e=>setScannedData({...scannedData, name: e.target.value})} className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 mb-3 shadow-sm outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400"/>
+                           <input value={scannedData?.company} onChange={e=>setScannedData({...scannedData, company: e.target.value})} className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 mb-3 shadow-sm outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400"/>
                          </div>
                          <div className="p-5 bg-white flex gap-2 border-t border-slate-200">
                            <button onClick={() => setMainScanStep('detail_choice')} className="flex-1 py-4 bg-slate-100 text-slate-600 rounded-2xl font-black text-sm border border-slate-200 shadow-sm active:scale-95 transition-all">뒤로</button>
@@ -1852,13 +1828,13 @@ export default function App() {
                   </div>
                 )}
                 
-                {/* 💡 공유 모달 z-index 999 설정으로 동작 정상화 완료 */}
+                {/* 공유 모달 */}
                 {isShareModalOpen && selectedCustomer && (
                   <div className="absolute inset-0 z-[999] flex items-end justify-center animate-in fade-in duration-200">
                     <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={() => setIsShareModalOpen(false)} />
                     <div className="relative bg-white w-full rounded-t-[2.5rem] p-6 pb-8 shadow-2xl max-h-[90%] flex flex-col animate-in slide-in-from-bottom-8 duration-300 border-t border-slate-200">
                       <div className="flex justify-between items-start mb-4">
-                        <div><h3 className="text-xl font-black text-slate-900">고객 공유</h3><p className="text-[11px] font-bold text-slate-500 mt-1">공동으로 관리할 팀원을 선택하세요.</p></div>
+                        <div><h3 className="text-xl font-black text-slate-800">고객 공유</h3><p className="text-[11px] font-bold text-slate-500 mt-1">공동으로 관리할 팀원을 선택하세요.</p></div>
                         <button onClick={() => setIsShareModalOpen(false)} className="w-8 h-8 flex items-center justify-center bg-slate-50 border border-slate-200 shadow-sm rounded-full text-slate-600 active:scale-95 transition-all"><X size={16} /></button>
                       </div>
                       <div className="flex-1 overflow-y-auto space-y-2 mb-6">
@@ -1866,18 +1842,18 @@ export default function App() {
                           <label key={member.id} className={`flex items-center justify-between p-3 rounded-xl border-2 cursor-pointer transition-colors ${selectedShareMembers.includes(member.id) ? 'border-indigo-500 bg-indigo-50/50' : 'border-slate-100 hover:bg-slate-50'}`}>
                             <div className="flex items-center gap-3">
                               <div className="w-10 h-10 bg-white border border-slate-200 shadow-sm rounded-full flex items-center justify-center text-slate-500 font-black">{member.name[0]}</div>
-                              <div><p className="font-black text-sm text-slate-900">{member.name}</p><p className="text-[10px] font-bold text-slate-500">{member.position}</p></div>
+                              <div><p className="font-black text-sm text-slate-800">{member.name}</p><p className="text-[10px] font-bold text-slate-500">{member.position}</p></div>
                             </div>
                             <input type="checkbox" checked={selectedShareMembers.includes(member.id)} onChange={(e) => e.target.checked ? setSelectedShareMembers([...selectedShareMembers, member.id]) : setSelectedShareMembers(selectedShareMembers.filter(id => id !== member.id))} className="w-5 h-5 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500" />
                           </label>
                         ))}
                       </div>
-                      <button onClick={() => { updateSelectedCustomer({ sharedWith: selectedShareMembers }); setIsShareModalOpen(false); showToast("공유가 완료되었습니다."); }} className="w-full py-4 bg-slate-900 text-white rounded-2xl font-black shadow-lg shadow-slate-900/30 active:scale-95 transition-transform">공유 설정 저장</button>
+                      <button onClick={() => { updateSelectedCustomer({ sharedWith: selectedShareMembers }); setIsShareModalOpen(false); showToast("공유가 완료되었습니다."); }} className="w-full py-4 bg-slate-800 text-white rounded-2xl font-black shadow-lg shadow-slate-900/30 active:scale-95 transition-transform">공유 설정 저장</button>
                     </div>
                   </div>
                 )}
 
-                {/* 알림 상세 팝업 (공지/약속) 복구 완료 */}
+                {/* 알림 상세 팝업 */}
                 {popupData && (
                   <div className="absolute inset-0 z-[350] flex items-center justify-center p-6 animate-in fade-in duration-200">
                     <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={() => setPopupData(null)} />
@@ -1894,7 +1870,7 @@ export default function App() {
                         </button>
                       </div>
 
-                      <h3 className="text-xl font-black text-slate-900 leading-tight mb-2 tracking-tight">{popupData.data.title}</h3>
+                      <h3 className="text-xl font-black text-slate-800 leading-tight mb-2 tracking-tight">{popupData.data.title}</h3>
                       <p className="text-[10px] font-bold text-slate-400 mb-5">{popupData.data.time}</p>
 
                       {popupData.type === 'notice' && (
@@ -1916,14 +1892,14 @@ export default function App() {
                           <div className="flex items-center gap-3 p-3 border border-slate-200 rounded-xl bg-white shadow-sm">
                             <div className="w-10 h-10 bg-slate-100 border border-slate-200 rounded-full flex items-center justify-center font-black text-slate-600">{popupData.data.payload.name[0]}</div>
                             <div className="flex-1">
-                              <p className="text-sm font-black text-slate-900">{popupData.data.payload.name}</p>
+                              <p className="text-sm font-black text-slate-800">{popupData.data.payload.name}</p>
                               <p className="text-[10px] font-bold text-slate-500">{popupData.data.payload.phone}</p>
                             </div>
                           </div>
                         </div>
                       )}
 
-                      <button onClick={() => setPopupData(null)} className="w-full py-4 bg-slate-900 text-white rounded-xl font-black text-sm mt-6 active:scale-95 transition-transform shadow-lg shadow-slate-900/30">확인했습니다</button>
+                      <button onClick={() => setPopupData(null)} className="w-full py-4 bg-slate-800 text-white rounded-xl font-black text-sm mt-6 active:scale-95 transition-transform shadow-lg shadow-slate-900/30">확인했습니다</button>
                     </div>
                   </div>
                 )}
