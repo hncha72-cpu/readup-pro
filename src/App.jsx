@@ -837,7 +837,8 @@ export default function App() {
     );
   };
 
-  const renderCustomerListPage = () => (
+  const renderCustomerListPage = () => {
+  return (
     <div className="p-5 space-y-4 animate-in slide-in-from-right duration-300 pb-32">
       <div className="flex justify-between items-center pt-2 mb-2">
         <div className="flex items-center gap-3">
@@ -927,6 +928,7 @@ export default function App() {
           )) 
         )}  
       </div>
+    </div>  {/* 💡 새로 추가된 닫는 태그! (메인 div를 닫아줍니다) */}
     );
   };
 
