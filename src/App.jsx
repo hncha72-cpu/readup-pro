@@ -928,7 +928,7 @@ export default function App() {
           )) 
         )}  
       </div>
-    </div>  {/* 💡 새로 추가된 닫는 태그! (메인 div를 닫아줍니다) */}
+    </div>  
     );
   };
 
