@@ -8,6 +8,161 @@ import {
   Coffee, CreditCard, Clock, MapPin, ChevronDown, ChevronUp
 } from 'lucide-react';
 
+const CLAIM_GUIDES = [
+  {
+    id: 1,
+    title: "🏥 기본 실손의료비 (통원)",
+    description: "감기, 장염, 가벼운 타박상 등 동네 병원 (10만 원 이하)",
+    message: "고객님, 병원 다녀오시느라 고생 많으셨습니다.\n빠른 실손 보상 청구를 위해 아래 서류를 사진으로 선명하게 찍어서 저에게 보내주시면, 제가 바로 접수해 드리겠습니다!",
+    docs: [
+      "진료비 영수증 (카드 결제 영수증 불가)",
+      "진료비 세부내역서 (비급여 항목 시 필수)",
+      "환자 보관용 처방전 (질병분류코드 기재)"
+    ],
+    tip: "소액 청구 시 '진료확인서(보통 3천원)' 대신 무료인 '처방전(환자보관용)'에 질병코드를 적어달라고 안내하면 고객의 서류 발급 비용을 아껴줄 수 있습니다."
+  },
+  {
+    id: 2,
+    title: "🛏️ 실손의료비 + 입원 일당",
+    description: "며칠간 병원에 입원하여 치료를 받았을 때",
+    message: "고객님, 퇴원은 잘 하셨는지요? 회복에 전념하시느라 고생하셨습니다.\n입원 치료에 대한 보험금 청구를 위해 퇴원하실 때 아래 서류를 꼭 챙겨주세요!",
+    docs: [
+      "진단서 또는 입퇴원 확인서 (질병분류코드 필수)",
+      "진료비 영수증 (퇴원 시 정산 영수증)",
+      "진료비 세부내역서 전체",
+      "신분증 및 통장 사본 (최초 1회)"
+    ],
+    tip: "병원 원무과에 '보험 제출용'이라고 말하면 알아서 발급해 줍니다. 서류를 바닥에 펼쳐서 빛 반사 없이 찍어달라고 꼭 당부하세요."
+  },
+  {
+    id: 3,
+    title: "🦴 골절 및 상해 (깁스/수술)",
+    description: "뼈가 부러지거나 깁스를 한 사고일 때",
+    message: "고객님, 많이 놀라시고 아프셨을 텐데 걱정입니다.\n치료 잘 받으시고, 가입해 두신 상해/골절 특약 보상을 위해 아래 서류를 부탁드립니다.",
+    docs: [
+      "진단서 또는 진료확인서 (골절 진단명 및 S코드 필수)",
+      "응급실 기록지 (응급실 이용 시)",
+      "X-ray 또는 MRI 결과 판독지",
+      "진료비 영수증 및 세부내역서"
+    ],
+    tip: "실금(미세 골절)의 경우에도 보상이 가능하니, 의사 선생님께 꼭 진단서에 '골절 분류코드'를 넣어달라고 말씀하시도록 안내하세요."
+  }
+];
+
+// 💡 2. 화면에 그려질 UI 컴포넌트
+const ClaimGuidePage = () => {
+  // 열려있는 아코디언 메뉴의 ID 상태 관리
+  const [expandedId, setExpandedId] = useState(null);
+  // 복사 완료 상태 표시를 위한 상태 관리
+  const [copiedId, setCopiedId] = useState(null);
+
+  // 텍스트를 조합해서 클립보드에 복사하는 함수
+  const handleCopyText = (guide) => {
+    // 고객에게 보낼 메시지 형태로 텍스트 조립
+    const textToCopy = `${guide.message}\n\n[📋 필요 서류]\n${guide.docs.map((doc, i) => `${i + 1}. ${doc}`).join('\n')}\n\n※ 서류를 반듯하게 펴서 사진으로 찍어 보내주시면 빠른 처리가 가능합니다!`;
+    
+    // 스마트폰 클립보드에 복사
+    navigator.clipboard.writeText(textToCopy).then(() => {
+      setCopiedId(guide.id);
+      // 2초 뒤에 '복사 완료' 표시 원래대로 되돌리기
+      setTimeout(() => setCopiedId(null), 2000); 
+    });
+  };
+
+  return (
+    <div className="p-5 space-y-4 animate-in fade-in duration-300 pb-32">
+      <div className="flex justify-between items-center pt-2 mb-2">
+        <h1 className="text-xl font-black text-slate-800 tracking-tight flex items-center gap-2">
+          <FileText size={22} className="text-indigo-600" />
+          보상 청구 서류 가이드
+        </h1>
+      </div>
+      
+      <p className="text-xs font-bold text-slate-500 mb-4">
+        고객의 상황에 맞는 서류 안내문을 터치하여 바로 카톡으로 보내보세요.
+      </p>
+
+      <div className="space-y-3">
+        {CLAIM_GUIDES.map((guide) => (
+          <div key={guide.id} className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden transition-all">
+            {/* 카드 헤더 (클릭 시 열림/닫힘) */}
+            <button 
+              onClick={() => setExpandedId(expandedId === guide.id ? null : guide.id)}
+              className="w-full p-4 flex items-center justify-between text-left hover:bg-slate-50 active:bg-slate-100 transition-colors"
+            >
+              <div>
+                <h3 className="text-[15px] font-black text-slate-800">{guide.title}</h3>
+                <p className="text-[11px] font-bold text-slate-500 mt-1">{guide.description}</p>
+              </div>
+              <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 shrink-0">
+                {expandedId === guide.id ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+              </div>
+            </button>
+
+            {/* 확장되는 상세 내용 영역 */}
+            {expandedId === guide.id && (
+              <div className="p-4 pt-0 border-t border-slate-100 bg-slate-50/50 animate-in slide-in-from-top-2 duration-200">
+                {/* 메시지 템플릿 미리보기 */}
+                <div className="bg-white p-3 rounded-xl border border-slate-200 mt-3 shadow-sm relative">
+                  <p className="text-[12px] text-slate-700 leading-relaxed whitespace-pre-wrap">
+                    {guide.message}
+                  </p>
+                  <div className="mt-3 pt-3 border-t border-slate-100">
+                    <p className="text-[11px] font-black text-indigo-600 mb-1.5">[📋 필요 서류]</p>
+                    <ul className="text-[11px] text-slate-600 space-y-1 pl-1">
+                      {guide.docs.map((doc, idx) => (
+                        <li key={idx}>• {doc}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                {/* 영업자 전용 꿀팁 (고객에게는 안 감) */}
+                <div className="mt-3 bg-amber-50 border border-amber-200 p-2.5 rounded-xl flex items-start gap-2">
+                  <AlertCircle size={14} className="text-amber-500 shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-[10px] font-black text-amber-700">영업자 전용 꿀팁</p>
+                    <p className="text-[10px] text-amber-600 font-medium leading-relaxed mt-0.5">{guide.tip}</p>
+                  </div>
+                </div>
+
+                {/* 액션 버튼 */}
+                <div className="flex gap-2 mt-4">
+                  <button 
+                    onClick={() => handleCopyText(guide)}
+                    className={`flex-1 py-2.5 rounded-xl text-xs font-black flex items-center justify-center gap-1.5 transition-all shadow-sm ${
+                      copiedId === guide.id 
+                        ? 'bg-emerald-500 text-white border-transparent' 
+                        : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-50'
+                    }`}
+                  >
+                    {copiedId === guide.id ? (
+                      <><CheckCircle2 size={14} /> 복사 완료!</>
+                    ) : (
+                      <><Copy size={14} /> 텍스트 복사</>
+                    )}
+                  </button>
+                  <button 
+                    onClick={() => {
+                      handleCopyText(guide);
+                      setTimeout(() => alert("텍스트가 복사되었습니다. 카카오톡 창에 '붙여넣기' 해주세요!"), 300);
+                    }}
+                    className="flex-1 py-2.5 bg-[#FEE500] hover:bg-[#FDD800] text-black border border-[#FDD800] rounded-xl text-xs font-black flex items-center justify-center gap-1.5 shadow-sm transition-colors active:scale-95"
+                  >
+                    <MessageSquare size={14} className="fill-black" /> 카톡으로 보내기
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default ClaimGuidePage;
+
 const safeGet = (key) => { try { return localStorage.getItem(key); } catch(e) { return null; } };
 const safeSet = (key, val) => { try { localStorage.setItem(key, val); } catch(e) { console.warn("Storage restricted"); } };
 
@@ -1720,6 +1875,7 @@ export default function App() {
                 <div className="flex-1 overflow-y-auto hide-scrollbar pt-10 relative pb-24">
                   {!selectedCustomer && !selectedTeamMember ? (
                     <>
+                      {activeTab === 'claim' && <ClaimGuidePage />}
                       {activeTab === 'home' && renderHomePage()}
                       {activeTab === 'customers' && renderCustomerListPage()}
                       {activeTab === 'team' && renderTeamMockPage()}
