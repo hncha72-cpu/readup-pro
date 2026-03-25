@@ -924,8 +924,7 @@ export default function App() {
                 </div>
               </div>
             </React.Fragment>
-          ))
-        )}
+          ))}
       </div>
     );
   };
