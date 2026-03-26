@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { Coffee, MessageCircle, Home, Users, Camera, Building2, FileText, ChevronDown, ChevronUp, Copy, MessageSquare, AlertCircle, CheckCircle2, X, Clock, MapPin, Share2, ShieldCheck, Phone, Mail, UserPlus, UserCheck, Briefcase, ChevronRight, ChevronLeft } from 'lucide-react';
+import { CalendarDays, Coffee, MessageCircle, Home, Users, Camera, Building2, FileText, ChevronDown, ChevronUp, Copy, MessageSquare, AlertCircle, CheckCircle2, X, Clock, MapPin, Share2, ShieldCheck, Phone, Mail, UserPlus, UserCheck, Briefcase, ChevronRight, ChevronLeft } from 'lucide-react';
 const CLAIM_GUIDES = [
   {
     id: 1,
