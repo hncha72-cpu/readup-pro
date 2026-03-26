@@ -44,26 +44,24 @@ const CLAIM_GUIDES = [
 
 // 💡 2. 화면에 그려질 UI 컴포넌트
 const ClaimGuidePage = () => {
-  // 열려있는 아코디언 메뉴의 ID 상태 관리
   const [expandedId, setExpandedId] = useState(null);
-  // 복사 완료 상태 표시를 위한 상태 관리
   const [copiedId, setCopiedId] = useState(null);
 
-  // 텍스트를 조합해서 클립보드에 복사하는 함수
   const handleCopyText = (guide) => {
-    // 고객에게 보낼 메시지 형태로 텍스트 조립
     const textToCopy = `${guide.message}\n\n[📋 필요 서류]\n${guide.docs.map((doc, i) => `${i + 1}. ${doc}`).join('\n')}\n\n※ 서류를 반듯하게 펴서 사진으로 찍어 보내주시면 빠른 처리가 가능합니다!`;
     
-    // 스마트폰 클립보드에 복사
     navigator.clipboard.writeText(textToCopy).then(() => {
       setCopiedId(guide.id);
-      // 2초 뒤에 '복사 완료' 표시 원래대로 되돌리기
       setTimeout(() => setCopiedId(null), 2000); 
     });
   };
 
   return (
-   <div className="flex justify-between items-center pt-2 mb-2">
+    // 👇 바로 이 녀석이 실수로 지워졌던 '가장 바깥쪽 거대한 박스' 입니다!
+    <div className="p-5 space-y-4 animate-in fade-in duration-300 pb-32">
+      
+      {/* 뒤로 가기 버튼이 포함된 헤더 */}
+      <div className="flex justify-between items-center pt-2 mb-2">
         <div className="flex items-center gap-3">
           <button 
             onClick={() => setActiveTab('home')} 
@@ -85,7 +83,6 @@ const ClaimGuidePage = () => {
       <div className="space-y-3">
         {CLAIM_GUIDES.map((guide) => (
           <div key={guide.id} className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden transition-all">
-            {/* 카드 헤더 (클릭 시 열림/닫힘) */}
             <button 
               onClick={() => setExpandedId(expandedId === guide.id ? null : guide.id)}
               className="w-full p-4 flex items-center justify-between text-left hover:bg-slate-50 active:bg-slate-100 transition-colors"
@@ -99,10 +96,8 @@ const ClaimGuidePage = () => {
               </div>
             </button>
 
-            {/* 확장되는 상세 내용 영역 */}
             {expandedId === guide.id && (
               <div className="p-4 pt-0 border-t border-slate-100 bg-slate-50/50 animate-in slide-in-from-top-2 duration-200">
-                {/* 메시지 템플릿 미리보기 */}
                 <div className="bg-white p-3 rounded-xl border border-slate-200 mt-3 shadow-sm relative">
                   <p className="text-[12px] text-slate-700 leading-relaxed whitespace-pre-wrap">
                     {guide.message}
@@ -117,7 +112,6 @@ const ClaimGuidePage = () => {
                   </div>
                 </div>
 
-                {/* 영업자 전용 꿀팁 (고객에게는 안 감) */}
                 <div className="mt-3 bg-amber-50 border border-amber-200 p-2.5 rounded-xl flex items-start gap-2">
                   <AlertCircle size={14} className="text-amber-500 shrink-0 mt-0.5" />
                   <div>
@@ -126,7 +120,6 @@ const ClaimGuidePage = () => {
                   </div>
                 </div>
 
-                {/* 액션 버튼 */}
                 <div className="flex gap-2 mt-4">
                   <button 
                     onClick={() => handleCopyText(guide)}
@@ -160,7 +153,6 @@ const ClaimGuidePage = () => {
     </div>
   );
 };
-
 
 const safeGet = (key) => { try { return localStorage.getItem(key); } catch(e) { return null; } };
 const safeSet = (key, val) => { try { localStorage.setItem(key, val); } catch(e) { console.warn("Storage restricted"); } };
