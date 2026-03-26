@@ -2035,10 +2035,30 @@ export default function App() {
                   </div>
                 </div>
 
-                {/* 공유 모달 */}
+              {/* 공유 모달 */}
                 {isShareModalOpen && selectedCustomer && (
                   <div className="absolute inset-0 z-[999] flex items-end justify-center animate-in fade-in duration-200">
-                    {/* ... (이하 기존 코드 동일) ... */}
+                    <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={() => setIsShareModalOpen(false)} />
+                    <div className="relative bg-white w-full rounded-t-[2.5rem] p-6 pb-8 shadow-2xl max-h-[90%] flex flex-col animate-in slide-in-from-bottom-8 duration-300 border-t border-slate-200">
+                      <div className="flex justify-between items-start mb-4">
+                        <div><h3 className="text-xl font-black text-slate-800">고객 공유</h3><p className="text-[11px] font-bold text-slate-500 mt-1">공동으로 관리할 팀원을 선택하세요.</p></div>
+                        <button onClick={() => setIsShareModalOpen(false)} className="w-8 h-8 flex items-center justify-center bg-slate-50 border border-slate-200 shadow-sm rounded-full text-slate-600 active:scale-95 transition-all"><X size={16} /></button>
+                      </div>
+                      <div className="flex-1 overflow-y-auto space-y-2 mb-6">
+                        {TEAM_MEMBERS.map(member => (
+                          <label key={member.id} className={`flex items-center justify-between p-3 rounded-xl border-2 cursor-pointer transition-colors ${selectedShareMembers.includes(member.id) ? 'border-indigo-500 bg-indigo-50/50' : 'border-slate-100 hover:bg-slate-50'}`}>
+                            <div className="flex items-center gap-3">
+                              <div className="w-10 h-10 bg-white border border-slate-200 shadow-sm rounded-full flex items-center justify-center text-slate-500 font-black">{member.name[0]}</div>
+                              <div><p className="font-black text-sm text-slate-800">{member.name}</p><p className="text-[10px] font-bold text-slate-500">{member.position}</p></div>
+                            </div>
+                            <input type="checkbox" checked={selectedShareMembers.includes(member.id)} onChange={(e) => e.target.checked ? setSelectedShareMembers([...selectedShareMembers, member.id]) : setSelectedShareMembers(selectedShareMembers.filter(id => id !== member.id))} className="w-5 h-5 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500" />
+                          </label>
+                        ))}
+                      </div>
+                      <button onClick={() => { updateSelectedCustomer({ sharedWith: selectedShareMembers }); setIsShareModalOpen(false); showToast("공유가 완료되었습니다."); }} className="w-full py-4 bg-slate-800 text-white rounded-2xl font-black shadow-lg shadow-slate-900/30 active:scale-95 transition-transform">공유 설정 저장</button>
+                    </div>
+                  </div>
+                )}
                 {/* 공유 모달 */}
                 {isShareModalOpen && selectedCustomer && (
                   <div className="absolute inset-0 z-[999] flex items-end justify-center animate-in fade-in duration-200">
