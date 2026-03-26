@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { Signal, CalendarDays, Coffee, MessageCircle, Home, Users, Camera, Building2, FileText, ChevronDown, ChevronUp, Copy, MessageSquare, AlertCircle, CheckCircle2, X, Clock, MapPin, Share2, ShieldCheck, Phone, Mail, UserPlus, UserCheck, Briefcase, ChevronRight, ChevronLeft } from 'lucide-react';
+import { Signal, CalendarDays, Coffee, MessageCircle, Home, Users, Camera, Building2, FileText, ChevronDown, ChevronUp, Copy, MessageSquare, AlertCircle, CheckCircle2, X, Clock, MapPin, Share2, ShieldCheck, Phone, Mail, UserPlus, UserCheck, Briefcase, ChevronRight, ChevronLeft, Loader2, Smartphone, CheckSquare, Square, ToggleRight, ToggleLeft, Hash, Plus, Edit2, LayoutGrid, CreditCard, Wifi, Battery, Bell } from 'lucide-react';
 const CLAIM_GUIDES = [
   {
     id: 1,
@@ -1807,29 +1807,30 @@ export default function App() {
   };
 
   const renderBottomNav = () => (
-    <div className="absolute bottom-0 inset-x-0 bg-white border-t border-slate-200 flex justify-between items-center h-[76px] pb-4 pt-1 px-6 z-40 rounded-b-[2.5rem]">
-      <div className="flex gap-8">
-        <button onClick={() => { setActiveTab('home'); setSelectedCustomer(null); setSelectedTeamMember(null); }} className={`flex flex-col items-center gap-1 transition-colors ${activeTab === 'home' && !selectedCustomer && !selectedTeamMember ? 'text-indigo-600' : 'text-slate-400'}`}>
-          <Home size={22} /><span className="text-[9px] font-bold">홈</span>
+    <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-slate-200 pb-safe z-[500] shadow-[0_-10px_30px_-15px_rgba(0,0,0,0.05)] rounded-b-[2.5rem]">
+      <div className="flex justify-around items-center px-1 py-2 h-[76px] pb-4 pt-1">
+        {/* 1. 홈 */}
+        <button onClick={() => { setActiveTab('home'); setSelectedCustomer(null); setSelectedTeamMember(null); }} className={`flex flex-col items-center justify-center w-20 gap-1 transition-all ${activeTab === 'home' && !selectedCustomer && !selectedTeamMember ? 'text-indigo-600 scale-105' : 'text-slate-400 hover:text-slate-600'}`}>
+          <Home size={22} strokeWidth={activeTab === 'home' ? 2.5 : 2} />
+          <span className="text-[10px] font-black tracking-tight mt-1">홈</span>
         </button>
-        <button onClick={() => { setActiveTab('customers'); setSelectedCustomer(null); setSelectedTeamMember(null); }} className={`flex flex-col items-center gap-1 transition-colors ${activeTab === 'customers' && !selectedCustomer ? 'text-indigo-600' : 'text-slate-400'}`}>
-          <Users size={22} /><span className="text-[9px] font-bold">고객관리</span>
+        
+        {/* 2. 고객리스트 */}
+        <button onClick={() => { setActiveTab('customers'); setSelectedCustomer(null); setSelectedTeamMember(null); }} className={`flex flex-col items-center justify-center w-20 gap-1 transition-all ${activeTab === 'customers' && !selectedCustomer ? 'text-indigo-600 scale-105' : 'text-slate-400 hover:text-slate-600'}`}>
+          <Users size={22} strokeWidth={activeTab === 'customers' ? 2.5 : 2} />
+          <span className="text-[10px] font-black tracking-tight mt-1">고객리스트</span>
         </button>
-      </div>
 
-      <div className="absolute left-1/2 -translate-x-1/2 -top-6 flex justify-center">
-        <button onClick={handleOpenScanner} className="bg-indigo-600 text-white w-[60px] h-[60px] rounded-full shadow-lg shadow-indigo-300 flex flex-col items-center justify-center active:scale-95 transition-transform border-[5px] border-slate-100">
-          <Camera size={24} className="mb-0.5" />
+        {/* 3. 팀리스트 */}
+        <button onClick={() => { setActiveTab('team'); setSelectedCustomer(null); setSelectedTeamMember(null); }} className={`flex flex-col items-center justify-center w-20 gap-1 transition-all ${activeTab === 'team' && !selectedCustomer && !selectedTeamMember ? 'text-indigo-600 scale-105' : 'text-slate-400 hover:text-slate-600'}`}>
+          <Building2 size={22} strokeWidth={activeTab === 'team' ? 2.5 : 2} />
+          <span className="text-[10px] font-black tracking-tight mt-1">팀리스트</span>
         </button>
-      </div>
 
-      <div className="flex gap-8">
-        <button onClick={() => { setActiveTab('team'); setSelectedCustomer(null); setSelectedTeamMember(null); }} className={`flex flex-col items-center gap-1 transition-colors ${activeTab === 'team' && !selectedCustomer && !selectedTeamMember ? 'text-indigo-600' : 'text-slate-400'}`}>
-          <Share2 size={22} /><span className="text-[9px] font-bold">팀 공유</span>
-        </button>
-        <button onClick={() => { setActiveTab('profile'); setSelectedCustomer(null); setSelectedTeamMember(null); }} className={`flex flex-col items-center gap-1 transition-colors ${activeTab === 'profile' && !selectedCustomer ? 'text-indigo-600' : 'text-slate-400'}`}>
-          <div className="relative"><Bell size={22} /><span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-rose-500 rounded-full border-2 border-white shadow-sm"></span></div>
-          <span className="text-[9px] font-bold">알림</span>
+        {/* 4. 보상가이드 */}
+        <button onClick={() => { setActiveTab('claim'); setSelectedCustomer(null); setSelectedTeamMember(null); }} className={`flex flex-col items-center justify-center w-20 gap-1 transition-all ${activeTab === 'claim' ? 'text-emerald-600 scale-105' : 'text-slate-400 hover:text-slate-600'}`}>
+          <FileText size={22} strokeWidth={activeTab === 'claim' ? 2.5 : 2} />
+          <span className="text-[10px] font-black tracking-tight mt-1">보상가이드</span>
         </button>
       </div>
     </div>
