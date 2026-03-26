@@ -1,13 +1,6 @@
 /* eslint-disable */
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { 
-  UserPlus, Users, Home, Share2, Phone, Bell, CheckCircle2, X, Wifi, Battery, Signal,
-  Camera, Building2, Briefcase, UserCheck, LayoutGrid, Mail, Loader2, ChevronLeft,
-  MessageCircle, Smartphone, CheckSquare, Square, ToggleLeft, ToggleRight, ShieldCheck,
-  ChevronRight, CalendarDays, FileText, Plus, Search, Check, Hash, Edit2, MessageSquare,
-  Coffee, CreditCard, Clock, MapPin, ChevronDown, ChevronUp
-} from 'lucide-react';
-
+import { Home, Users, Camera, Building2, FileText, ChevronDown, ChevronUp, Copy, MessageSquare, AlertCircle, CheckCircle2, X, Clock, MapPin, Share2, ShieldCheck, Phone, Mail, UserPlus, UserCheck, Briefcase, ChevronRight, ChevronLeft } from 'lucide-react';
 const CLAIM_GUIDES = [
   {
     id: 1,
@@ -1999,38 +1992,31 @@ export default function App() {
                 )}
                 
 
-{/* 💡 하단 네비게이션 바 (새로 추가된 보상청구 탭 포함) */}
-                <div className="absolute bottom-0 left-0 right-0 bg-white/90 backdrop-blur-md border-t border-slate-200 pb-safe z-[500] shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.1)]">
-                  <div className="flex justify-around items-center px-2 py-2">
+{/* 💡 수정된 4버튼 하단 네비게이션 바 */}
+                <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-slate-200 pb-safe z-[500] shadow-[0_-10px_30px_-15px_rgba(0,0,0,0.05)]">
+                  <div className="flex justify-around items-center px-1 py-2">
                     {/* 1. 홈 */}
-                    <button onClick={() => setActiveTab('home')} className={`flex flex-col items-center justify-center w-16 h-12 gap-1.5 transition-all ${activeTab === 'home' ? 'text-indigo-600 scale-110' : 'text-slate-400 hover:text-slate-600'}`}>
-                      <Home size={20} strokeWidth={activeTab === 'home' ? 2.5 : 2} className={activeTab === 'home' ? 'drop-shadow-sm' : ''} />
-                      <span className="text-[9px] font-black tracking-tight">홈</span>
+                    <button onClick={() => setActiveTab('home')} className={`flex flex-col items-center justify-center w-20 h-12 gap-1.5 transition-all ${activeTab === 'home' ? 'text-indigo-600 scale-105' : 'text-slate-400 hover:text-slate-600'}`}>
+                      <Home size={22} strokeWidth={activeTab === 'home' ? 2.5 : 2} />
+                      <span className="text-[10px] font-black tracking-tight">홈</span>
                     </button>
                     
-                    {/* 2. 고객 */}
-                    <button onClick={() => setActiveTab('customers')} className={`flex flex-col items-center justify-center w-16 h-12 gap-1.5 transition-all ${activeTab === 'customers' ? 'text-indigo-600 scale-110' : 'text-slate-400 hover:text-slate-600'}`}>
-                      <Users size={20} strokeWidth={activeTab === 'customers' ? 2.5 : 2} className={activeTab === 'customers' ? 'drop-shadow-sm' : ''} />
-                      <span className="text-[9px] font-black tracking-tight">고객</span>
+                    {/* 2. 고객리스트 */}
+                    <button onClick={() => setActiveTab('customers')} className={`flex flex-col items-center justify-center w-20 h-12 gap-1.5 transition-all ${activeTab === 'customers' ? 'text-indigo-600 scale-105' : 'text-slate-400 hover:text-slate-600'}`}>
+                      <Users size={22} strokeWidth={activeTab === 'customers' ? 2.5 : 2} />
+                      <span className="text-[10px] font-black tracking-tight">고객리스트</span>
                     </button>
 
-                    {/* 3. 명함 스캔 (중앙 강조 버튼) */}
-                    <div className="relative -top-5">
-                      <button onClick={() => setIsScanning(true)} className="w-14 h-14 bg-gradient-to-tr from-indigo-600 to-blue-500 rounded-full flex items-center justify-center text-white shadow-lg shadow-indigo-500/40 active:scale-95 transition-transform border-[3px] border-white">
-                        <Camera size={24} strokeWidth={2.5} />
-                      </button>
-                    </div>
-
-                    {/* 4. 팀원 */}
-                    <button onClick={() => setActiveTab('team')} className={`flex flex-col items-center justify-center w-16 h-12 gap-1.5 transition-all ${activeTab === 'team' ? 'text-indigo-600 scale-110' : 'text-slate-400 hover:text-slate-600'}`}>
-                      <Building2 size={20} strokeWidth={activeTab === 'team' ? 2.5 : 2} className={activeTab === 'team' ? 'drop-shadow-sm' : ''} />
-                      <span className="text-[9px] font-black tracking-tight">조직도</span>
+                    {/* 3. 팀리스트 */}
+                    <button onClick={() => setActiveTab('team')} className={`flex flex-col items-center justify-center w-20 h-12 gap-1.5 transition-all ${activeTab === 'team' ? 'text-indigo-600 scale-105' : 'text-slate-400 hover:text-slate-600'}`}>
+                      <Building2 size={22} strokeWidth={activeTab === 'team' ? 2.5 : 2} />
+                      <span className="text-[10px] font-black tracking-tight">팀리스트</span>
                     </button>
 
-                    {/* 5. 보상청구 (🔥 새로 추가된 메뉴!) */}
-                    <button onClick={() => setActiveTab('claim')} className={`flex flex-col items-center justify-center w-16 h-12 gap-1.5 transition-all ${activeTab === 'claim' ? 'text-emerald-600 scale-110' : 'text-slate-400 hover:text-slate-600'}`}>
-                      <FileText size={20} strokeWidth={activeTab === 'claim' ? 2.5 : 2} className={activeTab === 'claim' ? 'drop-shadow-sm text-emerald-600' : ''} />
-                      <span className="text-[9px] font-black tracking-tight">보상가이드</span>
+                    {/* 4. 보상가이드 */}
+                    <button onClick={() => setActiveTab('claim')} className={`flex flex-col items-center justify-center w-20 h-12 gap-1.5 transition-all ${activeTab === 'claim' ? 'text-emerald-600 scale-105' : 'text-slate-400 hover:text-slate-600'}`}>
+                      <FileText size={22} strokeWidth={activeTab === 'claim' ? 2.5 : 2} />
+                      <span className="text-[10px] font-black tracking-tight">보상가이드</span>
                     </button>
                   </div>
                 </div>
