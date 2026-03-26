@@ -161,7 +161,6 @@ const ClaimGuidePage = () => {
   );
 };
 
-export default ClaimGuidePage;
 
 const safeGet = (key) => { try { return localStorage.getItem(key); } catch(e) { return null; } };
 const safeSet = (key, val) => { try { localStorage.setItem(key, val); } catch(e) { console.warn("Storage restricted"); } };
