@@ -1998,6 +1998,47 @@ export default function App() {
                   </div>
                 )}
                 
+
+{/* 💡 하단 네비게이션 바 (새로 추가된 보상청구 탭 포함) */}
+                <div className="absolute bottom-0 left-0 right-0 bg-white/90 backdrop-blur-md border-t border-slate-200 pb-safe z-[500] shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.1)]">
+                  <div className="flex justify-around items-center px-2 py-2">
+                    {/* 1. 홈 */}
+                    <button onClick={() => setActiveTab('home')} className={`flex flex-col items-center justify-center w-16 h-12 gap-1.5 transition-all ${activeTab === 'home' ? 'text-indigo-600 scale-110' : 'text-slate-400 hover:text-slate-600'}`}>
+                      <Home size={20} strokeWidth={activeTab === 'home' ? 2.5 : 2} className={activeTab === 'home' ? 'drop-shadow-sm' : ''} />
+                      <span className="text-[9px] font-black tracking-tight">홈</span>
+                    </button>
+                    
+                    {/* 2. 고객 */}
+                    <button onClick={() => setActiveTab('customers')} className={`flex flex-col items-center justify-center w-16 h-12 gap-1.5 transition-all ${activeTab === 'customers' ? 'text-indigo-600 scale-110' : 'text-slate-400 hover:text-slate-600'}`}>
+                      <Users size={20} strokeWidth={activeTab === 'customers' ? 2.5 : 2} className={activeTab === 'customers' ? 'drop-shadow-sm' : ''} />
+                      <span className="text-[9px] font-black tracking-tight">고객</span>
+                    </button>
+
+                    {/* 3. 명함 스캔 (중앙 강조 버튼) */}
+                    <div className="relative -top-5">
+                      <button onClick={() => setIsScanning(true)} className="w-14 h-14 bg-gradient-to-tr from-indigo-600 to-blue-500 rounded-full flex items-center justify-center text-white shadow-lg shadow-indigo-500/40 active:scale-95 transition-transform border-[3px] border-white">
+                        <Camera size={24} strokeWidth={2.5} />
+                      </button>
+                    </div>
+
+                    {/* 4. 팀원 */}
+                    <button onClick={() => setActiveTab('team')} className={`flex flex-col items-center justify-center w-16 h-12 gap-1.5 transition-all ${activeTab === 'team' ? 'text-indigo-600 scale-110' : 'text-slate-400 hover:text-slate-600'}`}>
+                      <Building2 size={20} strokeWidth={activeTab === 'team' ? 2.5 : 2} className={activeTab === 'team' ? 'drop-shadow-sm' : ''} />
+                      <span className="text-[9px] font-black tracking-tight">조직도</span>
+                    </button>
+
+                    {/* 5. 보상청구 (🔥 새로 추가된 메뉴!) */}
+                    <button onClick={() => setActiveTab('claim')} className={`flex flex-col items-center justify-center w-16 h-12 gap-1.5 transition-all ${activeTab === 'claim' ? 'text-emerald-600 scale-110' : 'text-slate-400 hover:text-slate-600'}`}>
+                      <FileText size={20} strokeWidth={activeTab === 'claim' ? 2.5 : 2} className={activeTab === 'claim' ? 'drop-shadow-sm text-emerald-600' : ''} />
+                      <span className="text-[9px] font-black tracking-tight">보상가이드</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* 공유 모달 */}
+                {isShareModalOpen && selectedCustomer && (
+                  <div className="absolute inset-0 z-[999] flex items-end justify-center animate-in fade-in duration-200">
+                    {/* ... (이하 기존 코드 동일) ... */}
                 {/* 공유 모달 */}
                 {isShareModalOpen && selectedCustomer && (
                   <div className="absolute inset-0 z-[999] flex items-end justify-center animate-in fade-in duration-200">
