@@ -63,12 +63,19 @@ const ClaimGuidePage = () => {
   };
 
   return (
-    <div className="p-5 space-y-4 animate-in fade-in duration-300 pb-32">
-      <div className="flex justify-between items-center pt-2 mb-2">
-        <h1 className="text-xl font-black text-slate-800 tracking-tight flex items-center gap-2">
-          <FileText size={22} className="text-indigo-600" />
-          보상 청구 서류 가이드
-        </h1>
+   <div className="flex justify-between items-center pt-2 mb-2">
+        <div className="flex items-center gap-3">
+          <button 
+            onClick={() => setActiveTab('home')} 
+            className="w-8 h-8 bg-white border border-slate-200 rounded-full flex items-center justify-center shadow-sm hover:bg-slate-50 active:scale-95 transition-all"
+          >
+            <ChevronLeft size={18} className="text-slate-600 pr-0.5" />
+          </button>
+          <h1 className="text-xl font-black text-slate-800 tracking-tight flex items-center gap-2">
+            <FileText size={22} className="text-indigo-600" />
+            보상 청구 서류 가이드
+          </h1>
+        </div>
       </div>
       
       <p className="text-xs font-bold text-slate-500 mb-4">
@@ -857,16 +864,22 @@ export default function App() {
             <h1 className="text-lg font-black text-slate-800 mt-0.5 tracking-tight truncate">{userProfile.name ? `${userProfile.name}님` : '차부장님'}, 오늘도 화이팅!</h1>
             {user && <p className="text-[10px] font-bold text-emerald-600 mt-1.5 flex items-center gap-1"><CheckCircle2 size={12}/> 실시간 클라우드 DB 연동 중</p>}
           </div>
-          <div className="flex flex-col items-end shrink-0 ml-2">
-            <button onClick={() => { setActiveTab('team'); setSelectedTeamMember(null); }} className="bg-white border border-slate-200 pl-2 pr-1.5 py-1.5 rounded-xl flex items-center gap-1.5 shadow-sm hover:border-indigo-300 active:scale-95 transition-all text-left max-w-[130px]">
+
+          {/* 💡 알림(Bell) 버튼과 소속 버튼을 우측에 나란히 배치 */}
+          <div className="flex items-center gap-2 shrink-0 ml-2">
+            <button onClick={() => { setActiveTab('profile'); setSelectedCustomer(null); setSelectedTeamMember(null); }} className="relative w-9 h-9 flex items-center justify-center bg-white border border-slate-200 shadow-sm rounded-full text-slate-600 active:scale-95 transition-all hover:bg-slate-50">
+              <Bell size={18} />
+              {/* 새로운 알림이 있을 때 빨간 점 표시 */}
+              <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-rose-500 rounded-full border-2 border-white shadow-sm"></span>
+            </button>
+            
+            <button onClick={() => { setActiveTab('team'); setSelectedCustomer(null); setSelectedTeamMember(null); }} className="bg-white border border-slate-200 pl-2 pr-1.5 py-1.5 rounded-xl flex items-center gap-1.5 shadow-sm hover:border-indigo-300 active:scale-95 transition-all text-left max-w-[130px]">
               <div className="w-6 h-6 bg-indigo-50 rounded-md flex items-center justify-center border border-indigo-100 shrink-0">
                 <Building2 size={12} className="text-indigo-500" />
               </div>
               <div className="flex flex-col overflow-hidden">
                 <p className="text-[10px] font-black text-slate-700 tracking-tight whitespace-nowrap truncate">{userProfile.company || '소속 미지정'}</p>
-                <p className="text-[8px] font-bold text-slate-400 mt-0.5 tracking-tight whitespace-nowrap truncate">1,204명</p>
               </div>
-              <ChevronRight size={12} className="text-slate-300 shrink-0 ml-0.5" />
             </button>
           </div>
         </header>
@@ -1807,30 +1820,35 @@ export default function App() {
   };
 
   const renderBottomNav = () => (
-    <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-slate-200 pb-safe z-[500] shadow-[0_-10px_30px_-15px_rgba(0,0,0,0.05)] rounded-b-[2.5rem]">
-      <div className="flex justify-around items-center px-1 py-2 h-[76px] pb-4 pt-1">
-        {/* 1. 홈 */}
-        <button onClick={() => { setActiveTab('home'); setSelectedCustomer(null); setSelectedTeamMember(null); }} className={`flex flex-col items-center justify-center w-20 gap-1 transition-all ${activeTab === 'home' && !selectedCustomer && !selectedTeamMember ? 'text-indigo-600 scale-105' : 'text-slate-400 hover:text-slate-600'}`}>
+    <div className="absolute bottom-0 inset-x-0 bg-white border-t border-slate-200 flex justify-between items-center h-[76px] pb-4 pt-1 px-4 z-[500] rounded-b-[2.5rem]">
+      {/* 왼쪽 2개 메뉴 */}
+      <div className="flex gap-4 sm:gap-6 w-2/5 justify-around pl-2">
+        <button onClick={() => { setActiveTab('home'); setSelectedCustomer(null); setSelectedTeamMember(null); }} className={`flex flex-col items-center gap-1.5 transition-all ${activeTab === 'home' && !selectedCustomer && !selectedTeamMember ? 'text-indigo-600 scale-105' : 'text-slate-400 hover:text-slate-600'}`}>
           <Home size={22} strokeWidth={activeTab === 'home' ? 2.5 : 2} />
-          <span className="text-[10px] font-black tracking-tight mt-1">홈</span>
+          <span className="text-[9px] font-black tracking-tight">홈</span>
         </button>
-        
-        {/* 2. 고객리스트 */}
-        <button onClick={() => { setActiveTab('customers'); setSelectedCustomer(null); setSelectedTeamMember(null); }} className={`flex flex-col items-center justify-center w-20 gap-1 transition-all ${activeTab === 'customers' && !selectedCustomer ? 'text-indigo-600 scale-105' : 'text-slate-400 hover:text-slate-600'}`}>
+        <button onClick={() => { setActiveTab('customers'); setSelectedCustomer(null); setSelectedTeamMember(null); }} className={`flex flex-col items-center gap-1.5 transition-all ${activeTab === 'customers' && !selectedCustomer ? 'text-indigo-600 scale-105' : 'text-slate-400 hover:text-slate-600'}`}>
           <Users size={22} strokeWidth={activeTab === 'customers' ? 2.5 : 2} />
-          <span className="text-[10px] font-black tracking-tight mt-1">고객리스트</span>
+          <span className="text-[9px] font-black tracking-tight">고객관리</span>
         </button>
+      </div>
 
-        {/* 3. 팀리스트 */}
-        <button onClick={() => { setActiveTab('team'); setSelectedCustomer(null); setSelectedTeamMember(null); }} className={`flex flex-col items-center justify-center w-20 gap-1 transition-all ${activeTab === 'team' && !selectedCustomer && !selectedTeamMember ? 'text-indigo-600 scale-105' : 'text-slate-400 hover:text-slate-600'}`}>
+      {/* 💡 중앙 카메라 버튼 (복구 완료!) */}
+      <div className="absolute left-1/2 -translate-x-1/2 -top-6 flex justify-center">
+        <button onClick={handleOpenScanner} className="bg-indigo-600 text-white w-[60px] h-[60px] rounded-full shadow-lg shadow-indigo-300 flex flex-col items-center justify-center active:scale-95 transition-transform border-[5px] border-slate-100 z-50">
+          <Camera size={26} strokeWidth={2.5} className="mb-0.5" />
+        </button>
+      </div>
+
+      {/* 오른쪽 2개 메뉴 */}
+      <div className="flex gap-4 sm:gap-6 w-2/5 justify-around pr-2">
+        <button onClick={() => { setActiveTab('team'); setSelectedCustomer(null); setSelectedTeamMember(null); }} className={`flex flex-col items-center gap-1.5 transition-all ${activeTab === 'team' && !selectedTeamMember ? 'text-indigo-600 scale-105' : 'text-slate-400 hover:text-slate-600'}`}>
           <Building2 size={22} strokeWidth={activeTab === 'team' ? 2.5 : 2} />
-          <span className="text-[10px] font-black tracking-tight mt-1">팀리스트</span>
+          <span className="text-[9px] font-black tracking-tight">팀리스트</span>
         </button>
-
-        {/* 4. 보상가이드 */}
-        <button onClick={() => { setActiveTab('claim'); setSelectedCustomer(null); setSelectedTeamMember(null); }} className={`flex flex-col items-center justify-center w-20 gap-1 transition-all ${activeTab === 'claim' ? 'text-emerald-600 scale-105' : 'text-slate-400 hover:text-slate-600'}`}>
+        <button onClick={() => { setActiveTab('claim'); setSelectedCustomer(null); setSelectedTeamMember(null); }} className={`flex flex-col items-center gap-1.5 transition-all ${activeTab === 'claim' && !selectedCustomer ? 'text-emerald-600 scale-105' : 'text-slate-400 hover:text-slate-600'}`}>
           <FileText size={22} strokeWidth={activeTab === 'claim' ? 2.5 : 2} />
-          <span className="text-[10px] font-black tracking-tight mt-1">보상가이드</span>
+          <span className="text-[9px] font-black tracking-tight">보상가이드</span>
         </button>
       </div>
     </div>
