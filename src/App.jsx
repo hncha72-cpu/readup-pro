@@ -43,8 +43,8 @@ const CLAIM_GUIDES = [
 ];
 
 // 💡 2. 화면에 그려질 UI 컴포넌트
-const ClaimGuidePage = () => {
-  const ClaimGuidePage = ({ setActiveTab }) => {
+const ClaimGuidePage = ({ setActiveTab }) => {
+  const [expandedId, setExpandedId] = useState(null);
   const [copiedId, setCopiedId] = useState(null);
 
   const handleCopyText = (guide) => {
@@ -57,10 +57,7 @@ const ClaimGuidePage = () => {
   };
 
   return (
-    // 👇 바로 이 녀석이 실수로 지워졌던 '가장 바깥쪽 거대한 박스' 입니다!
     <div className="p-5 space-y-4 animate-in fade-in duration-300 pb-32">
-      
-      {/* 뒤로 가기 버튼이 포함된 헤더 */}
       <div className="flex justify-between items-center pt-2 mb-2">
         <div className="flex items-center gap-3">
           <button 
