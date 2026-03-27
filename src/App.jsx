@@ -44,7 +44,7 @@ const CLAIM_GUIDES = [
 
 // 💡 2. 화면에 그려질 UI 컴포넌트
 const ClaimGuidePage = () => {
-  const [expandedId, setExpandedId] = useState(null);
+  const ClaimGuidePage = ({ setActiveTab }) => {
   const [copiedId, setCopiedId] = useState(null);
 
   const handleCopyText = (guide) => {
@@ -1811,8 +1811,9 @@ export default function App() {
     );
   };
 
-  const renderBottomNav = () => (
-    <div className="absolute bottom-0 inset-x-0 bg-white border-t border-slate-200 flex justify-between items-center h-[76px] pb-4 pt-1 px-4 z-[500] rounded-b-[2.5rem]">
+ const renderBottomNav = () => (
+    <div className="absolute bottom-0 inset-x-0 bg-white border-t border-slate-200 flex justify-between items-center h-[76px] pb-4 pt-1 px-4 z-[999] rounded-b-[2.5rem]">
+      
       {/* 왼쪽 2개 메뉴 */}
       <div className="flex gap-4 sm:gap-6 w-2/5 justify-around pl-2">
         <button onClick={() => { setActiveTab('home'); setSelectedCustomer(null); setSelectedTeamMember(null); }} className={`flex flex-col items-center gap-1.5 transition-all ${activeTab === 'home' && !selectedCustomer && !selectedTeamMember ? 'text-indigo-600 scale-105' : 'text-slate-400 hover:text-slate-600'}`}>
@@ -1825,9 +1826,9 @@ export default function App() {
         </button>
       </div>
 
-      {/* 💡 중앙 카메라 버튼 (복구 완료!) */}
-      <div className="absolute left-1/2 -translate-x-1/2 -top-6 flex justify-center">
-        <button onClick={handleOpenScanner} className="bg-indigo-600 text-white w-[60px] h-[60px] rounded-full shadow-lg shadow-indigo-300 flex flex-col items-center justify-center active:scale-95 transition-transform border-[5px] border-slate-100 z-50">
+      {/* 💡 카메라 버튼: 위로 예쁘게 튀어나오고 절대 잘리지 않음! */}
+      <div className="absolute left-1/2 -translate-x-1/2 -top-7 flex justify-center z-[1000] pointer-events-none">
+        <button onClick={handleOpenScanner} className="bg-indigo-600 text-white w-[62px] h-[62px] rounded-full shadow-[0_8px_20px_rgba(79,70,229,0.4)] flex flex-col items-center justify-center active:scale-95 transition-transform border-[5px] border-white pointer-events-auto">
           <Camera size={26} strokeWidth={2.5} className="mb-0.5" />
         </button>
       </div>
@@ -1878,7 +1879,7 @@ export default function App() {
                 <div className="flex-1 overflow-y-auto hide-scrollbar pt-10 relative pb-24">
                   {!selectedCustomer && !selectedTeamMember ? (
                     <>
-                      {activeTab === 'claim' && <ClaimGuidePage />}
+                      {activeTab === 'claim' && <ClaimGuidePage setActiveTab={setActiveTab} />}
                       {activeTab === 'home' && renderHomePage()}
                       {activeTab === 'customers' && renderCustomerListPage()}
                       {activeTab === 'team' && renderTeamMockPage()}
