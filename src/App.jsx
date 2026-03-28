@@ -1,14 +1,14 @@
 /* eslint-disable */
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Signal, CalendarDays, Coffee, MessageCircle, Home, Users, Camera, Building2, FileText, ChevronDown, ChevronUp, Copy, MessageSquare, AlertCircle, CheckCircle2, X, Clock, MapPin, Share2, ShieldCheck, Phone, Mail, UserPlus, UserCheck, Briefcase, ChevronRight, ChevronLeft, Loader2, Smartphone, CheckSquare, Square, ToggleRight, ToggleLeft, Hash, Plus, Edit2, LayoutGrid, CreditCard, Wifi, Battery, Bell } from 'lucide-react';
-const CLAIM_GUIDES = [
+cconst CLAIM_GUIDES = [
   {
     id: 1,
     title: "🏥 기본 실손의료비 (통원)",
     description: "감기, 장염, 가벼운 타박상 등 동네 병원 (10만 원 이하)",
     message: "고객님, 병원 다녀오시느라 고생 많으셨습니다.\n빠른 실손 보상 청구를 위해 아래 서류를 사진으로 선명하게 찍어서 저에게 보내주시면, 제가 바로 접수해 드리겠습니다!",
     docs: [
-      "진료비 영수증 (카드 결제 영수증 불가)",
+      "진료비 영수증 (카드 결제 불가, 병원 수납처 발급)",
       "진료비 세부내역서 (비급여 항목 시 필수)",
       "환자 보관용 처방전 (질병분류코드 기재)"
     ],
@@ -39,6 +39,44 @@ const CLAIM_GUIDES = [
       "진료비 영수증 및 세부내역서"
     ],
     tip: "실금(미세 골절)의 경우에도 보상이 가능하니, 의사 선생님께 꼭 진단서에 '골절 분류코드'를 넣어달라고 말씀하시도록 안내하세요."
+  },
+  // 🔥 여기서부터 새로 추가된 꿀팁 가이드입니다!
+  {
+    id: 4,
+    title: "🔪 수술비 청구 (용종 제거 포함)",
+    description: "건강검진 중 대장/위 용종 제거, 백내장 등 수술 시",
+    message: "고객님, 수술 무사히 마치셔서 정말 다행입니다. 푹 쉬시면서 회복에만 전념해 주세요!\n가입해 두신 수술비 보상을 위해 아래 서류를 챙겨주시면 꼼꼼히 접수하겠습니다.",
+    docs: [
+      "수술 확인서 또는 진단서 (수술명, 수술일자 기재)",
+      "조직검사 결과지 (★내시경 용종 제거 시 필수!)",
+      "진료비 영수증 및 세부내역서 전체"
+    ],
+    tip: "고객들은 내시경 중 '용종'을 뗀 것을 수술이라고 생각하지 못해 청구를 놓치는 경우가 매우 많습니다. 건강검진 시즌에 선제적으로 안내하면 신뢰도가 급상승합니다."
+  },
+  {
+    id: 5,
+    title: "🚨 3대 중대질환 (암/뇌/심장)",
+    description: "암, 뇌혈관, 심혈관 등 고액 진단금 청구 시",
+    message: "고객님, 많이 놀라시고 편찮으시다는 소식 듣고 마음이 무겁습니다.\n고객님께서는 치료에만 전념하십시오. 가입해 두신 진단금 등 보험 청구 실무는 제가 발로 뛰며 완벽하게 처리하겠습니다.",
+    docs: [
+      "진단서 원본 (주치의 발행, 최종 진단코드 기재)",
+      "[암 진단 시] 조직검사 결과지 (Biopsy Report)",
+      "[뇌/심장 진단 시] MRI/CT 판독지 및 검사결과지",
+      "신분증 및 통장 사본 원본 촬영본"
+    ],
+    tip: "고액 진단금 청구는 서류 심사가 까다롭고 손해사정사가 파견될 확률이 높습니다. 가능한 고객을 직접 찾아뵙고 원본 서류를 수령하며 안심시켜 드리는 것이 영업의 핵심입니다."
+  },
+  {
+    id: 6,
+    title: "🦷 치아 보험 (보존/보철 치료)",
+    description: "임플란트, 크라운, 인레이 등 치과 치료 완료 후",
+    message: "고객님, 치과 치료 받으시느라 너무 고생 많으셨습니다!\n치아보험 청구를 위해 치과 방문 전 저에게 미리 말씀해 주시면, 치과용 전용 양식을 보내드리겠습니다.",
+    docs: [
+      "해당 보험사의 '치과치료확인서' (치과의사 작성 필수)",
+      "진료기록부 사본 (보험사 요청 시)",
+      "치과 진료비 영수증"
+    ],
+    tip: "치아보험은 일반 영수증만으로는 절대 청구가 안 됩니다! 앱에서 해당 보험사(예: 라이나생명)의 '치과치료확인서' 빈 양식 링크를 찾아 고객에게 미리 쏴주면 센스 만점 영업자가 됩니다."
   }
 ];
 
