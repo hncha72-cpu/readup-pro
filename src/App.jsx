@@ -1423,7 +1423,6 @@ export default function App() {
            <button onClick={() => showToast('카카오톡 채널로 연결합니다.')} className="flex-1 bg-[#FEE500] border border-[#FDD800] text-black py-3.5 rounded-xl text-[11px] font-black flex items-center justify-center gap-1.5 shadow-sm hover:bg-[#FDD800] transition-all active:scale-95"><MessageSquare size={14} className="fill-black"/> 카톡</button>
         </div>
 
-        // ⭕ 3단계 덮어씌울 코드
         <div className="px-2 flex w-full justify-between sticky top-[68px] bg-slate-100 z-10 pt-2 border-b border-slate-300 overflow-x-auto hide-scrollbar">
           {['기본정보', '상담이력', '가입상품', '메모', '관계망'].map(tab => (
             <button 
@@ -1877,7 +1876,7 @@ export default function App() {
 
 {/* 💡 새로 추가하는 관계망(Referral Map) UI */}
           {customerDetailTab === '관계망' && (
-            <div className="animate-in fade-in duration-300 space-y-4">
+            <div className="animate-in fade-in duration-300 space-y-4 pb-10">
               {!isAddingRelation ? (
                 <>
                   <div className="flex justify-between items-center px-1">
@@ -1888,20 +1887,22 @@ export default function App() {
                   <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-md">
                     {/* 중심 인물 (현재 고객) */}
                     <div className="flex items-center gap-3 bg-indigo-600 p-4 rounded-xl shadow-md text-white mb-6 relative z-10">
-                      <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center font-black border border-white/20">{selectedCustomer.name[0]}</div>
+                      <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center font-black border border-white/20 text-lg">{selectedCustomer.name[0]}</div>
                       <div>
                         <p className="text-[10px] font-bold text-indigo-200">기준 고객</p>
-                        <h4 className="font-black text-base">{selectedCustomer.name} <span className="text-xs font-medium text-indigo-100">{selectedCustomer.position}</span></h4>
+                        <h4 className="font-black text-base">{selectedCustomer.name} <span className="text-xs font-medium text-indigo-100 ml-1">{selectedCustomer.position}</span></h4>
                       </div>
-                      <Network size={24} className="ml-auto text-indigo-300 opacity-50" />
+                      <Network size={28} className="ml-auto text-indigo-300 opacity-50" />
                     </div>
 
                     {/* 연결된 관계 리스트 */}
                     {!(selectedCustomer.relations?.length > 0) ? (
-                      <p className="text-xs font-bold text-slate-400 text-center py-6">등록된 인맥 정보가 없습니다.<br/>배우자, 자녀, 혹은 소개자를 연결해 보세요!</p>
+                      <div className="text-center py-8">
+                        <p className="text-xs font-bold text-slate-400">등록된 인맥 정보가 없습니다.<br/>배우자, 자녀, 혹은 소개자를 연결해 보세요!</p>
+                      </div>
                     ) : (
                       <div className="relative pl-6 border-l-2 border-indigo-100 space-y-4 ml-4">
-                        {selectedCustomer.relations.map((rel, idx) => (
+                        {selectedCustomer.relations.map((rel) => (
                           <div key={rel.id} className="relative">
                             {/* 연결 선 */}
                             <div className="absolute -left-[26px] top-1/2 -translate-y-1/2 w-6 h-0.5 bg-indigo-100"></div>
@@ -1911,7 +1912,12 @@ export default function App() {
                             <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-center justify-between shadow-sm cursor-pointer hover:border-indigo-300 hover:shadow-md transition-all active:scale-95" 
                                  onClick={() => {
                                    const linkedCustomer = customers.find(c => c.id === rel.targetId);
-                                   if(linkedCustomer) { setSelectedCustomer(linkedCustomer); setCustomerDetailTab('기본정보'); }
+                                   if(linkedCustomer) { 
+                                     setSelectedCustomer(linkedCustomer); 
+                                     setCustomerDetailTab('기본정보'); 
+                                   } else {
+                                     showToast("해당 고객 정보를 찾을 수 없습니다.");
+                                   }
                                  }}>
                               <div className="flex items-center gap-3">
                                 <div className="w-8 h-8 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-500 font-black text-xs shadow-sm">{rel.targetName[0]}</div>
@@ -1929,7 +1935,7 @@ export default function App() {
                   </div>
                 </>
               ) : (
-                /* 관계 추가 모달 UI */
+                /* 관계 추가 폼 UI */
                 <div className="bg-white p-5 rounded-2xl border border-indigo-200 shadow-xl space-y-5 animate-in slide-in-from-bottom-4 duration-300">
                   <h4 className="text-sm font-black text-slate-800 border-b border-slate-100 pb-3 flex items-center gap-1.5"><Link2 size={16} className="text-indigo-600"/> 새로운 관계 연결</h4>
                   <div className="space-y-4">
@@ -1942,11 +1948,11 @@ export default function App() {
                       </div>
                     </div>
                     <div>
-                      <label className="text-[10px] font-bold text-slate-500 mb-1.5 block uppercase tracking-widest">연결할 고객 검색 (DB에 등록된 고객)</label>
+                      <label className="text-[10px] font-bold text-slate-500 mb-1.5 block uppercase tracking-widest">연결할 고객 검색</label>
                       <div className="relative">
                         <select value={newRelation.targetId} onChange={(e) => setNewRelation({...newRelation, targetId: e.target.value})} className="w-full bg-white border border-slate-300 rounded-xl pl-4 pr-10 py-3.5 text-sm font-black outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400 appearance-none shadow-sm text-slate-800">
                           <option value="">고객을 선택해 주세요</option>
-                          {customers.filter(c => c.id !== selectedCustomer.id && !(selectedCustomer.relations||[]).find(r => r.targetId === c.id)).map(c => (
+                          {customers.filter(c => c.id !== selectedCustomer.id && !(selectedCustomer.relations||[]).find(r => String(r.targetId) === String(c.id))).map(c => (
                             <option key={c.id} value={c.id}>{c.name} ({c.company})</option>
                           ))}
                         </select>
@@ -1954,7 +1960,7 @@ export default function App() {
                       </div>
                     </div>
                   </div>
-                  <div className="flex gap-2 pt-2 border-t border-slate-100">
+                  <div className="flex gap-2 pt-4 border-t border-slate-100 mt-2">
                     <button onClick={() => setIsAddingRelation(false)} className="flex-1 bg-slate-100 border border-slate-200 shadow-sm text-slate-600 py-3.5 rounded-xl font-black text-xs transition-colors active:bg-slate-200">취소</button>
                     <button onClick={handleSaveRelation} className="flex-[2] bg-indigo-600 text-white py-3.5 rounded-xl font-black text-xs transition-transform active:scale-95 shadow-lg shadow-indigo-200">연결 저장하기</button>
                   </div>
