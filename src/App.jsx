@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Signal, CalendarDays, Coffee, MessageCircle, Home, Users, Camera, Building2, FileText, ChevronDown, ChevronUp, Copy, MessageSquare, AlertCircle, CheckCircle2, X, Clock, MapPin, Share2, ShieldCheck, Phone, Mail, UserPlus, UserCheck, Briefcase, ChevronRight, ChevronLeft, Loader2, Smartphone, CheckSquare, Square, ToggleRight, ToggleLeft, Hash, Plus, Edit2, LayoutGrid, CreditCard, Wifi, Battery, Bell } from 'lucide-react';
-cconst CLAIM_GUIDES = [
+const CLAIM_GUIDES = [
   {
     id: 1,
     title: "🏥 기본 실손의료비 (통원)",
