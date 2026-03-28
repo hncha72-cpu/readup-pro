@@ -1831,50 +1831,46 @@ export default function App() {
              </div>
           )}
 
-          {customerDetailTab === '메모' && (
-             <div className="animate-in fade-in duration-300 space-y-4">
-               {!isAddingMemo ? (
-                 <>
-                   <div className="flex justify-between items-center px-1">
-                     <h3 className="text-xs font-black text-slate-800">전체 상담 메모</h3>
-                     <button onClick={() => { setIsAddingMemo(true); setNewMemoText(''); }} className="text-[10px] font-bold text-indigo-600 bg-indigo-50 border border-indigo-100 px-3 py-1.5 rounded-lg flex items-center gap-1 hover:bg-indigo-100 transition-colors shadow-sm"><Plus size={12} strokeWidth={3} /> 신규 메모 추가</button>
-                   </div>
-                   <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-md min-h-[200px] flex flex-col">
-                     <div className="flex-1 space-y-4">
-                       {selectedCustomer.history && selectedCustomer.history.filter(h => h.type === '메모').length > 0 ? (
-                         selectedCustomer.history.filter(h => h.type === '메모').map(h => {
-                           const isExpanded = expandedHistoryIds.includes(h.id);
-                           return (
-                             <div key={h.id} onClick={() => toggleHistoryExpand(h.id)} className="bg-slate-50 p-3.5 rounded-xl border border-slate-200 relative cursor-pointer hover:border-indigo-300 hover:shadow-md transition-all shadow-sm">
-                               <div className="flex justify-between items-start mb-2"><div className="flex items-center gap-1.5"><span className="text-[10px] font-black text-indigo-600">{h.date}</span><span className="text-[9px] font-black text-slate-600 bg-slate-200 px-1.5 py-0.5 rounded shadow-sm">{h.type}</span></div>{h.author && <span className="text-[8px] font-black text-slate-500 bg-white border border-slate-200 px-1.5 py-0.5 rounded-md flex items-center gap-1 shadow-sm"><Edit2 size={8}/> {h.author}</span>}</div>
-                               <div className={`overflow-hidden transition-all ${isExpanded ? 'max-h-[500px]' : 'max-h-[38px]'}`}><p className={`text-xs font-bold text-slate-800 leading-relaxed whitespace-pre-wrap ${!isExpanded ? 'line-clamp-2' : ''}`}>{h.note}</p></div>
-                               <div className="flex justify-center mt-2 pt-1 border-t border-slate-200/50">{isExpanded ? <ChevronUp size={12} className="text-slate-400" /> : <ChevronDown size={12} className="text-slate-400" />}</div>
-                             </div>
-                           )
-                         })
-                       ) : (<p className="text-xs font-bold text-slate-400 text-center py-6">등록된 이력 메모가 없습니다.</p>)}
-                     </div>
-                   </div>
-                   <GoogleAdPlaceholder type="banner" className="mt-6 mb-2" />
-                 </>
-               ) : (
-                 <div className="bg-white p-5 rounded-2xl border border-indigo-200 shadow-xl space-y-5 animate-in slide-in-from-bottom-4 duration-300">
-                   <h4 className="text-sm font-black text-slate-800 border-b border-slate-100 pb-3">신규 메모 작성</h4>
-                   <div><textarea rows="5" placeholder="고객에 대한 중요한 메모나 특이사항을 기록해 주세요." value={newMemoText} onChange={e => setNewMemoText(e.target.value)} className="w-full bg-white shadow-inner border border-slate-300 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400 resize-none leading-relaxed" autoFocus></textarea></div>
-                   <div className="flex gap-2 pt-2 border-t border-slate-100">
-                     <button onClick={() => setIsAddingMemo(false)} className="flex-1 bg-slate-100 border border-slate-200 shadow-sm text-slate-600 py-3.5 rounded-xl font-black text-xs transition-colors active:bg-slate-200">취소</button>
-                     <button onClick={handleSaveMemo} className="flex-[2] bg-indigo-600 text-white py-3.5 rounded-xl font-black text-xs transition-transform active:scale-95 shadow-lg shadow-indigo-200 flex items-center justify-center gap-1.5"><CheckCircle2 size={16} /> 메모 저장하기</button>
-                   </div>
-                 </div>
-               )}
-             </div>
+       {customerDetailTab === '메모' && (
+            <div className="animate-in fade-in duration-300 space-y-4">
+              {!isAddingMemo ? (
+                <>
+                  <div className="flex justify-between items-center px-1">
+                    <h3 className="text-xs font-black text-slate-800">전체 상담 메모</h3>
+                    <button onClick={() => { setIsAddingMemo(true); setNewMemoText(''); }} className="text-[10px] font-bold text-indigo-600 bg-indigo-50 border border-indigo-100 px-3 py-1.5 rounded-lg flex items-center gap-1 hover:bg-indigo-100 transition-colors shadow-sm"><Plus size={12} strokeWidth={3} /> 신규 메모 추가</button>
+                  </div>
+                  <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-md min-h-[200px] flex flex-col">
+                    <div className="flex-1 space-y-4">
+                      {selectedCustomer.history && selectedCustomer.history.filter(h => h.type === '메모').length > 0 ? (
+                        selectedCustomer.history.filter(h => h.type === '메모').map(h => {
+                          const isExpanded = expandedHistoryIds.includes(h.id);
+                          return (
+                            <div key={h.id} onClick={() => toggleHistoryExpand(h.id)} className="bg-slate-50 p-3.5 rounded-xl border border-slate-200 relative cursor-pointer hover:border-indigo-300 hover:shadow-md transition-all shadow-sm">
+                              <div className="flex justify-between items-start mb-2"><div className="flex items-center gap-1.5"><span className="text-[10px] font-black text-indigo-600">{h.date}</span><span className="text-[9px] font-black text-slate-600 bg-slate-200 px-1.5 py-0.5 rounded shadow-sm">{h.type}</span></div>{h.author && <span className="text-[8px] font-black text-slate-500 bg-white border border-slate-200 px-1.5 py-0.5 rounded-md flex items-center gap-1 shadow-sm"><Edit2 size={8}/> {h.author}</span>}</div>
+                              <div className={`overflow-hidden transition-all ${isExpanded ? 'max-h-[500px]' : 'max-h-[38px]'}`}><p className={`text-xs font-bold text-slate-800 leading-relaxed whitespace-pre-wrap ${!isExpanded ? 'line-clamp-2' : ''}`}>{h.note}</p></div>
+                              <div className="flex justify-center mt-2 pt-1 border-t border-slate-200/50">{isExpanded ? <ChevronUp size={12} className="text-slate-400" /> : <ChevronDown size={12} className="text-slate-400" />}</div>
+                            </div>
+                          )
+                        })
+                      ) : (<p className="text-xs font-bold text-slate-400 text-center py-6">등록된 이력 메모가 없습니다.</p>)}
+                    </div>
+                  </div>
+                  <GoogleAdPlaceholder type="banner" className="mt-6 mb-2" />
+                </>
+              ) : (
+                <div className="bg-white p-5 rounded-2xl border border-indigo-200 shadow-xl space-y-5 animate-in slide-in-from-bottom-4 duration-300">
+                  <h4 className="text-sm font-black text-slate-800 border-b border-slate-100 pb-3">신규 메모 작성</h4>
+                  <div><textarea rows="5" placeholder="고객에 대한 중요한 메모나 특이사항을 기록해 주세요." value={newMemoText} onChange={e => setNewMemoText(e.target.value)} className="w-full bg-white shadow-inner border border-slate-300 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400 resize-none leading-relaxed" autoFocus></textarea></div>
+                  <div className="flex gap-2 pt-2 border-t border-slate-100">
+                    <button onClick={() => setIsAddingMemo(false)} className="flex-1 bg-slate-100 border border-slate-200 shadow-sm text-slate-600 py-3.5 rounded-xl font-black text-xs transition-colors active:bg-slate-200">취소</button>
+                    <button onClick={handleSaveMemo} className="flex-[2] bg-indigo-600 text-white py-3.5 rounded-xl font-black text-xs transition-transform active:scale-95 shadow-lg shadow-indigo-200 flex items-center justify-center gap-1.5"><CheckCircle2 size={16} /> 메모 저장하기</button>
+                  </div>
+                </div>
+              )}
+            </div>
           )}
-        </div>
-      </div>
-    );
-  };
 
-{/* 💡 새로 추가하는 관계망(Referral Map) UI */}
+          {/* 💡 새로 추가하는 관계망(Referral Map) UI */}
           {customerDetailTab === '관계망' && (
             <div className="animate-in fade-in duration-300 space-y-4 pb-10">
               {!isAddingRelation ? (
@@ -1911,7 +1907,7 @@ export default function App() {
                             {/* 연결된 사람 카드 */}
                             <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-center justify-between shadow-sm cursor-pointer hover:border-indigo-300 hover:shadow-md transition-all active:scale-95" 
                                  onClick={() => {
-                                   const linkedCustomer = customers.find(c => c.id === rel.targetId);
+                                   const linkedCustomer = customers.find(c => String(c.id) === String(rel.targetId));
                                    if(linkedCustomer) { 
                                      setSelectedCustomer(linkedCustomer); 
                                      setCustomerDetailTab('기본정보'); 
@@ -1968,7 +1964,15 @@ export default function App() {
               )}
             </div>
           )}
- const renderBottomNav = () => (
+        </div>
+      </div>
+    );
+  };
+  {/* 💡 여기까지가 완벽하게 닫힌 상세페이지 함수 끝입니다! */}
+
+
+  // 💡 여기서부터 깔끔하게 분리된 하단 네비게이션 함수 시작입니다!
+  const renderBottomNav = () => (
     <div className="absolute bottom-0 inset-x-0 bg-white border-t border-slate-200 flex justify-between items-center h-[76px] pb-4 pt-1 px-4 z-[999] rounded-b-[2.5rem]">
       
       {/* 왼쪽 2개 메뉴 */}
